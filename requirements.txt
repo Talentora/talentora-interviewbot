@@ -4,3 +4,5 @@ websockets
 requests
 loguru
 python-dotenv
+fastapi==0.100.0
+pydantic==1.10.12

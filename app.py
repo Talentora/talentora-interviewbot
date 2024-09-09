@@ -1,16 +1,17 @@
 import os
 from modal import Secret, App, Image, web_endpoint, enter, method
 from fastapi import HTTPException
-from typing import Dict
+from typing import Any
 
 MAX_SESSION_TIME = 5 * 60  # 5 minutes
 
-# This function downloads and caches the Silero VAD model to reduce cold start time
+
 def download_models():
+    # Download a cache the Silero model, to reduce cold start time
     import torch
     torch.hub.load(repo_or_dir='snakers4/silero-vad', model='silero_vad', force_reload=True)
 
-# Define the Docker image for the application
+
 image = (
     Image
     .debian_slim(python_version="3.12")
@@ -24,10 +25,9 @@ image = (
     .run_function(download_models)
 )
 
-# Create a Modal app
 app = App("pipecat-example")
 
-# Define the Bot class with Modal decorators
+
 @app.cls(image=image,
            cpu=1.0,
            secrets=[Secret.from_name("rtvi-example-secrets")],
@@ -38,16 +38,13 @@ app = App("pipecat-example")
            max_inputs=1,  # Do not reuse instances as the pipeline needs to be restarted
            retries=0)
 class Bot:
-    # Initialize the Silero VAD analyzer
     @enter()
     async def enter(self):
         from pipecat.vad.silero import SileroVADAnalyzer
         self.vad = SileroVADAnalyzer()
     
-    # Main method to run the bot
     @method()
     async def run(self, room_url: str, token: str, config: Dict):
-        # Import necessary modules
         import aiohttp
         from pipecat.pipeline.pipeline import Pipeline
         from pipecat.pipeline.task import PipelineParams, PipelineTask
@@ -59,7 +56,6 @@ class Bot:
         from pipecat.frames.frames import EndFrame
         from pipecat.transports.services.daily import DailyParams, DailyTransport
         
-        # Set up the Daily transport and RTVI processor
         async with aiohttp.ClientSession() as session:
             transport = DailyTransport(
                 room_url,
@@ -78,9 +74,10 @@ class Bot:
                 llm_api_key=os.getenv("OPENAI_API_KEY", ""),
                 tts_api_key=os.getenv("CARTESIA_API_KEY", ""))
 
-            # Set up the pipeline and task
             runner = PipelineRunner()
+
             pipeline = Pipeline([transport.input(), rtai])
+
             task = PipelineTask(
                 pipeline,
                 params=PipelineParams(
@@ -89,7 +86,6 @@ class Bot:
                     send_initial_empty_metrics=False,
                 ))
 
-            # Define event handlers for the transport
             @transport.event_handler("on_first_participant_joined")
             async def on_first_participant_joined(transport, participant):
                 transport.capture_participant_transcription(participant["id"])
@@ -103,34 +99,34 @@ class Bot:
                 if state == "left":
                     await task.queue_frame(EndFrame())
 
-            # Run the pipeline
             await runner.run(task)
 
-# Define the server function as a web endpoint
+
 @app.function(image=image,
               secrets=[Secret.from_name("rtvi-example-secrets")],
               keep_warm=1)
 @web_endpoint(method="POST")
 def server(config: Dict):
-    # Import Daily REST helper
+    # Web endpoint for launching a bot
+
     from pipecat.transports.services.helpers.daily_rest import DailyRESTHelper, DailyRoomObject, DailyRoomProperties, DailyRoomParams
 
-    # Set up Daily API parameters
     DAILY_API_URL = os.getenv("DAILY_API_URL", "https://api.daily.co/v1")
     DAILY_DOMAIN = os.getenv("DAILY_DOMAIN", "https://rtvi.daily.co")
     DAILY_API_KEY = os.getenv("DAILY_API_KEY", "")
 
-    # Check for valid configuration
     if not config:
         raise Exception("Missing RTVI configuration object for bot")
 
-    # Create a Daily REST helper
+    # Note: Ideally validate the config object here, before spawing the bot
+
+    # Create a Daily rest helper
     daily_rest_helper = DailyRESTHelper(DAILY_API_KEY, DAILY_API_URL)
 
-    # Check if we should use an existing room or create a new one
+    # Check if we should use an existing room, or create a new one
     debug_room = os.getenv("USE_DEBUG_ROOM", None)
     if debug_room:
-        # Use existing debug room
+        # Check debug room URL exists, and grab it's properties
         try:
             room: DailyRoomObject = daily_rest_helper.get_room_from_url(
                 f"{DAILY_DOMAIN}/{debug_room}")
@@ -149,24 +145,24 @@ def server(config: Dict):
                 status_code=500,
                 detail=f"{e}")
 
-    # Generate a token for the bot to join the session
+    # Give the agent a token to join the session
     token = daily_rest_helper.get_token(room.url, MAX_SESSION_TIME)
 
     if not room or not token:
         raise HTTPException(
             status_code=500, detail=f"Failed to get token for room: {room.name}")
 
-    # Launch the bot in a new VM
+    # Launch a new VM as shell process (not recommended for production use)
     try:
+        # Spawn the agent VM
         Bot().run.spawn(room.url, token, config)
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to start subprocess: {e}")
 
-    # Generate a token for the user to join the session
+    # Grab a token for the user to join with
     user_token = daily_rest_helper.get_token(room.url, MAX_SESSION_TIME)
 
-    # Return room information and user token
     return {
         "room_name": room.name,
         "room_url": room.url,
