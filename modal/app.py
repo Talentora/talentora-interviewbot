@@ -1,7 +1,10 @@
 import os
 from modal import Secret, App, Image, web_endpoint, enter, method
 from fastapi import HTTPException
-from typing import Any
+from typing import Dict, Any
+
+ConfigType = dict[str, Any]
+
 
 MAX_SESSION_TIME = 5 * 60  # 5 minutes
 
@@ -23,6 +26,7 @@ image = (
         "loguru",
         "websockets")
     .run_function(download_models)
+    .env({"MODAL_IMAGE_BUILDER_VERSION": "2024.04"})
 )
 
 app = App("pipecat-example")
@@ -44,7 +48,7 @@ class Bot:
         self.vad = SileroVADAnalyzer()
     
     @method()
-    async def run(self, room_url: str, token: str, config: Dict):
+    async def run(self, room_url: str, token: str, config: ConfigType):
         import aiohttp
         from pipecat.pipeline.pipeline import Pipeline
         from pipecat.pipeline.task import PipelineParams, PipelineTask
@@ -106,9 +110,7 @@ class Bot:
               secrets=[Secret.from_name("rtvi-example-secrets")],
               keep_warm=1)
 @web_endpoint(method="POST")
-def server(config: Dict):
-    # Web endpoint for launching a bot
-
+def server(config: ConfigType):
     from pipecat.transports.services.helpers.daily_rest import DailyRESTHelper, DailyRoomObject, DailyRoomProperties, DailyRoomParams
 
     DAILY_API_URL = os.getenv("DAILY_API_URL", "https://api.daily.co/v1")
