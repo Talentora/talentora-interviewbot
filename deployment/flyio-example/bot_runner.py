@@ -138,7 +138,11 @@ async def start_bot(request: Request) -> JSONResponse:
     room_url = os.getenv("DAILY_SAMPLE_ROOM_URL", "")
 
     if not room_url:
-        params = DailyRoomParams(properties=DailyRoomProperties())
+        params = DailyRoomParams(properties=DailyRoomProperties(
+        enable_recording=True,  # Enable cloud recording for the room
+        recording_options={"start_cloud_recording": True},  
+            )
+        )
         try:
             room: DailyRoomObject = await daily_helpers["rest"].create_room(params=params)
         except Exception as e:
