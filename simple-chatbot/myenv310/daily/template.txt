@@ -1,0 +1,24 @@
+# Lines that start with # will be ignored
+#
+# Specify the working hours like this:
+# (must be the first line)
+# 10:30, 12, 16:15, 20: 00
+#
+# Add a bullet list as the following:
+#
+# - I did this
+# - I've done this too
+# - I've even done that
+#
+# You can also add nested items like this:
+#
+# - My thing
+#   * nested thing
+#   * another nested thing
+#
+# - (WIP) My awesome react-native app
+#   * Figuring it out how to use Expo
+#
+# Just save this file to update the timesheet and Slack channel.
+#
+# Suggestions:
