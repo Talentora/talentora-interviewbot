@@ -12,7 +12,15 @@ from pipecat.transports.services.helpers.daily_rest import DailyRESTHelper
 
 
 async def configure(aiohttp_session: aiohttp.ClientSession):
-    parser = argparse.ArgumentParser(description="Daily AI SDK Bot Sample")
+    (url, token, _) = await configure_with_args(aiohttp_session)
+    return (url, token)
+
+
+async def configure_with_args(
+    aiohttp_session: aiohttp.ClientSession, parser: argparse.ArgumentParser | None = None
+):
+    if not parser:
+        parser = argparse.ArgumentParser(description="Daily AI SDK Bot Sample")
     parser.add_argument(
         "-u", "--url", type=str, required=False, help="URL of the Daily room to join"
     )
@@ -51,4 +59,4 @@ async def configure(aiohttp_session: aiohttp.ClientSession):
 
     token = await daily_rest_helper.get_token(url, expiry_time)
 
-    return (url, token)
+    return (url, token, args)
