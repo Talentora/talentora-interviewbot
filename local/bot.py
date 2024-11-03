@@ -49,13 +49,12 @@ async def main():
         )
 
         tts = OpenAITTSService(api_key=os.getenv("OPENAI_API_KEY"), voice="alloy")
-
         llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
 
         messages = [
             {
                 "role": "system",
-                "content": "You are a helpful LLM in a WebRTC call. Your goal is to demonstrate your capabilities in a succinct way. Your output will be converted to audio so don't include special characters in your answers. Respond to what the user said in a creative and helpful way.",
+                "content": "You are a interviewer named Sally for google. You will conducting a behavioral interview for the role Software Engineer III, AI/Machine Learning, Google Cloud. Ask questions to determine if the candidate is qualified for the role. Here is some information about the role that will help you determine some good questions to ask the condidadte. Role: A Software Engineer III role specializing in AI/Machine Learning with Google Cloud typically requires a strong foundation in programming languages, experience with GCP and AI/ML services, and expertise in designing and implementing scalable AI/ML systems. ",
             },
         ]
 
