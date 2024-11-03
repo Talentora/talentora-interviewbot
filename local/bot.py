@@ -9,10 +9,8 @@ import os
 import sys
 
 import aiohttp
-from dotenv import load_dotenv
-from loguru import logger
-from runner import configure
 
+from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.frames.frames import LLMMessagesFrame
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
@@ -21,19 +19,52 @@ from pipecat.processors.aggregators.llm_response import (
     LLMAssistantResponseAggregator,
     LLMUserResponseAggregator,
 )
-from pipecat.services.openai import OpenAILLMService, OpenAITTSService
+from pipecat.processors.frameworks.langchain import LangchainProcessor
+from pipecat.services.cartesia import CartesiaTTSService
 from pipecat.transports.services.daily import DailyParams, DailyTransport
-from pipecat.vad.silero import SileroVADAnalyzer
+
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_openai import ChatOpenAI
+
+from loguru import logger
+
+from runner import configure
+
+from dotenv import load_dotenv
 
 load_dotenv(override=True)
+
 
 logger.remove(0)
 logger.add(sys.stderr, level="DEBUG")
 
+message_store = {}
+
+# Dictionary for prompt customization
+interview_config = {
+    "interviewer_name": "Sally",
+    "company": "Google",
+    "role": "Software Engineer III, AI/Machine Learning, Google Cloud",
+    "job_description": (
+        "A Software Engineer III role specializing in AI/Machine Learning with Google Cloud "
+        "typically requires a strong foundation in programming languages, experience with GCP "
+        "and AI/ML services, and expertise in designing and implementing scalable AI/ML systems."
+    ),
+}
+
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in message_store:
+        message_store[session_id] = ChatMessageHistory()
+    return message_store[session_id]
+
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        (room_url, token) = await configure(session)
+        room_url, token = await configure(session)
 
         transport = DailyTransport(
             room_url,
@@ -41,32 +72,49 @@ async def main():
             "Respond bot",
             DailyParams(
                 audio_out_enabled=True,
-                audio_out_sample_rate=24000,
                 transcription_enabled=True,
                 vad_enabled=True,
                 vad_analyzer=SileroVADAnalyzer(),
             ),
         )
 
-        tts = OpenAITTSService(api_key=os.getenv("OPENAI_API_KEY"), voice="alloy")
+        tts = CartesiaTTSService(
+            api_key=os.getenv("CARTESIA_API_KEY"),
+            voice_id="79a125e8-cd45-4c13-8a67-188112f4dd22",  # British Lady
+        )
 
-        llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+        # Format prompt using the interview_config dictionary
+        system_message = (
+            f"You are an interviewer named {interview_config['interviewer_name']} for {interview_config['company']}. "
+            f"You will be conducting a behavioral interview for the role {interview_config['role']}. "
+            "Ask questions to determine if the candidate is qualified for the role. Here is some information about "
+            f"the role that will help you determine good questions to ask: {interview_config['job_description']}"
+        )
 
-        messages = [
-            {
-                "role": "system",
-                "content": "You are a helpful LLM in a WebRTC call. Your goal is to demonstrate your capabilities in a succinct way. Your output will be converted to audio so don't include special characters in your answers. Respond to what the user said in a creative and helpful way.",
-            },
-        ]
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", system_message),
+                MessagesPlaceholder("chat_history"),
+                ("human", "{input}"),
+            ]
+        )
+        chain = prompt | ChatOpenAI(model="gpt-4o", temperature=0.7)
+        history_chain = RunnableWithMessageHistory(
+            chain,
+            get_session_history,
+            history_messages_key="chat_history",
+            input_messages_key="input",
+        )
+        lc = LangchainProcessor(history_chain)
 
-        tma_in = LLMUserResponseAggregator(messages)
-        tma_out = LLMAssistantResponseAggregator(messages)
+        tma_in = LLMUserResponseAggregator()
+        tma_out = LLMAssistantResponseAggregator()
 
         pipeline = Pipeline(
             [
                 transport.input(),  # Transport user input
                 tma_in,  # User responses
-                llm,  # LLM
+                lc,  # Langchain
                 tts,  # TTS
                 transport.output(),  # Transport bot output
                 tma_out,  # Assistant spoken responses
@@ -77,9 +125,12 @@ async def main():
 
         @transport.event_handler("on_first_participant_joined")
         async def on_first_participant_joined(transport, participant):
-            transport.capture_participant_transcription(participant["id"])
+            lc.set_participant_id(participant["id"])
             # Kick off the conversation.
-            messages.append({"role": "system", "content": "Please introduce yourself to the user."})
+            # the `LLMMessagesFrame` will be picked up by the LangchainProcessor using
+            # only the content of the last message to inject it in the prompt defined
+            # above. So no role is required here.
+            messages = [({"content": "Please briefly introduce yourself to the user."})]
             await task.queue_frames([LLMMessagesFrame(messages)])
 
         runner = PipelineRunner()
