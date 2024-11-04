@@ -1,5 +1,10 @@
-python-dotenv
-fastapi[all]
-uvicorn
-pipecat-ai[daily,openai,silero,cartesia]
+aiohttp
+pipecat-ai
 langchain
+langchain_community
+langchain_openai
+silero
+onnxruntime 
+websockets
+cartesia
+daily-python
