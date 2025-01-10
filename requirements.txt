@@ -1,10 +1,22 @@
+# Core Framework
+fastapi==0.109.0
+uvicorn==0.27.0
+
+# Environment and Settings
+python-dotenv==1.0.0
+pydantic==2.8.2
+pydantic-settings==2.1.0
+
+# Networking
 aiohttp==3.10.10
+
+# AI and Language Processing
+langchain==0.1.0
+langchain-anthropic==0.1.1
+
+# Audio Processing
+pipecat==0.3.0
 pipecat-ai==0.0.47
-langchain==0.3.7
-langchain-community==0.3.3
-langchain-openai==0.2.5
-silero
-onnxruntime==1.19.2
-websockets==13.1
-cartesia==1.1.0
-daily-python==0.11.0
+
+# Logging
+loguru==0.7.2

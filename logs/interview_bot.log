@@ -1,0 +1,33 @@
+2024-12-28 22:30:00 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2024-12-28 22:30:00 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2024-12-28 22:33:05 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2024-12-28 22:33:08 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2024-12-28 22:33:08 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2024-12-28 22:33:25 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2024-12-28 22:33:28 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2024-12-28 22:33:28 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2024-12-28 22:34:29 | INFO     | app.api.routes:hello_world:12 - Hello world endpoint called
+2024-12-28 22:35:15 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2024-12-28 22:35:18 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2024-12-28 22:35:18 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2024-12-28 22:35:18 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2024-12-28 22:35:18 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2024-12-28 22:35:18 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2024-12-28 22:35:18 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2024-12-28 22:35:55 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2024-12-28 22:35:58 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2024-12-28 22:35:58 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2024-12-28 22:35:58 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2024-12-28 22:35:58 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2024-12-28 22:35:58 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2024-12-28 22:35:58 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2024-12-28 22:40:27 | INFO     | app.api.routes:create_room:19 - Received request to create new interview room
+2024-12-28 22:40:27 | DEBUG    | app.api.routes:create_room:20 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Engineer', job_description='Role description...', company_context='Company info...', interview_questions=['Tell me about your experience...', 'How do you handle challenges?'])
+2024-12-28 22:40:27 | DEBUG    | app.api.routes:create_room:23 - Initializing Daily REST helper
+2024-12-28 22:40:27 | ERROR    | app.api.routes:create_room:60 - Error creating interview room: DailyRESTHelper.__init__() takes 1 positional argument but 2 were given
+2025-01-03 18:04:47 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-03 18:04:47 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-03 18:04:47 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-03 18:04:47 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-03 18:04:47 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-03 18:04:47 | INFO     | app.main:lifespan:13 - Configuration validated successfully

@@ -1,0 +1,18 @@
+{
+  "bot_profile": "vision_2024_10",
+  "max_duration": 300,
+  "voice_id": "79a125e8-cd45-4c13-8a67-188112f4dd22",
+  "vad_stop_secs": 0.3,
+  "interview_config": {
+    "bot_name": "Sarah",
+    "company_name": "TechCorp",
+    "job_title": "Senior Software Engineer",
+    "job_description": "We are looking for a Senior Software Engineer with strong experience in AI/ML...",
+    "company_context": "TechCorp is a leading technology company...",
+    "interview_questions": [
+      "Can you tell me about your most challenging project?",
+      "How do you approach problem-solving?",
+      "What interests you about this role?"
+    ]
+  }
+} 
