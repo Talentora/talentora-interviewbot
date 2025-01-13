@@ -4,12 +4,13 @@ from app.core.logger import logger
 
 class Settings(BaseSettings):
     # Required API Keys
-    DAILY_API_KEY: str
-    CARTESIA_API_KEY: str
-    ANTHROPIC_API_KEY: str
+    DAILY_API_KEY: str = None
+    CARTESIA_API_KEY: str = None
+    ANTHROPIC_API_KEY: str = None
     
     # Optional Daily.co Settings
     DAILY_SAMPLE_ROOM_URL: Optional[str] = None
+    DAILY_API_URL: Optional[str] = None
     
     # Optional OpenAI Settings
     OPENAI_API_KEY: Optional[str] = None
@@ -28,8 +29,8 @@ class Settings(BaseSettings):
     def validate_required_settings(self) -> None:
         logger.debug("Validating required settings")
         missing_keys = []
-        if not self.DAILY_API_KEY:
-            missing_keys.append("DAILY_API_KEY")
+        if not self.DAILY_API_URL:
+            missing_keys.append("DAILY_API_URL")
         if not self.CARTESIA_API_KEY:
             missing_keys.append("CARTESIA_API_KEY")
         if not self.ANTHROPIC_API_KEY:
@@ -42,6 +43,8 @@ class Settings(BaseSettings):
             )
         logger.info("All required settings validated successfully")
 
+
 # Initialize settings with validation
 settings = Settings()
 settings.validate_required_settings() 
+

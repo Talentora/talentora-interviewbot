@@ -1,7 +1,7 @@
 from typing import Dict, Any
 import asyncio
 from loguru import logger
-from pipecat.audio.vad.silero import SileroVADAnalyzer
+from pipecat.audio.vad.silero import SileroVADAnalyzer, VADParams
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
 from pipecat.pipeline.task import PipelineParams, PipelineTask
@@ -36,9 +36,15 @@ class InterviewBot:
                     transcription_enabled=True,
                     vad_enabled=True,
                     vad_analyzer=SileroVADAnalyzer(
-                        params={"stop_secs": 0.3}
+                        sample_rate=16000,
+                        params=VADParams(
+                            threshold=0.5,
+                            min_speech_duration_ms=250,
+                            min_silence_duration_ms=100
+                        )
                     ),
-                ),
+                    vad_audio_passthrough=True
+                )
             )
 
             logger.debug("Initializing Cartesia TTS")

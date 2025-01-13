@@ -31,3 +31,785 @@
 2025-01-03 18:04:47 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
 2025-01-03 18:04:47 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
 2025-01-03 18:04:47 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:10:33 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:10:33 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:10:33 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:10:33 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:10:33 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:10:33 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:13:17 | INFO     | app.api.routes:hello_world:12 - Hello world endpoint called
+2025-01-10 17:13:36 | INFO     | app.api.routes:hello_world:12 - Hello world endpoint called
+2025-01-10 17:14:00 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:14:03 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:14:03 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:14:03 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:14:03 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:14:03 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:14:03 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:21:12 | INFO     | app.api.routes:create_room:37 - Received request to create new interview room
+2025-01-10 17:21:12 | DEBUG    | app.api.routes:create_room:38 - Request details: voice_id='your-voice-id' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Engineer', job_description='Role description...', company_context='Company info...', interview_questions=['Tell me about your experience...', 'How do you handle challenges?'])
+2025-01-10 17:21:12 | DEBUG    | app.api.routes:create_room:41 - Initializing Daily REST helper
+2025-01-10 17:21:12 | ERROR    | app.api.routes:create_room:78 - Error creating interview room: DailyRESTHelper.__init__() takes 1 positional argument but 2 were given
+2025-01-10 17:22:49 | INFO     | app.api.routes:create_room:37 - Received request to create new interview room
+2025-01-10 17:22:49 | DEBUG    | app.api.routes:create_room:38 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:22:49 | DEBUG    | app.api.routes:create_room:41 - Initializing Daily REST helper
+2025-01-10 17:22:49 | ERROR    | app.api.routes:create_room:78 - Error creating interview room: DailyRESTHelper.__init__() takes 1 positional argument but 2 were given
+2025-01-10 17:23:13 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:23:18 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:23:18 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:23:18 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:23:18 | DEBUG    | app.core.config:validate_required_settings:29 - Validating required settings
+2025-01-10 17:23:18 | INFO     | app.core.config:validate_required_settings:43 - All required settings validated successfully
+2025-01-10 17:23:18 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:23:26 | INFO     | app.api.routes:create_room:37 - Received request to create new interview room
+2025-01-10 17:23:26 | DEBUG    | app.api.routes:create_room:38 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:23:26 | DEBUG    | app.api.routes:create_room:41 - Initializing Daily REST helper
+2025-01-10 17:23:26 | ERROR    | app.api.routes:create_room:81 - Error creating interview room: DailyRESTHelper.__init__() missing 1 required keyword-only argument: 'aiohttp_session'
+2025-01-10 17:24:34 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:24:36 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:24:36 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-10 17:24:36 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:24:36 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:24:36 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-10 17:24:36 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:25:00 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:25:49 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:25:49 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:25:49 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:25:49 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:25:49 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:25:49 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:25:54 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:25:56 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:25:56 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:25:56 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:25:56 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:25:56 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:25:56 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:26:05 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:26:07 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:26:07 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:26:07 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:26:07 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:26:07 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:26:07 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:26:15 | INFO     | app.api.routes:create_room:37 - Received request to create new interview room
+2025-01-10 17:26:15 | DEBUG    | app.api.routes:create_room:38 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:26:15 | DEBUG    | app.api.routes:create_room:41 - Initializing Daily REST helper
+2025-01-10 17:26:15 | ERROR    | app.api.routes:create_room:81 - Error creating interview room: DailyRESTHelper.__init__() missing 1 required keyword-only argument: 'aiohttp_session'
+2025-01-10 17:26:38 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:26:41 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:26:41 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:26:41 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:26:41 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:26:41 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:26:41 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:27:41 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:27:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:27:44 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:27:44 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:27:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:27:44 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:27:44 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:27:52 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:27:55 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:27:55 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:27:55 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:27:55 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:27:55 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:27:55 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:28:06 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 17:28:09 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:28:09 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:28:09 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:28:09 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:28:09 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:28:09 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:28:20 | INFO     | app.api.routes:create_room:47 - Received request to create new interview room
+2025-01-10 17:28:20 | DEBUG    | app.api.routes:create_room:48 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:28:20 | DEBUG    | app.api.routes:create_room:54 - Initializing Daily REST helper
+2025-01-10 17:28:20 | INFO     | app.api.routes:create_room:61 - Creating new Daily room
+2025-01-10 17:28:20 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: DailyRESTHelper.create_room() got an unexpected keyword argument 'expiry'
+2025-01-10 17:28:44 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:28:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:28:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:28:48 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:28:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:28:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:28:48 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:28:48 | INFO     | app.api.routes:create_room:47 - Received request to create new interview room
+2025-01-10 17:28:48 | DEBUG    | app.api.routes:create_room:48 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:28:48 | DEBUG    | app.api.routes:create_room:54 - Initializing Daily REST helper
+2025-01-10 17:28:48 | INFO     | app.api.routes:create_room:61 - Creating new Daily room
+2025-01-10 17:28:48 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: DailyRESTHelper.create_room() got an unexpected keyword argument 'properties'
+2025-01-10 17:29:11 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:29:14 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:14 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:14 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:29:14 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:14 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:14 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:29:22 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:29:25 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:25 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:29 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:29 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:48 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:29:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:29:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:29:48 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:29:51 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:29:51 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:29:51 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:29:51 | INFO     | app.api.routes:create_room:60 - Creating new Daily room
+2025-01-10 17:29:51 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 17:33:34 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:33:37 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:33:37 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:33:37 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:33:37 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:33:37 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:33:37 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:34:49 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:34:52 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:34:52 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:34:52 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:34:52 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:34:52 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:34:52 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:34:56 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:34:58 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:34:58 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:34:58 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:34:58 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:34:58 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:34:58 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:35:03 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:35:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:35:06 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:35:06 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:35:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:35:06 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:35:06 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:36:40 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:36:40 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:36:40 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:36:40 | INFO     | app.api.routes:create_room:60 - Creating new Daily room
+2025-01-10 17:36:40 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 17:37:36 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:37:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:37:39 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:37:39 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:37:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:37:39 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:37:39 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:37:43 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:37:43 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:37:43 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:37:43 | INFO     | app.api.routes:create_room:61 - Creating new Daily room
+2025-01-10 17:37:44 | ERROR    | app.api.routes:create_room:96 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-10 17:37:56 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:38:03 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:38:03 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:38:03 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:38:03 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:38:03 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:38:03 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:38:04 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:38:08 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:38:08 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:38:08 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:38:08 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:38:08 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:38:08 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:38:09 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:38:09 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:38:09 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:38:09 | INFO     | app.api.routes:create_room:60 - Creating new Daily room
+2025-01-10 17:38:09 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-10 17:58:14 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:58:14 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:58:14 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:58:14 | INFO     | app.api.routes:create_room:60 - Creating new Daily room
+2025-01-10 17:58:15 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-10 17:58:23 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 17:58:27 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:58:27 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:58:27 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 17:58:27 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 17:58:27 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 17:58:27 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 17:58:27 | INFO     | app.api.routes:create_room:46 - Received request to create new interview room
+2025-01-10 17:58:27 | DEBUG    | app.api.routes:create_room:47 - Request details: voice_id='79a125e8-cd45-4c13-8a67-188112f4dd22' max_duration=300 interview_config=InterviewConfig(bot_name='Sarah', company_name='TechCorp', job_title='Senior Software Engineer', job_description='We are looking for a Senior Software Engineer with strong experience in AI/ML...', company_context='TechCorp is a leading technology company...', interview_questions=['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?'])
+2025-01-10 17:58:27 | DEBUG    | app.api.routes:create_room:53 - Initializing Daily REST helper
+2025-01-10 17:58:27 | INFO     | app.api.routes:create_room:60 - Creating new Daily room
+2025-01-10 17:58:27 | ERROR    | app.api.routes:create_room:95 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-10 18:01:10 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 18:01:15 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:15 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:15 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:01:15 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:15 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:15 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:01:16 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 18:01:21 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:21 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:21 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:01:21 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:21 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:21 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:01:31 | INFO     | app.main:lifespan:18 - Shutting down Interview Bot API
+2025-01-10 18:01:33 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:33 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:34 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:01:34 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:34 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:34 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:01:41 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:01:42 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:42 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:44 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:01:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:44 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:44 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:01:45 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:01:47 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:47 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:48 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:01:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:01:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:01:48 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:03:14 | INFO     | app.api.endpoints.health:health_check:9 - Health check endpoint called
+2025-01-10 18:03:31 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:03:33 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:03:33 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:03:34 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:03:34 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:03:34 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:03:34 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:03:34 | INFO     | app.api.endpoints.health:health_check:9 - Hello World endpoint called
+2025-01-10 18:04:44 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:04:47 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:04:47 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:04:48 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:04:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:04:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:04:48 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:04:48 | INFO     | app.api.endpoints.health:health_check:9 - Hello World endpoint called
+2025-01-10 18:05:04 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:05:04 | ERROR    | app.api.endpoints.rooms:create_room:30 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:05:38 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:05:40 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:05:40 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:05:41 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:05:41 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:05:41 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:05:41 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:05:47 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:05:47 | ERROR    | app.api.endpoints.rooms:create_room:30 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:06:57 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:06:59 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:06:59 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:01 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:07:01 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:01 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:01 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:07:01 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:07:01 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:07:22 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:07:24 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:24 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:26 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:07:26 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:26 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:26 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:07:26 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:07:26 | INFO     | app.services.daily:create_room:14 - Creating Daily room
+2025-01-10 18:07:26 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:07:38 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:07:40 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:40 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:42 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:07:42 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:42 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:42 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:07:42 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:07:42 | INFO     | app.services.daily:create_room:14 - Creating Daily room
+2025-01-10 18:07:42 | INFO     | app.services.daily:create_room:21 - Daily REST helper created
+2025-01-10 18:07:42 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:07:47 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:07:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:50 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:07:50 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:07:50 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:07:50 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:08:21 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:08:23 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:08:23 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:08:25 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:08:25 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:08:25 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:08:25 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:08:26 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:08:26 | INFO     | app.services.daily:create_room:14 - Creating Daily room
+2025-01-10 18:08:26 | INFO     | app.services.daily:create_room:21 - Daily helper object: <pipecat.transports.services.helpers.daily_rest.DailyRESTHelper object at 0x162b36750>
+2025-01-10 18:08:26 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:08:47 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:08:48 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:08:48 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:08:50 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:08:50 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:08:50 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:08:50 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:08:50 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:08:50 | INFO     | app.services.daily:create_room:14 - Creating Daily room
+2025-01-10 18:08:50 | INFO     | app.services.daily:create_room:21 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'getroborecruiter.daily.co', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x16101c1a0>}
+2025-01-10 18:08:50 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: getroborecruiter.daily.co/rooms
+2025-01-10 18:11:08 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:11:09 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:11:09 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:11:11 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:11:11 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:11:11 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:11:11 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:11:22 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:11:24 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:11:24 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:11:25 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:11:25 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:11:25 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:11:25 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:12:29 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:12:31 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:12:31 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:12:32 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:12:32 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:12:32 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:12:32 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:12:35 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:12:35 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-10 18:12:35 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: DailyRESTHelper.__init__() missing 1 required keyword-only argument: 'daily_api_key'
+2025-01-10 18:21:09 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-10 18:21:12 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:21:12 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:21:14 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-10 18:21:14 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-10 18:21:14 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-10 18:21:14 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-10 18:21:14 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-10 18:21:14 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-10 18:21:14 | INFO     | app.services.daily:create_room:19 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x15a33ea50>}
+2025-01-10 18:21:14 | INFO     | app.services.daily:create_room:23 - Creating room with Daily.co API
+2025-01-10 18:21:15 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:36:26 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:36:26 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:36:26 | INFO     | app.services.daily:create_room:19 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x15a1e6c90>}
+2025-01-12 22:36:26 | INFO     | app.services.daily:create_room:23 - Creating room with Daily.co API
+2025-01-12 22:36:27 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:40:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:40:44 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:40:45 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:40:45 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:40:45 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:40:45 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:40:49 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:40:49 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:40:49 | INFO     | app.services.daily:create_room:19 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x16063e8a0>}
+2025-01-12 22:40:49 | INFO     | app.services.daily:create_room:23 - Creating room with Daily.co API
+2025-01-12 22:40:50 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:42:00 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:42:02 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:42:02 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:42:04 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:42:04 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:42:04 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:42:04 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:42:04 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:42:04 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:42:04 | INFO     | app.services.daily:create_room:19 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x11f83dc10>}
+2025-01-12 22:42:04 | INFO     | app.services.daily:create_room:23 - Creating room with Daily.co API
+2025-01-12 22:42:04 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:42:27 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:42:29 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:42:29 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:42:30 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:42:30 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:42:30 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:42:30 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:42:30 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:42:30 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:42:30 | INFO     | app.services.daily:create_room:14 - API KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:42:30 | INFO     | app.services.daily:create_room:20 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x12913e510>}
+2025-01-12 22:42:30 | INFO     | app.services.daily:create_room:24 - Creating room with Daily.co API
+2025-01-12 22:42:31 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:44:50 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:44:52 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:44:52 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:44:53 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:44:53 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:44:53 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:44:53 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:44:55 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:44:55 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:44:55 | INFO     | app.services.daily:create_room:16 - API KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:44:55 | INFO     | app.services.daily:create_room:23 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x1247397c0>}
+2025-01-12 22:44:55 | INFO     | app.services.daily:create_room:25 - Creating room with Daily.co API
+2025-01-12 22:44:55 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:45:34 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:45:36 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:45:36 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:45:37 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:45:37 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:45:37 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:45:37 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:45:38 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:45:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:45:39 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:45:40 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:45:40 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:45:40 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:45:40 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:45:42 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:45:42 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:45:42 | INFO     | app.services.daily:create_room:16 - API KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:45:42 | INFO     | app.services.daily:create_room:23 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x127daeb40>}
+2025-01-12 22:45:42 | INFO     | app.services.daily:create_room:25 - Creating room with Daily.co API
+2025-01-12 22:45:43 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:47:20 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:47:22 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:47:22 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:47:23 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:47:23 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:47:23 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:47:23 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:47:35 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:47:36 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:47:36 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:47:37 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:47:37 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:47:37 | INFO     | app.core.config:validate_required_settings:46 - All required settings validated successfully
+2025-01-12 22:47:37 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:48:35 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 22:48:35 | INFO     | app.services.daily:create_room:13 - Creating Daily room
+2025-01-12 22:48:35 | INFO     | app.services.daily:create_room:16 - API KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:48:35 | INFO     | app.services.daily:create_room:23 - Daily helper object: {'daily_api_key': 'DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1', 'daily_api_url': 'https://api.daily.co/v1', 'aiohttp_session': <aiohttp.client.ClientSession object at 0x1251a62d0>}
+2025-01-12 22:48:35 | INFO     | app.services.daily:create_room:25 - Creating room with Daily.co API
+2025-01-12 22:48:35 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 22:50:21 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:50:23 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:50:23 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:50:24 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:50:24 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:50:24 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:50:24 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-12 22:53:45 | INFO     | app.main:lifespan:15 - Shutting down Interview Bot API
+2025-01-12 22:53:46 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:53:46 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:53:47 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:53:47 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:53:47 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:53:47 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:53:47 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 22:54:05 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:54:05 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:54:06 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 22:54:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 22:54:06 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 22:54:06 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 22:54:06 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:00:35 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:00:38 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:00:38 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:00:39 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:00:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:00:39 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:00:39 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:00:39 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:00:39 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 23:00:39 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-12 23:00:41 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 23:01:00 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-12 23:01:00 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-12 23:01:00 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: Unable to create room (status: 401): {"error":"authentication-error"}
+2025-01-12 23:03:00 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:03:02 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:03:02 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:03:03 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:03:03 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:03:03 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:03:03 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:03:03 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:04:38 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:04:42 | DEBUG    | app.core.config:<module>:48 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:04:42 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:04:42 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:04:43 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:04:43 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:04:43 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:04:43 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:04:43 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:04:53 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:04:55 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:04:55 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:04:55 | DEBUG    | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:04:56 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:04:56 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:04:56 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:04:56 | DEBUG    | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:04:56 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:04:56 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:05:04 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:05:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:06 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:06 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:07 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:05:07 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:07 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:07 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:07 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:07 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:05:14 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:05:16 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:16 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:17 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:05:17 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:17 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:17 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:17 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:05:17 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-12 23:05:18 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:18 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:18 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:19 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-12 23:05:19 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:05:19 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:05:19 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:19 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:05:19 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-12 23:10:01 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:10:01 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:10:01 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-12 23:10:52 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-12 23:10:52 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-12 23:10:52 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: DAILY_API_KEY=6c981971267e14af193a1891377938b1dfd74aaddaf4dab11ceb2ec389472af1
+2025-01-13 15:28:35 | DEBUG    | __main__:validate_required_settings:30 - Validating required settings
+2025-01-13 15:28:35 | INFO     | __main__:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 15:28:35 | INFO     | __main__:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 15:29:17 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 15:29:17 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 15:29:17 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 15:58:03 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 15:58:03 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 15:58:03 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 15:58:24 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 15:58:24 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 15:58:24 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:02:13 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:02:13 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:02:13 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:03:45 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:03:45 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:03:45 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:04:14 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:04:14 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:04:14 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:36:04 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:36:04 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:36:04 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:36:27 | ERROR    | pipecat.audio.vad.silero:<module>:21 - Exception: No module named 'onnxruntime'
+2025-01-13 16:36:27 | ERROR    | pipecat.audio.vad.silero:<module>:22 - In order to use Silero VAD, you need to `pip install pipecat-ai[silero]`.
+2025-01-13 16:36:28 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:36:28 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:36:28 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:36:29 | ERROR    | pipecat.audio.vad.silero:<module>:21 - Exception: No module named 'onnxruntime'
+2025-01-13 16:36:29 | ERROR    | pipecat.audio.vad.silero:<module>:22 - In order to use Silero VAD, you need to `pip install pipecat-ai[silero]`.
+2025-01-13 16:37:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:37:06 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:37:06 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:40:55 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:40:55 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:40:55 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:41:09 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:41:09 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:41:09 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:41:11 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:33 - Exception: No module named 'openai'
+2025-01-13 16:41:11 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:34 - In order to use OpenAI, you need to `pip install pipecat-ai[openai]`. Also, set `OPENAI_API_KEY` environment variable.
+2025-01-13 16:41:23 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:41:23 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:41:23 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:41:24 | ERROR    | pipecat.services.cartesia:<module>:40 - Exception: No module named 'websockets'
+2025-01-13 16:41:24 | ERROR    | pipecat.services.cartesia:<module>:41 - In order to use Cartesia, you need to `pip install pipecat-ai[cartesia]`. Also, set `CARTESIA_API_KEY` environment variable.
+2025-01-13 16:43:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:43:44 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:43:44 | INFO     | app.core.config:validate_required_settings:45 - Loaded DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:44:07 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:33 - Exception: No module named 'openai'
+2025-01-13 16:44:07 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:34 - In order to use OpenAI, you need to `pip install pipecat-ai[openai]`. Also, set `OPENAI_API_KEY` environment variable.
+2025-01-13 16:44:08 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:44:08 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:44:08 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:33 - Exception: No module named 'openai'
+2025-01-13 16:44:08 | ERROR    | pipecat.processors.aggregators.openai_llm_context:<module>:34 - In order to use OpenAI, you need to `pip install pipecat-ai[openai]`. Also, set `OPENAI_API_KEY` environment variable.
+2025-01-13 16:44:36 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:44:36 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:44:37 | ERROR    | pipecat.services.cartesia:<module>:40 - Exception: No module named 'websockets'
+2025-01-13 16:44:37 | ERROR    | pipecat.services.cartesia:<module>:41 - In order to use Cartesia, you need to `pip install pipecat-ai[cartesia]`. Also, set `CARTESIA_API_KEY` environment variable.
+2025-01-13 16:45:08 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:45:08 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:45:10 | ERROR    | pipecat.services.cartesia:<module>:40 - Exception: No module named 'cartesia'
+2025-01-13 16:45:10 | ERROR    | pipecat.services.cartesia:<module>:41 - In order to use Cartesia, you need to `pip install pipecat-ai[cartesia]`. Also, set `CARTESIA_API_KEY` environment variable.
+2025-01-13 16:47:43 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:47:43 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:47:44 | ERROR    | pipecat.services.cartesia:<module>:40 - Exception: No module named 'cartesia'
+2025-01-13 16:47:44 | ERROR    | pipecat.services.cartesia:<module>:41 - In order to use Cartesia, you need to `pip install pipecat-ai[cartesia]`. Also, set `CARTESIA_API_KEY` environment variable.
+2025-01-13 16:48:43 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:48:43 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:48:44 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:48:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:48:44 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:48:44 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:48:44 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:48:58 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-13 16:48:58 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-13 16:48:59 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: 'DailyRoomObject' object is not subscriptable
+2025-01-13 16:50:21 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:50:21 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:50:21 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:50:22 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:50:22 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:50:22 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:50:22 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:50:22 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:50:25 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-13 16:50:25 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-13 16:50:26 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: 'DailyRoomObject' object is not subscriptable
+2025-01-13 16:51:49 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:51:50 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:51:50 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:51:51 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:51:51 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:51:51 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:51:51 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:51:51 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:52:28 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:52:29 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:29 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:30 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:52:30 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:30 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:30 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:52:30 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:52:38 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:52:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:39 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:40 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:52:40 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:40 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:40 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:52:40 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:52:42 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:52:43 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:43 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:44 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:52:44 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:52:44 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:52:44 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:52:44 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:52:46 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-13 16:52:46 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-13 16:52:46 | INFO     | app.services.daily:create_room:23 - Helper: <pipecat.transports.services.helpers.daily_rest.DailyRESTHelper object at 0x10d1ff8c0>
+2025-01-13 16:52:46 | INFO     | app.services.daily:create_room:40 - Room created: id='f949818b-9ff6-43af-b6bf-6f755f97cd35' name='hiId4CKnO8BVs4oEZwK3' api_created=True privacy='public' url='https://getroborecruiter.daily.co/hiId4CKnO8BVs4oEZwK3' created_at='2025-01-13T21:52:46.000Z' config=DailyRoomProperties(exp=None, enable_chat=True, enable_emoji_reactions=False, eject_at_room_exp=True, enable_dialout=None, sip=None, sip_uri=None, max_participants=2, enable_knocking=False, start_video_off=True, enable_transcription=True)
+2025-01-13 16:52:46 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: 'DailyRoomObject' object is not subscriptable
+2025-01-13 16:53:05 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:53:06 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:53:06 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:53:07 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:53:07 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:53:07 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:53:07 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:53:07 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:54:17 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:54:18 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:54:18 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:54:19 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:54:19 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:54:19 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:54:19 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:54:19 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:54:26 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-13 16:54:26 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-13 16:54:26 | INFO     | app.services.daily:create_room:23 - Helper: <pipecat.transports.services.helpers.daily_rest.DailyRESTHelper object at 0x1295ff8c0>
+2025-01-13 16:54:28 | INFO     | app.services.daily:create_room:38 - Room created: id='d293a606-059d-444f-82e8-f58e019f739b' name='NaRCyD9FnziyuWIL0U4N' api_created=True privacy='public' url='https://getroborecruiter.daily.co/NaRCyD9FnziyuWIL0U4N' created_at='2025-01-13T21:54:28.000Z' config=DailyRoomProperties(exp=None, enable_chat=True, enable_emoji_reactions=False, eject_at_room_exp=True, enable_dialout=None, sip=None, sip_uri=None, max_participants=2, enable_knocking=False, start_video_off=True, enable_transcription=True)
+2025-01-13 16:54:28 | INFO     | app.services.daily:create_room:41 - Created room: https://getroborecruiter.daily.co/NaRCyD9FnziyuWIL0U4N
+2025-01-13 16:54:28 | INFO     | app.api.endpoints.rooms:create_room:18 - Room created successfully: https://getroborecruiter.daily.co/NaRCyD9FnziyuWIL0U4N
+2025-01-13 16:54:28 | INFO     | app.bot.interview_bot:__init__:19 - Initializing Interview Bot
+2025-01-13 16:54:28 | DEBUG    | app.bot.interview_bot:__init__:20 - Bot configuration: {'voice_id': '79a125e8-cd45-4c13-8a67-188112f4dd22', 'max_duration': 300, 'interview_config': {'bot_name': 'Sarah', 'company_name': 'TechCorp', 'job_title': 'Senior Software Engineer', 'job_description': 'We are looking for a Senior Software Engineer with strong experience in AI/ML...', 'company_context': 'TechCorp is a leading technology company...', 'interview_questions': ['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?']}}
+2025-01-13 16:54:28 | INFO     | app.bot.interview_bot:start:26 - Starting interview session in room: https://getroborecruiter.daily.co/NaRCyD9FnziyuWIL0U4N
+2025-01-13 16:54:28 | DEBUG    | app.bot.interview_bot:start:29 - Initializing Daily transport
+2025-01-13 16:54:28 | INFO     | pipecat.audio.vad.vad_analyzer:set_params:69 - Setting VAD params to: {'stop_secs': 0.3}
+2025-01-13 16:54:28 | ERROR    | app.bot.interview_bot:start:62 - Error during interview session: 'dict' object has no attribute 'start_secs'
+2025-01-13 16:54:28 | ERROR    | app.services.bot:start_bot:20 - Failed to start bot: 'dict' object has no attribute 'start_secs'
+2025-01-13 16:54:28 | ERROR    | app.api.endpoints.rooms:create_room:32 - Error creating interview room: 'dict' object has no attribute 'start_secs'
+2025-01-13 16:55:35 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:55:35 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:55:35 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:55:37 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:55:37 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:55:37 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:55:37 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:55:37 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:56:47 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:56:47 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:56:47 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:56:49 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:56:49 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:56:49 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:56:49 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:56:49 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:56:52 | INFO     | app.main:lifespan:16 - Shutting down Interview Bot API
+2025-01-13 16:56:53 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:56:53 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:56:53 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-13 16:56:53 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-13 16:56:53 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-13 16:56:53 | INFO     | app.main:lifespan:13 - DAILY_API_KEY: 32bb70eb91c35a5a439419f65676786ac79e8e39537753d2349e555d00594e54
+2025-01-13 16:56:53 | INFO     | app.main:lifespan:14 - Configuration validated successfully
+2025-01-13 16:57:00 | INFO     | app.api.endpoints.rooms:create_room:12 - Received request to create new interview room
+2025-01-13 16:57:00 | DEBUG    | app.services.daily:create_room:14 - Creating Daily room
+2025-01-13 16:57:00 | INFO     | app.services.daily:create_room:23 - Helper: <pipecat.transports.services.helpers.daily_rest.DailyRESTHelper object at 0x140c53770>
+2025-01-13 16:57:01 | INFO     | app.services.daily:create_room:38 - Room created: id='4f2e3336-84ca-48b0-8dbe-6e7904151edb' name='bFBajSYUqFKlblMHibzA' api_created=True privacy='public' url='https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA' created_at='2025-01-13T21:57:01.000Z' config=DailyRoomProperties(exp=None, enable_chat=True, enable_emoji_reactions=False, eject_at_room_exp=True, enable_dialout=None, sip=None, sip_uri=None, max_participants=2, enable_knocking=False, start_video_off=True, enable_transcription=True)
+2025-01-13 16:57:01 | INFO     | app.services.daily:create_room:41 - Created room: https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA
+2025-01-13 16:57:01 | INFO     | app.api.endpoints.rooms:create_room:18 - Room created successfully: https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA
+2025-01-13 16:57:01 | INFO     | app.bot.interview_bot:__init__:19 - Initializing Interview Bot
+2025-01-13 16:57:01 | DEBUG    | app.bot.interview_bot:__init__:20 - Bot configuration: {'voice_id': '79a125e8-cd45-4c13-8a67-188112f4dd22', 'max_duration': 300, 'interview_config': {'bot_name': 'Sarah', 'company_name': 'TechCorp', 'job_title': 'Senior Software Engineer', 'job_description': 'We are looking for a Senior Software Engineer with strong experience in AI/ML...', 'company_context': 'TechCorp is a leading technology company...', 'interview_questions': ['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?']}}
+2025-01-13 16:57:01 | INFO     | app.services.bot:start_bot:17 - Created bot: <app.bot.interview_bot.InterviewBot object at 0x140c52e40>
+2025-01-13 16:57:01 | INFO     | app.services.bot:start_bot:19 - Starting bot with room_url: https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA and token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoiYkZCYWpTWVVxRktsYmxNSGliekEiLCJvIjp0cnVlLCJleHAiOjE3MzY4MDkwMjEsImQiOiJiZjExYzFlMS04MzEzLTQ1ZjMtYTM3OC0xOTU4MDAwM2M0ZjgiLCJpYXQiOjE3MzY4MDU0MjF9.yjlXzSvUJiltsHqru2cy6cOmhEy34vA0Xj3JlBGutTk
+2025-01-13 16:57:01 | INFO     | app.bot.interview_bot:start:26 - Starting interview session in room: https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA
+2025-01-13 16:57:01 | DEBUG    | app.bot.interview_bot:start:29 - Initializing Daily transport
+2025-01-13 16:57:01 | INFO     | pipecat.audio.vad.vad_analyzer:set_params:69 - Setting VAD params to: confidence=0.7 start_secs=0.2 stop_secs=0.8 min_volume=0.6
+2025-01-13 16:57:01 | DEBUG    | pipecat.audio.vad.silero:__init__:113 - Loading Silero VAD model...
+2025-01-13 16:57:01 | DEBUG    | pipecat.audio.vad.silero:__init__:135 - Loaded Silero VAD
+2025-01-13 16:57:01 | DEBUG    | app.bot.interview_bot:start:50 - Initializing Cartesia TTS
+2025-01-13 16:57:01 | INFO     | app.bot.interview_bot:start:56 - Setting up interview pipeline
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking PipelineSource#0 -> DailyInputTransport#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyInputTransport#0 -> LLMUserResponseAggregator#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMUserResponseAggregator#0 -> CartesiaTTSService#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking CartesiaTTSService#0 -> DailyOutputTransport#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyOutputTransport#0 -> LLMAssistantResponseAggregator#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMAssistantResponseAggregator#0 -> PipelineSink#0
+2025-01-13 16:57:01 | DEBUG    | app.bot.interview_bot:start:59 - Starting pipeline runner
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Source#0 -> Pipeline#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Pipeline#0 -> Sink#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.pipeline.runner:run:27 - Runner PipelineRunner#0 started running PipelineTask#0
+2025-01-13 16:57:01 | DEBUG    | pipecat.services.cartesia:_connect_websocket:202 - Connecting to Cartesia
+2025-01-13 16:57:01 | INFO     | pipecat.transports.services.daily:join:322 - Joining https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA
+2025-01-13 16:57:02 | INFO     | pipecat.transports.services.daily:join:340 - Joined https://getroborecruiter.daily.co/bFBajSYUqFKlblMHibzA
+2025-01-13 16:57:02 | INFO     | pipecat.transports.services.daily:_start_transcription:360 - Enabling transcription with settings language='en' tier=None model='nova-2-general' profanity_filter=True redact=False endpointing=True punctuate=True includeRawResponse=True extra={'interim_results': True}
+2025-01-13 16:57:03 | DEBUG    | pipecat.transports.services.daily:on_transcription_started:638 - Transcription started: {'model': 'nova-2-general', 'transcriptId': 'db7b494b-f73b-4c55-90ba-8de227333345', 'startedBy': 'fa7f4fe5-eb90-4bb2-bb4e-9785f5cc9030', 'instanceId': 'a1f2f6b7-b1ac-4202-85e5-d446cb6c3d3f', 'language': 'en'}
+2025-01-13 16:57:17 | INFO     | pipecat.transports.services.daily:on_participant_joined:620 - Participant joined 6a0c3bc6-70ec-4a12-98ce-183fcb8ed69f
+2025-01-13 16:57:24 | DEBUG    | pipecat.transports.base_input:_handle_interruptions:124 - User started speaking
+2025-01-13 16:57:25 | DEBUG    | pipecat.transports.base_input:_handle_interruptions:131 - User stopped speaking
+2025-01-13 16:57:30 | DEBUG    | pipecat.transports.base_input:_handle_interruptions:124 - User started speaking
+2025-01-13 16:57:31 | DEBUG    | pipecat.transports.base_input:_handle_interruptions:131 - User stopped speaking
+2025-01-13 16:57:37 | INFO     | pipecat.transports.services.daily:on_participant_left:630 - Participant left 6a0c3bc6-70ec-4a12-98ce-183fcb8ed69f
