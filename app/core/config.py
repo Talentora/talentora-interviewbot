@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DAILY_API_KEY: str = None
     CARTESIA_API_KEY: str = None
     ANTHROPIC_API_KEY: str = None
+    DEEPGRAM_API_KEY: str = None
     
     # Optional Daily.co Settings
     DAILY_SAMPLE_ROOM_URL: Optional[str] = None
@@ -35,6 +36,8 @@ class Settings(BaseSettings):
             missing_keys.append("CARTESIA_API_KEY")
         if not self.ANTHROPIC_API_KEY:
             missing_keys.append("ANTHROPIC_API_KEY")
+        if not self.DEEPGRAM_API_KEY:
+            missing_keys.append("DEEPGRAM_API_KEY")
             
         if missing_keys:
             logger.error(f"Missing required environment variables: {', '.join(missing_keys)}")
@@ -47,4 +50,3 @@ class Settings(BaseSettings):
 # Initialize settings with validation
 settings = Settings()
 settings.validate_required_settings() 
-

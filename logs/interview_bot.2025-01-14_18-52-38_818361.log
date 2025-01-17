@@ -1,0 +1,79 @@
+2025-01-14 18:52:38 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-14 18:52:38 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-14 18:52:39 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-14 18:52:39 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-14 18:52:39 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-14 18:52:39 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-14 18:52:48 | INFO     | app.api.endpoints.rooms:create_room:25 - Received request to create new interview room
+2025-01-14 18:52:48 | DEBUG    | app.services.daily:create_room:25 - Creating Daily room
+2025-01-14 18:52:48 | INFO     | app.services.daily:create_room:50 - Created room: https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE
+2025-01-14 18:52:48 | INFO     | app.api.endpoints.rooms:create_room:31 - Room created successfully: https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE
+2025-01-14 18:52:48 | INFO     | app.bot.interview_bot:__init__:41 - Initializing Interview Bot
+2025-01-14 18:52:48 | DEBUG    | app.bot.interview_bot:__init__:42 - Bot configuration: {'voice_id': '79a125e8-cd45-4c13-8a67-188112f4dd22', 'max_duration': 300, 'interview_config': {'bot_name': 'Sarah', 'company_name': 'TechCorp', 'job_title': 'Senior Software Engineer', 'job_description': 'We are looking for a Senior Software Engineer with strong experience in AI/ML...', 'company_context': 'TechCorp is a leading technology company...', 'interview_questions': ['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?']}}
+2025-01-14 18:52:48 | INFO     | app.services.bot:start_bot:17 - Created bot: <app.bot.interview_bot.InterviewBot object at 0x11a152ba0>
+2025-01-14 18:52:48 | INFO     | app.services.bot:start_bot:19 - Starting bot with room_url: https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE and token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoidkZ3Zmlsa3hpZ3ZxRmFkSzVrbUUiLCJvIjp0cnVlLCJleHAiOjE3MzY5MDIzNjgsImQiOiJiZjExYzFlMS04MzEzLTQ1ZjMtYTM3OC0xOTU4MDAwM2M0ZjgiLCJpYXQiOjE3MzY4OTg3Njh9.ACNd9znK4pE2-jth3-Ky0aI9yNjGNbkFVQBZiWBhxjE
+2025-01-14 18:52:48 | INFO     | app.bot.interview_bot:start:161 - Starting interview session in room: https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE
+2025-01-14 18:52:48 | DEBUG    | app.bot.interview_bot:_init_daily_transport:58 - Initializing Daily transport
+2025-01-14 18:52:48 | INFO     | pipecat.audio.vad.vad_analyzer:set_params:69 - Setting VAD params to: confidence=0.7 start_secs=0.2 stop_secs=0.8 min_volume=0.6
+2025-01-14 18:52:48 | DEBUG    | pipecat.audio.vad.silero:__init__:113 - Loading Silero VAD model...
+2025-01-14 18:52:48 | DEBUG    | pipecat.audio.vad.silero:__init__:135 - Loaded Silero VAD
+2025-01-14 18:52:48 | DEBUG    | app.bot.interview_bot:_init_tts_service:97 - Initializing Cartesia TTS
+2025-01-14 18:52:48 | INFO     | app.bot.interview_bot:start:166 - Setting up interview pipeline
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking PipelineSource#0 -> DailyInputTransport#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyInputTransport#0 -> LLMUserResponseAggregator#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMUserResponseAggregator#0 -> CartesiaTTSService#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking CartesiaTTSService#0 -> DailyOutputTransport#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyOutputTransport#0 -> LLMAssistantResponseAggregator#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMAssistantResponseAggregator#0 -> PipelineSink#0
+2025-01-14 18:52:48 | DEBUG    | app.bot.interview_bot:_run_pipeline:139 - Starting pipeline runner
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Source#0 -> Pipeline#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Pipeline#0 -> Sink#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.pipeline.runner:run:27 - Runner PipelineRunner#0 started running PipelineTask#0
+2025-01-14 18:52:48 | DEBUG    | pipecat.services.cartesia:_connect_websocket:202 - Connecting to Cartesia
+2025-01-14 18:52:48 | INFO     | pipecat.transports.services.daily:join:322 - Joining https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE
+2025-01-14 18:52:51 | INFO     | pipecat.transports.services.daily:join:340 - Joined https://getroborecruiter.daily.co/vFwfilkxigvqFadK5kmE
+2025-01-14 18:52:51 | INFO     | pipecat.transports.services.daily:_start_transcription:360 - Enabling transcription with settings language='en' tier=None model='nova-2-general' profanity_filter=True redact=False endpointing=True punctuate=True includeRawResponse=True extra={'interim_results': True}
+2025-01-14 18:52:51 | DEBUG    | pipecat.transports.services.daily:on_transcription_started:638 - Transcription started: {'instanceId': 'a1f2f6b7-b1ac-4202-85e5-d446cb6c3d3f', 'transcriptId': 'dea40e62-2f3f-45b6-9170-f417c092da93', 'language': 'en', 'startedBy': '43fa8f77-b03d-4a04-8dc2-d79678b979b1', 'model': 'nova-2-general'}
+2025-01-14 18:54:23 | WARNING  | pipecat.pipeline.runner:_sig_handler:51 - Interruption detected. Canceling runner PipelineRunner#0
+2025-01-14 18:54:23 | DEBUG    | pipecat.pipeline.runner:cancel:38 - Canceling runner PipelineRunner#0
+2025-01-14 18:54:23 | DEBUG    | pipecat.pipeline.task:cancel:116 - Canceling pipeline task PipelineTask#0
+2025-01-14 18:54:23 | DEBUG    | pipecat.services.cartesia:_disconnect_websocket:215 - Disconnecting from Cartesia
+2025-01-14 18:54:52 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-14 18:54:52 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-14 18:54:53 | INFO     | app.main:lifespan:11 - Starting Interview Bot API
+2025-01-14 18:54:53 | DEBUG    | app.core.config:validate_required_settings:30 - Validating required settings
+2025-01-14 18:54:53 | INFO     | app.core.config:validate_required_settings:44 - All required settings validated successfully
+2025-01-14 18:54:53 | INFO     | app.main:lifespan:13 - Configuration validated successfully
+2025-01-14 18:54:58 | INFO     | app.api.endpoints.rooms:create_room:25 - Received request to create new interview room
+2025-01-14 18:54:58 | DEBUG    | app.services.daily:create_room:25 - Creating Daily room
+2025-01-14 18:54:59 | INFO     | app.services.daily:create_room:50 - Created room: https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV
+2025-01-14 18:54:59 | INFO     | app.api.endpoints.rooms:create_room:31 - Room created successfully: https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV
+2025-01-14 18:54:59 | INFO     | app.bot.interview_bot:__init__:41 - Initializing Interview Bot
+2025-01-14 18:54:59 | DEBUG    | app.bot.interview_bot:__init__:42 - Bot configuration: {'voice_id': '79a125e8-cd45-4c13-8a67-188112f4dd22', 'max_duration': 300, 'interview_config': {'bot_name': 'Sarah', 'company_name': 'TechCorp', 'job_title': 'Senior Software Engineer', 'job_description': 'We are looking for a Senior Software Engineer with strong experience in AI/ML...', 'company_context': 'TechCorp is a leading technology company...', 'interview_questions': ['Can you tell me about your most challenging project?', 'How do you approach problem-solving?', 'What interests you about this role?']}}
+2025-01-14 18:54:59 | INFO     | app.services.bot:start_bot:17 - Created bot: <app.bot.interview_bot.InterviewBot object at 0x10de52ba0>
+2025-01-14 18:54:59 | INFO     | app.services.bot:start_bot:19 - Starting bot with room_url: https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV and token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoiNUxIS1B4UFJETDFMcThZS283V1YiLCJvIjp0cnVlLCJleHAiOjE3MzY5MDI0OTksImQiOiJiZjExYzFlMS04MzEzLTQ1ZjMtYTM3OC0xOTU4MDAwM2M0ZjgiLCJpYXQiOjE3MzY4OTg4OTl9.DDdQNXRurU8pKJducmMY_3X5bcrBgroMPYRYPrn1hXs
+2025-01-14 18:54:59 | INFO     | app.bot.interview_bot:start:161 - Starting interview session in room: https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV
+2025-01-14 18:54:59 | DEBUG    | app.bot.interview_bot:_init_daily_transport:58 - Initializing Daily transport
+2025-01-14 18:54:59 | DEBUG    | app.bot.interview_bot:_init_tts_service:97 - Initializing Cartesia TTS
+2025-01-14 18:54:59 | INFO     | app.bot.interview_bot:start:166 - Setting up interview pipeline
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking PipelineSource#0 -> DailyInputTransport#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyInputTransport#0 -> LLMUserResponseAggregator#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMUserResponseAggregator#0 -> CartesiaTTSService#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking CartesiaTTSService#0 -> DailyOutputTransport#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking DailyOutputTransport#0 -> LLMAssistantResponseAggregator#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking LLMAssistantResponseAggregator#0 -> PipelineSink#0
+2025-01-14 18:54:59 | DEBUG    | app.bot.interview_bot:_run_pipeline:139 - Starting pipeline runner
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Source#0 -> Pipeline#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.processors.frame_processor:link:150 - Linking Pipeline#0 -> Sink#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.pipeline.runner:run:27 - Runner PipelineRunner#0 started running PipelineTask#0
+2025-01-14 18:54:59 | DEBUG    | pipecat.services.cartesia:_connect_websocket:202 - Connecting to Cartesia
+2025-01-14 18:54:59 | INFO     | pipecat.transports.services.daily:join:322 - Joining https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV
+2025-01-14 18:55:00 | INFO     | pipecat.transports.services.daily:join:340 - Joined https://getroborecruiter.daily.co/5LHKPxPRDL1Lq8YKo7WV
+2025-01-14 18:55:00 | INFO     | pipecat.transports.services.daily:_start_transcription:360 - Enabling transcription with settings language='en' tier=None model='nova-2-general' profanity_filter=True redact=False endpointing=True punctuate=True includeRawResponse=True extra={'interim_results': True}
+2025-01-14 18:55:01 | DEBUG    | pipecat.transports.services.daily:on_transcription_started:638 - Transcription started: {'instanceId': 'a1f2f6b7-b1ac-4202-85e5-d446cb6c3d3f', 'startedBy': '7b154de0-56e7-4bd0-9ea9-7dc04b67299d', 'transcriptId': 'a037a80d-ee7b-43fe-a1cb-45aacf624cf9', 'language': 'en', 'model': 'nova-2-general'}
+2025-01-14 18:55:15 | INFO     | pipecat.transports.services.daily:on_participant_joined:620 - Participant joined f45c9668-aedf-448f-bf80-7ce52b9369ac
+2025-01-14 18:55:47 | INFO     | pipecat.transports.services.daily:on_participant_left:630 - Participant left f45c9668-aedf-448f-bf80-7ce52b9369ac
+2025-01-14 18:56:56 | WARNING  | pipecat.pipeline.runner:_sig_handler:51 - Interruption detected. Canceling runner PipelineRunner#0
+2025-01-14 18:56:56 | DEBUG    | pipecat.pipeline.runner:cancel:38 - Canceling runner PipelineRunner#0
+2025-01-14 18:56:56 | DEBUG    | pipecat.pipeline.task:cancel:116 - Canceling pipeline task PipelineTask#0
+2025-01-14 18:56:56 | DEBUG    | pipecat.services.cartesia:_disconnect_websocket:215 - Disconnecting from Cartesia

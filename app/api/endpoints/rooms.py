@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from app.api.models import BotRequest, RoomResponse
 from app.services.daily import DailyService
 from app.services.bot import BotService
@@ -6,8 +6,21 @@ from app.core.logger import logger
 
 router = APIRouter()
 
+async def start_bot_background(room_url: str, token: str, config: BotRequest):
+    """Start the bot in the background"""
+    try:
+        bot_service = BotService()
+        await bot_service.start_bot(
+            room_url=room_url,
+            token=token,
+            config=config
+        )
+        logger.info(f"Bot started successfully in room: {room_url}")
+    except Exception as e:
+        logger.error(f"Error starting bot: {str(e)}")
+
 @router.post("/", response_model=RoomResponse)
-async def create_room(request: BotRequest):
+async def create_room(request: BotRequest, background_tasks: BackgroundTasks):
     """Creates a new interview room and initializes the interview bot."""
     logger.info("Received request to create new interview room")
     
@@ -17,17 +30,16 @@ async def create_room(request: BotRequest):
         room_data = await daily_service.create_room()
         logger.info(f"Room created successfully: {room_data['room_url']}")
         
-        # Initialize and start bot
-        bot_service = BotService()
-        await bot_service.start_bot(
-            room_url=room_data["room_url"],
-            token=room_data["token"],
-            config=request
+        # Start bot initialization in the background
+        background_tasks.add_task(
+            start_bot_background,
+            room_data["room_url"],
+            room_data["token"],
+            request
         )
-        logger.info(f"Bot started successfully in room: {room_data['room_url']}")
         
         return RoomResponse(**room_data).model_dump()
         
     except Exception as e:
         logger.error(f"Error creating interview room: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=500, detail=str(e))

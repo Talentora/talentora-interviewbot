@@ -16,7 +16,7 @@ langchain-anthropic
 
 # Audio Processing
 pipecat
-pipecat-ai[daily,cartesia,openai,anthropic,cartesia,silero]
+pipecat-ai[daily,cartesia,openai,anthropic,cartesia,silero,deepgram]
 
 # Logging
 loguru

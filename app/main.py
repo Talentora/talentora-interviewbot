@@ -10,7 +10,6 @@ async def lifespan(app: FastAPI):
     try:
         logger.info("Starting Interview Bot API")
         settings.validate_required_settings()
-        logger.info(f"DAILY_API_KEY: {settings.DAILY_API_KEY}")
         logger.info("Configuration validated successfully")
         yield
         logger.info("Shutting down Interview Bot API")
@@ -38,5 +37,5 @@ def create_app() -> FastAPI:
     app.include_router(api_router, prefix="/api")
     
     return app
-
+ 
 app = create_app()  
