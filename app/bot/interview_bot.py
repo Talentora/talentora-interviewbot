@@ -26,7 +26,20 @@ class InterviewBot:
     """A bot that conducts automated interviews using voice interactions."""
 
     def __init__(self, config: Dict[str, Any]):
-        """Initialize the Interview Bot with the given configuration."""
+        """Initialize the Interview Bot with the given configuration.
+        
+        Args:
+            config: Dictionary containing:
+                - voice_id: Voice ID for text-to-speech
+                - max_duration: Maximum duration of interview in seconds
+                - interview_config: Dictionary containing:
+                    - bot_name: Name of the interviewer
+                    - company_name: Name of the company
+                    - job_title: Position being interviewed for
+                    - job_description: Description of the role
+                    - company_context: Information about the company
+                    - interview_questions: List of key questions to cover
+        """
         logger.info("Initializing Interview Bot")
         logger.debug(f"Bot configuration: {config}")
         self.config = config
@@ -39,7 +52,7 @@ class InterviewBot:
         try:
             # Initialize processors
             stt = init_speech_to_text()
-            langchain_processor = init_langchain_processor()
+            langchain_processor = init_langchain_processor(self.interview_config)
             tts = init_tts_service(self.voice_id)
             idle = init_idle_processor()
             
@@ -47,13 +60,11 @@ class InterviewBot:
             user_response_aggregator = LLMUserResponseAggregator()
             assistant_response_aggregator = LLMAssistantResponseAggregator()
 
-
-
-            # Create pipeline with user idle monitoring
+            # Create pipeline
             pipeline = Pipeline([
                 transport.input(),
                 stt,
-                idle,  # Add idle monitoring after speech recognition
+                idle,
                 user_response_aggregator,
                 langchain_processor,
                 tts,
@@ -96,10 +107,13 @@ class InterviewBot:
 
     def _register_event_handlers(self, transport):
         """Register event handlers for the transport."""
+        # Store reference to bot instance in transport for event handlers
+        transport.bot = self
+        
         transport.event_handler("on_joined")(on_joined)
         transport.event_handler("on_participant_joined")(on_participant_joined)
         transport.event_handler("on_participant_left")(on_participant_left)
-        transport.event_handler("on_error")(on_error)
+        # transport.event_handler("on_error")(on_error)
         transport.event_handler("on_transcription_message")(on_transcription_message)
 
     async def start(self, room_url: str, token: str):
@@ -115,12 +129,13 @@ class InterviewBot:
                 self.interview_config["bot_name"]
             )
             
-            # Register event handlers
+            # Register event handlers BEFORE creating the pipeline
             self._register_event_handlers(self.transport)
+            logger.debug("Event handlers registered")
             
-            logger.debug("Daily transport is now active")
-
+            # Create and start pipeline
             pipeline = self._setup_pipeline(self.transport)
+            logger.debug("Daily transport is now active")
             await self._run_pipeline(pipeline)
             
         except Exception as e:
