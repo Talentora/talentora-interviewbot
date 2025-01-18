@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     # Optional OpenAI Settings
     OPENAI_API_KEY: Optional[str] = None
     
+    # AWS Settings
+    AWS_ACCESS_KEY_ID: str = None
+    AWS_SECRET_KEY: str = None
+    AWS_REGION: str = "us-east-1"
+    
     # LangChain Settings
     LANGCHAIN_TRACING_V2: bool = False
     LANGCHAIN_ENDPOINT: Optional[str] = None
@@ -38,6 +43,10 @@ class Settings(BaseSettings):
             missing_keys.append("ANTHROPIC_API_KEY")
         if not self.DEEPGRAM_API_KEY:
             missing_keys.append("DEEPGRAM_API_KEY")
+        if not self.AWS_ACCESS_KEY_ID:
+            missing_keys.append("AWS_ACCESS_KEY_ID")
+        if not self.AWS_SECRET_KEY:
+            missing_keys.append("AWS_SECRET_KEY")
             
         if missing_keys:
             logger.error(f"Missing required environment variables: {', '.join(missing_keys)}")
@@ -49,4 +58,4 @@ class Settings(BaseSettings):
 
 # Initialize settings with validation
 settings = Settings()
-settings.validate_required_settings() 
+settings.validate_required_settings()
