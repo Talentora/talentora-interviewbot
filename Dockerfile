@@ -1,5 +1,10 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:3.13-slim
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
