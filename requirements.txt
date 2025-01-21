@@ -13,10 +13,11 @@ aiohttp
 # AI and Language Processing
 langchain
 langchain-anthropic
+langchain-community
 
 # Audio Processing
 pipecat
-pipecat-ai[daily,cartesia,openai,anthropic,cartesia,silero,deepgram]
+pipecat-ai[daily,anthropic,cartesia,silero,deepgram,aws]
 
 # Logging
 loguru
