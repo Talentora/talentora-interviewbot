@@ -19,7 +19,6 @@ class Settings(BaseSettings):
     # AWS Settings
     AWS_ACCESS_KEY_ID: str = None
     AWS_SECRET_KEY: str = None
-    AWS_REGION: str = "us-east-1"
     
     # LangChain Settings
     LANGCHAIN_TRACING_V2: bool = False

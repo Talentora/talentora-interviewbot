@@ -52,7 +52,7 @@ class InterviewBot:
         try:
             # Initialize processors
             stt = init_speech_to_text()
-            langchain_processor = init_langchain_processor(self.interview_config)
+            llm = init_langchain_processor(self.interview_config)
             tts = init_tts_service(self.voice_id)
             idle = init_idle_processor()
             
@@ -66,7 +66,7 @@ class InterviewBot:
                 stt,
                 idle,
                 user_response_aggregator,
-                langchain_processor,
+                llm,
                 tts,
                 transport.output(),
                 assistant_response_aggregator,

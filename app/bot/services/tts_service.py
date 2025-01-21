@@ -30,10 +30,10 @@ def init_polly_tts(voice_id: str = "Joanna") -> PollyTTSService:
     return PollyTTSService(
         api_key=settings.AWS_SECRET_KEY,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        region=settings.AWS_REGION,
+        region="us-east-1",
         voice_id=voice_id,
         params=PollyTTSService.InputParams(
-            engine="neural",
+            engine="generative",
             language=Language.EN,
             rate="medium",
         )

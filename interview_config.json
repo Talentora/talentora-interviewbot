@@ -1,5 +1,4 @@
 {
-  "bot_profile": "vision_2024_10",
   "max_duration": 300,
   "voice_id": "79a125e8-cd45-4c13-8a67-188112f4dd22",
   "vad_stop_secs": 0.3,

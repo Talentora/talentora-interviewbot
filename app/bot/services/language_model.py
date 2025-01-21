@@ -1,64 +1,128 @@
-from typing import Dict, Any
+from typing import Dict, Any, Tuple, Optional, List
+from loguru import logger
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_anthropic import ChatAnthropic
-from pipecat.processors.frameworks.langchain import LangchainProcessor
+from pipecat.processors.frameworks.langchain import LangchainProcessor  # type: ignore
 from app.core.config import settings
-from pipecat.services.anthropic import AnthropicLLMService
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.runnables import RunnableWithMessageHistory
+from pipecat.processors.aggregators.llm_response import ( # type: ignore
+    LLMAssistantResponseAggregator,
+    LLMUserResponseAggregator
+)
 
+# Type the message store
+from typing import TypedDict
+from pydantic import SecretStr
 
-def init_langchain_processor(interview_config: Dict[str, Any]) -> LangchainProcessor:
-#     """Initialize the LangChain processor for handling the interview conversation."""
-#     llm = ChatAnthropic(
-#         model="claude-3-haiku-20240307",
-#         anthropic_api_key=settings.ANTHROPIC_API_KEY,
-#         temperature=0.7,
-#         max_tokens=1024
-#     )
+message_store: Dict[str, ChatMessageHistory] = {}
 
-#     # Create a more detailed system prompt using the interview config
-#     system_prompt = f"""You are an AI interviewer named {interview_config['bot_name']} conducting a technical interview for {interview_config['company_name']}.
-# Role: {interview_config['job_title']}
+class InterviewConfig(TypedDict):
+    bot_name: str
+    company_name: str
+    job_title: str
+    company_context: str
+    job_description: str
+    interview_questions: List[str]
 
-# Company Context: {interview_config['company_context']}
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in message_store:
+        message_store[session_id] = ChatMessageHistory()
+    return message_store[session_id]
 
-# Job Description: {interview_config['job_description']}
-
-# Key Questions to Cover:
-# {chr(10).join(f'- {q}' for q in interview_config['interview_questions'])}
-
-# Instructions:
-# - Be professional but friendly
-# - Ask relevant follow-up questions to dig deeper into the candidate's responses
-# - Keep your responses concise and focused
-# - Give the candidate time to respond fully
-# - Do not provide direct feedback on their answers during the interview
-# - Ensure all key questions are covered naturally throughout the conversation
-# - Stay focused on technical and professional aspects relevant to the role"""
-
-#     interview_prompt = ChatPromptTemplate.from_messages(
-#         messages=[
-#             ("system", system_prompt),
-#             MessagesPlaceholder(variable_name="history"),
-#             ("human", "{input}")
-#         ],
-#         input_variables=["history", "input"]
-#     )
-
-#     chain = interview_prompt | llm
-#     processor = LangchainProcessor(chain)
-    
-#     # Initialize history to empty list to avoid KeyError
-#     processor._chain_input = {"history": [], "input": ""}
-    
-#     return processor
-
-    llm_service = AnthropicLLMService(
+def init_anthropic_processor() -> BaseChatModel:
+    """Initialize the Anthropic processor for handling the interview conversation."""
+    logger.debug("Initializing Anthropic processor")
+    model = ChatAnthropic(
+        model="claude-3-sonnet-20240229",
+        temperature=0.7,
+        max_tokens=1000,
         api_key=settings.ANTHROPIC_API_KEY,
-        model="claude-3-5-sonnet-20240620",
-        params=AnthropicLLMService.InputParams(
-            temperature=0.7,
-            max_tokens=1000
-        )
+        timeout=25  # Add timeout
     )
+    logger.debug("Anthropic processor initialized")
+    return model
 
-    return llm_service
+def init_langchain_processor(interview_config: InterviewConfig) -> LangchainProcessor:
+    """Initialize the LangChain processor for handling the interview conversation."""
+    llm: BaseChatModel = init_anthropic_processor()
+
+    system_prompt: str = f"""You are an AI interviewer named {interview_config['bot_name']} conducting a technical interview for {interview_config['company_name']}.
+        Role: {interview_config['job_title']}
+
+        Company Context: {interview_config['company_context']}
+
+        Job Description: {interview_config['job_description']}
+
+        Key Questions to Cover:
+        {chr(10).join(f'- {q}' for q in interview_config['interview_questions'])}
+
+        Instructions:
+        - Be professional but friendly
+        - Ask relevant follow-up questions to dig deeper into the candidate's responses
+        - Keep your responses concise and focused
+        - Give the candidate time to respond fully
+        - Do not provide direct feedback on their answers during the interview
+        - Ensure all key questions are covered naturally throughout the conversation
+        - Stay focused on technical and professional aspects relevant to the role
+    """
+    
+    interview_prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        MessagesPlaceholder(variable_name="chat_history"),
+        ("human", "{input}")
+    ])
+
+    chain = interview_prompt | llm
+    history_chain = RunnableWithMessageHistory(
+        chain,
+        get_session_history,
+        history_messages_key="chat_history",
+        input_messages_key="input",
+    )
+    processor = LangchainProcessor(history_chain)
+    processor.set_participant_id("assistant")  # Change to assistant since this is the bot's responses
+    return processor
+
+def init_language_model(
+    interview_config: Optional[InterviewConfig] = None
+) -> Tuple[LangchainProcessor, LLMUserResponseAggregator, LLMAssistantResponseAggregator]:
+    """Initialize the language model processor and frame aggregators for the chat pipeline."""
+    logger.debug("Initializing language model components")
+    
+    if interview_config:
+        logger.debug("Using interview config")
+        processor = init_langchain_processor(interview_config)
+    else:
+        logger.debug("Creating basic processor")
+        llm = init_anthropic_processor()
+        basic_prompt = ChatPromptTemplate.from_messages([
+            ("system", "Be nice and helpful. Answer questions clearly and concisely."),
+            MessagesPlaceholder(variable_name="chat_history"),
+            ("human", "{input}")
+        ])
+        logger.debug("Created basic prompt template")
+        
+        chain = basic_prompt | llm
+        logger.debug("Created chain")
+        
+        history_chain = RunnableWithMessageHistory(
+            chain,
+            get_session_history,
+            history_messages_key="chat_history",
+            input_messages_key="input",
+        )
+        logger.debug("Created history chain")
+        processor = LangchainProcessor(history_chain)
+        processor.set_participant_id("assistant")  # Change to assistant since this is the bot's responses
+        logger.debug("Created processor")
+    
+    logger.debug("Set participant ID")
+    
+    user_aggregator = LLMUserResponseAggregator()
+    assistant_aggregator = LLMAssistantResponseAggregator()
+    logger.debug("Created aggregators")
+    
+    return processor, user_aggregator, assistant_aggregator
