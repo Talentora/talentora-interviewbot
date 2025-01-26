@@ -15,12 +15,14 @@ langchain
 langchain-anthropic
 langchain-community
 
+
 # Audio Processing
 pipecat
-pipecat-ai[daily,anthropic,cartesia,silero,deepgram,aws]
+pipecat-ai[daily,anthropic,cartesia,silero,deepgram,aws,koala]
 
 # Logging
 loguru
+langsmith
 
 # ONNX Runtime
 onnxruntime
