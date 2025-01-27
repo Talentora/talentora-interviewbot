@@ -5,6 +5,7 @@ from pipecat.utils.text.markdown_text_filter import MarkdownTextFilter
 from app.core.config import settings
 from typing import Union
 
+
 def init_cartesia_tts(voice_id: str) -> CartesiaTTSService:
     """Initialize the text-to-speech service using Cartesia."""
     logger.debug("Initializing Cartesia TTS")
@@ -41,4 +42,5 @@ def init_polly_tts(voice_id: str = "Joanna") -> PollyTTSService:
 
 def init_tts_service(voice_id: str) -> Union[CartesiaTTSService, PollyTTSService]:
     """Initialize the default text-to-speech service (Polly by default)."""
-    return init_polly_tts()
+    # return init_polly_tts()
+    return init_cartesia_tts(voice_id)
