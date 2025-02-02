@@ -19,7 +19,7 @@ def create_vad_analyzer() -> SileroVADAnalyzer:
 def init_daily_transport(room_url: str, token: str, bot_name: str) -> DailyTransport:
     """Initialize and configure the Daily transport layer for audio communication."""
     koala_filter = KoalaFilter(access_key=settings.KOALA_FILTER_KEY)
-
+    
     return DailyTransport(
         room_url=room_url,
         token=token,
