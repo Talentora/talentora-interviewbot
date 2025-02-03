@@ -43,8 +43,8 @@ class Settings(BaseSettings):
         client = Client()
         logger.debug("Validating required settings")
         missing_keys = []
-        if not self.DAILY_API_URL:
-            missing_keys.append("DAILY_API_URL")
+        # if not self.DAILY_API_URL:
+        #     missing_keys.append("DAILY_API_URL")
         if not self.CARTESIA_API_KEY:
             missing_keys.append("CARTESIA_API_KEY")
         if not self.ANTHROPIC_API_KEY:
