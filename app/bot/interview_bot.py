@@ -64,7 +64,7 @@ class InterviewBot:
             pipeline = Pipeline([
                 transport.input(),
                 stt,
-                # idle,
+                idle,
                 user_response_aggregator,
                 llm,
                 tts,
