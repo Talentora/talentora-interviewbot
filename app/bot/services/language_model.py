@@ -36,9 +36,9 @@ def init_anthropic_processor() -> BaseChatModel:
     """Initialize the Anthropic processor for handling the interview conversation."""
     logger.debug("Initializing Anthropic processor")
     model = ChatAnthropic(
-        model="claude-3-5-sonnet-20241022",
+        # model="claude-3-5-sonnet-20241022",
         # model="claude-3-sonnet-20240229",
-        # model="claude-3-haiku-20240307",
+        model="claude-3-haiku-20240307",
         temperature=0.3,
         max_tokens=1000,
         api_key=settings.ANTHROPIC_API_KEY,
