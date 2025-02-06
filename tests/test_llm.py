@@ -1,3 +1,9 @@
+import os
+import sys
+# Add the parent directory to Python path so we can import from app package
+# This fixes the ModuleNotFoundError: No module named 'app' by making the app module importable
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) 
+
 import asyncio
 import types
 from app.bot.services.language_model import init_language_model
