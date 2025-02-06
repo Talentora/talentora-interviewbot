@@ -48,7 +48,7 @@ class Settings(BaseSettings):
         #     missing_keys.append("DAILY_API_URL")
         if not self.CARTESIA_API_KEY:
             missing_keys.append("CARTESIA_API_KEY")
-        if not self.ANTHROPIC_API_KEY:
+        if not self.ANTHROPIC_API_KEY: 
             missing_keys.append("ANTHROPIC_API_KEY")
         if not self.DEEPGRAM_API_KEY:
             missing_keys.append("DEEPGRAM_API_KEY")
@@ -60,6 +60,8 @@ class Settings(BaseSettings):
             missing_keys.append("OPENAI_API_KEY")
         if not self.GROQ_API_KEY:
             missing_keys.append("GROQ_API_KEY")
+        if not self.KOALA_FILTER_KEY:
+            missing_keys.append("KOALA_FILTER_KEY")
             
         if missing_keys:
             logger.error(f"Missing required environment variables: {', '.join(missing_keys)}")
