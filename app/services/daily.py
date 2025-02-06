@@ -39,6 +39,7 @@ class DailyService:
                             enable_knocking=False,
                             start_audio_off=False,
                             start_video_off=True,
+                            enable_recording='cloud',
                             max_participants=2,
                             enable_transcription=True,
                             exp=time.time() + 1800,
