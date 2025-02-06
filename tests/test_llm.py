@@ -27,7 +27,7 @@ async def process_message(processor, user_input: str, session_id: str):
         if isinstance(frame, TextFrame):
             print(frame.text, end="", flush=True)
         elif isinstance(frame, LLMFullResponseEndFrame):
-            print()  # New line after response ends
+            print("\n")  # New line after response ends
 
     processor.push_frame = types.MethodType(push_frame_override, processor)
     

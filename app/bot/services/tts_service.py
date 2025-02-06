@@ -49,7 +49,7 @@ def init_openai_tts(voice_id: str = "nova") -> OpenAITTSService:
     
     tts = OpenAITTSService(
         api_key=settings.OPENAI_API_KEY,
-        model="tts-1-hd",
+        model="tts-1",
         voice_id=voice_id
     )
     logger.debug("OpenAI TTS initialized")
