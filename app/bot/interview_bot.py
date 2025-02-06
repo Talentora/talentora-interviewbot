@@ -12,8 +12,9 @@ from pipecat.processors.aggregators.llm_response import (
 from app.bot.services.audio import init_daily_transport
 from app.bot.services.tts_service import init_tts_service
 from app.bot.services.stt_service import init_speech_to_text
-from app.bot.services.language_model import init_langchain_processor
+from app.bot.services.language_model import init_language_model
 from app.bot.services.idle_service import init_idle_processor
+from app.bot.services.llm import InterviewConfig
 from app.bot.handlers.event_handlers import (
     on_joined,
     on_participant_joined,
@@ -52,7 +53,7 @@ class InterviewBot:
         try:
             # Initialize processors
             stt = init_speech_to_text()
-            llm = init_langchain_processor(self.interview_config)
+            llm = init_language_model(self.interview_config)
             tts = init_tts_service(self.voice_id)
             idle = init_idle_processor()
             
