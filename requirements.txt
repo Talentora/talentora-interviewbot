@@ -18,7 +18,7 @@ langchain-community
 
 # Audio Processing
 pipecat
-pipecat-ai[daily,cartesia,openai,anthropic,cartesia,silero,deepgram,aws]
+pipecat-ai[daily,cartesia,openai,anthropic,cartesia,koala,silero,deepgram,aws]
 
 # Logging
 loguru
