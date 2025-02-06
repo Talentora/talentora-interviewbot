@@ -2,8 +2,12 @@ from loguru import logger
 from pipecat.services.cartesia import CartesiaTTSService
 from pipecat.services.aws import PollyTTSService, Language
 from pipecat.utils.text.markdown_text_filter import MarkdownTextFilter
+from pipecat.services.openai import OpenAITTSService
 from app.core.config import settings
-from typing import Union
+from typing import Union, Literal
+
+# Define the allowed voice providers
+VoiceProvider = Literal["aws_polly", "cartesia", "openai_tts"]
 
 def init_cartesia_tts(voice_id: str) -> CartesiaTTSService:
     """Initialize the text-to-speech service using Cartesia."""
@@ -39,6 +43,33 @@ def init_polly_tts(voice_id: str = "Joanna") -> PollyTTSService:
         )
     )
 
-def init_tts_service(voice_id: str) -> Union[CartesiaTTSService, PollyTTSService]:
-    """Initialize the default text-to-speech service (Polly by default)."""
-    return init_polly_tts()
+def init_openai_tts(voice_id: str = "nova") -> OpenAITTSService:
+    """Initialize the text-to-speech service using OpenAI."""
+    logger.debug("Initializing OpenAI TTS")
+    
+    tts = OpenAITTSService(
+        api_key=settings.OPENAI_API_KEY,
+        model="tts-1-hd",
+        voice_id=voice_id
+    )
+    logger.debug("OpenAI TTS initialized")
+    return tts
+
+def init_tts_service(
+    voice_id: str,
+    provider: VoiceProvider = "openai_tts"
+) -> Union[CartesiaTTSService, PollyTTSService, OpenAITTSService]:
+    """Initialize the text-to-speech service based on the specified provider.
+    
+    Args:
+        voice_id: The voice ID to use for the selected provider
+        provider: The TTS provider to use (defaults to OpenAI)
+    """
+    logger.debug(f"Initializing TTS service with provider: {provider}")
+    
+    if provider == "cartesia":
+        return init_cartesia_tts(voice_id)
+    elif provider == "aws_polly":
+        return init_polly_tts(voice_id)
+    else:  # openai_tts is the default
+        return init_openai_tts(voice_id)

@@ -2,7 +2,7 @@ from typing import Dict, Any, Tuple, Optional, List
 from loguru import logger
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_anthropic import ChatAnthropic
+from langchain_groq import ChatGroq
 from pipecat.processors.frameworks.langchain import LangchainProcessor  # type: ignore
 from app.core.config import settings
 from langchain_core.chat_history import BaseChatMessageHistory
@@ -32,22 +32,23 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
         message_store[session_id] = ChatMessageHistory()
     return message_store[session_id]
 
-def init_anthropic_processor() -> BaseChatModel:
-    """Initialize the Anthropic processor for handling the interview conversation."""
-    logger.debug("Initializing Anthropic processor")
-    model = ChatAnthropic(
-        model="claude-3-sonnet-20240229",
+def init_groq_processor() -> BaseChatModel:
+    """Initialize the Groq processor for handling the interview conversation."""
+    logger.debug("Initializing Groq processor")
+    model = "llama-3.3-70b-versatile"
+    model = ChatGroq(
+        model_name=model,
         temperature=0.7,
         max_tokens=1000,
-        api_key=settings.ANTHROPIC_API_KEY,
+        groq_api_key=settings.GROQ_API_KEY,
         timeout=25  # Add timeout
     )
-    logger.debug("Anthropic processor initialized")
+    logger.debug("Groq processor initialized")
     return model
 
 def init_langchain_processor(interview_config: InterviewConfig) -> LangchainProcessor:
     """Initialize the LangChain processor for handling the interview conversation."""
-    llm: BaseChatModel = init_anthropic_processor()
+    llm: BaseChatModel = init_groq_processor()
 
     system_prompt: str = f"""You are an AI interviewer named {interview_config['bot_name']} conducting a technical interview for {interview_config['company_name']}.
         Role: {interview_config['job_title']}
@@ -97,7 +98,7 @@ def init_language_model(
         processor = init_langchain_processor(interview_config)
     else:
         logger.debug("Creating basic processor")
-        llm = init_anthropic_processor()
+        llm = init_groq_processor()
         basic_prompt = ChatPromptTemplate.from_messages([
             ("system", "Be nice and helpful. Answer questions clearly and concisely."),
             MessagesPlaceholder(variable_name="chat_history"),

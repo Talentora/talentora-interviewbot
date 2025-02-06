@@ -46,7 +46,7 @@ class InterviewBot:
         self.voice_id = config["voice_id"]
         self.interview_config = config["interview_config"]
         self.transport = None
-
+ 
     def _setup_pipeline(self, transport) -> Pipeline:
         """Set up the complete interview processing pipeline."""
         try:
