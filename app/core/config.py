@@ -1,6 +1,9 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
+from langsmith import Client
 from app.core.logger import logger
+from dotenv import load_dotenv
+
 
 class Settings(BaseSettings):
     # Required API Keys
@@ -22,10 +25,14 @@ class Settings(BaseSettings):
     AWS_SECRET_KEY: str = None
     
     # LangChain Settings
-    LANGCHAIN_TRACING_V2: bool = False
+    LANGCHAIN_TRACING_V2: bool = True
     LANGCHAIN_ENDPOINT: Optional[str] = None
     LANGCHAIN_API_KEY: Optional[str] = None
     LANGCHAIN_PROJECT: Optional[str] = "interview-bot"
+    
+    # Noise Filtering Settings
+    KOALA_FILTER_KEY: str = None
+    
     
     class Config:
         env_file = ".env"
@@ -33,10 +40,12 @@ class Settings(BaseSettings):
         extra = "allow"
 
     def validate_required_settings(self) -> None:
+        load_dotenv()
+        client = Client()
         logger.debug("Validating required settings")
         missing_keys = []
-        if not self.DAILY_API_URL:
-            missing_keys.append("DAILY_API_URL")
+        # if not self.DAILY_API_URL:
+        #     missing_keys.append("DAILY_API_URL")
         if not self.CARTESIA_API_KEY:
             missing_keys.append("CARTESIA_API_KEY")
         if not self.ANTHROPIC_API_KEY:
@@ -60,6 +69,8 @@ class Settings(BaseSettings):
         logger.info("All required settings validated successfully")
 
 
-# Initialize settings with validation
+
+
+# Initialize settings and validate
 settings = Settings()
 settings.validate_required_settings()

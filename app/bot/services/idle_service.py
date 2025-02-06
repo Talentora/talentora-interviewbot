@@ -4,7 +4,7 @@ from pipecat.frames.frames import LLMMessagesFrame
 async def user_idle_callback(user_idle: IdleFrameProcessor):
     messages = [{
         "role": "system", 
-        "content": "Ask the user if they are still there and try to prompt for some input."
+        "content": "<instruction>If there has been no response from the interviewee, ask them if they are still there.</instruction>"
     }]
     await user_idle.push_frame(LLMMessagesFrame(messages))
 

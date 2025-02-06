@@ -46,6 +46,10 @@ Create `.env` file in project root:
 DAILY_API_KEY=your_daily_key
 CARTESIA_API_KEY=your_cartesia_key
 ANTHROPIC_API_KEY=your_anthropic_key
+DEEPGRAM_API_KEY=your_deepgram_key
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_KEY=your_aws_secret_key
+KOALA_FILTER_KEY=your_koala_key
 ```
 
 ### 3. Run the Application
@@ -65,7 +69,7 @@ docker run -p 8000:8000 --env-file .env interview-bot
 
 ### Create Interview Session
 ```bash
-curl -X POST http://localhost:8000/api/create-room \
+curl -X POST http://localhost:8000/api/rooms/ \
   -H "Content-Type: application/json" \
   -d '{
     "voice_id": "your-voice-id",

@@ -22,6 +22,7 @@ pipecat-ai[daily,cartesia,openai,anthropic,cartesia,silero,deepgram,aws]
 
 # Logging
 loguru
+langsmith
 
 # ONNX Runtime
 onnxruntime
