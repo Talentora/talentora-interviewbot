@@ -35,7 +35,8 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 def init_groq_processor() -> BaseChatModel:
     """Initialize the Groq processor for handling the interview conversation."""
     logger.debug("Initializing Groq processor")
-    model = "llama-3.3-70b-versatile"
+    # model = "llama-3.3-70b-versatile"
+    model = "gemma2-9b-it"
     model = ChatGroq(
         model_name=model,
         temperature=0.7,
