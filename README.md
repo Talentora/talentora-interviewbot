@@ -50,6 +50,7 @@ DEEPGRAM_API_KEY=your_deepgram_key
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_KEY=your_aws_secret_key
 KOALA_FILTER_KEY=your_koala_key
+GROQ_API_KEY=your_groq_key
 ```
 
 ### 3. Run the Application
