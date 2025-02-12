@@ -28,7 +28,7 @@ def init_daily_transport(room_url: str, token: str, bot_name: str) -> DailyTrans
         token=token,
         bot_name=bot_name,
         params=DailyParams(
-            # audio_in_filter=koala_filter,
+            audio_in_filter=koala_filter,
             audio_out_enabled=True,
             transcription_enabled=True,
             vad_enabled=True,
