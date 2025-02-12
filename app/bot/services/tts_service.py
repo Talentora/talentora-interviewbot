@@ -43,7 +43,7 @@ def init_polly_tts(voice_id: str = "Joanna") -> PollyTTSService:
         )
     )
 
-def init_openai_tts(voice_id: str = "nova") -> OpenAITTSService:
+def init_openai_tts(voice_id: str = "ash") -> OpenAITTSService:
     """Initialize the text-to-speech service using OpenAI."""
     logger.debug("Initializing OpenAI TTS")
     
