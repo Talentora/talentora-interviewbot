@@ -28,7 +28,7 @@ async def create_room(request: BotRequest, background_tasks: BackgroundTasks):
     try:
         # Create room using Daily service
         daily_service = DailyService()
-        room_data = await daily_service.create_room()
+        room_data = await daily_service.create_room(request.interview_config.enable_recording, request.interview_config.demo)
         logger.info(f"Room created successfully: {room_data['room_url']}")
         
         # Start bot initialization in the background

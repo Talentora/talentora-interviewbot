@@ -19,6 +19,9 @@ class InterviewConfig(BaseModel):
     job_description: str
     company_context: str
     interview_questions: List[str]
+    enable_recording: bool
+    bot_test: bool
+    demo: bool
 
 class BotRequest(BaseModel):
     """
