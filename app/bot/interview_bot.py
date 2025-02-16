@@ -39,6 +39,8 @@ class InterviewBot:
                     - job_description: Description of the role
                     - company_context: Information about the company
                     - interview_questions: List of key questions to cover
+                    - enable_recording: toogle Daily's recording
+                    - demo: indicate if this is a demo interview
         """
         logger.info("Initializing Interview Bot")
         logger.debug(f"Bot configuration: {config}")
