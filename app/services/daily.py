@@ -46,7 +46,7 @@ class DailyService:
                     room_properties.enable_recording = 'cloud'
                 
                 if demo:
-                    room_properties.expiry_time = 300
+                    room_properties.exp = time.time() + 300
 
                 room = await helper.create_room(
                     DailyRoomParams(properties=room_properties)

@@ -107,11 +107,12 @@ def init_langchain_processor(interview_config: InterviewConfig) -> LangchainProc
     
     role_section = (f"""
         <role>
-            Conduct this interview professionally and conversationally. Your goal is to assess the candidate's fit for the role by:
+            Conduct this interview professionally and conversationally. Your goal is to assess the candidate's fit for the company by:
             - Listening carefully to each response
             - Asking follow-up questions that reveal deeper insights
             - Maintaining a warm but professional demeanor
             - Being direct and clear in your communication
+            "This is a mock interview. No recording of this interview will be kept, nor will any analysis be done on the contents of the interview." Announce this to the candidate at the beginning the mock interview session.
         </role>
         """
         if interview_config["demo"]
