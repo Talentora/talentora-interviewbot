@@ -5,11 +5,11 @@ GLOBAL_IDLE_COUNT = 0
 MAX_IDLE_COUNT = 3
 
 async def user_idle_callback(user_idle: IdleFrameProcessor):
+    global GLOBAL_IDLE_COUNT
     messages = [{
         "role": "system",
         "content": f"<instruction>This is attempt {GLOBAL_IDLE_COUNT + 1} to check on the interviewee. If there has been no response from the interviewee, ask them if they are still there.</instruction>"
     }]
-    global GLOBAL_IDLE_COUNT
     GLOBAL_IDLE_COUNT += 1
     if GLOBAL_IDLE_COUNT >= MAX_IDLE_COUNT:
         return
