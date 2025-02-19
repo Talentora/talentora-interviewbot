@@ -15,7 +15,7 @@ langchain
 langchain-anthropic
 langchain-groq
 langchain-community
-
+langchain_openai
 # Audio Processing
 pipecat
 pipecat-ai[daily,cartesia,openai,anthropic,cartesia,koala,silero,deepgram,aws]

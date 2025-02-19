@@ -57,7 +57,7 @@ def init_openai_tts(voice_id: str = "ash") -> OpenAITTSService:
 
 def init_tts_service(
     voice_id: str,
-    provider: VoiceProvider = "openai_tts"
+    provider: VoiceProvider = "cartesia"
 ) -> Union[CartesiaTTSService, PollyTTSService, OpenAITTSService]:
     """Initialize the text-to-speech service based on the specified provider.
     
@@ -71,5 +71,5 @@ def init_tts_service(
         return init_cartesia_tts(voice_id)
     elif provider == "aws_polly":
         return init_polly_tts(voice_id)
-    else:  # openai_tts is the default
+    elif provider == "openai_tts":  # openai_tts is the default
         return init_openai_tts(voice_id)
