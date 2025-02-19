@@ -24,10 +24,15 @@ def create_app() -> FastAPI:
         lifespan=lifespan
     )
     
-    # Configure CORS
+    # Configure CORS for development
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["https://talentora.io/", "http://0.0.0.0:8000/"],
+        allow_origins=[
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+            "http://0.0.0.0:8000",
+            "https://talentora.io",
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
