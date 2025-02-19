@@ -20,7 +20,7 @@ class DailyService:
             # Don't raise the exception as this is an expected scenario
             pass
 
-    async def create_room(self) -> Dict[str, str]:
+    async def create_room(self, enableRecording, demo) -> Dict[str, str]:
         """Creates a Daily room and returns room URL and token."""
         logger.debug("Creating Daily room")
         
@@ -32,20 +32,24 @@ class DailyService:
             )
             
             try:
+                room_properties = DailyRoomProperties(
+                    enable_chat=True,
+                    enable_knocking=False,
+                    start_audio_off=False,
+                    start_video_off=True,
+                    max_participants=2,
+                    enable_transcription=True,
+                    exp=time.time() + 1800,
+                )
+                
+                if enableRecording:
+                    room_properties.enable_recording = 'cloud'
+                
+                if demo:
+                    room_properties.exp = time.time() + 300
+
                 room = await helper.create_room(
-                    DailyRoomParams(
-                        properties=DailyRoomProperties(
-                            enable_chat=True,
-                            enable_knocking=False,
-                            start_audio_off=False,
-                            start_video_off=True,
-                            enable_recording='cloud',
-                            max_participants=2,
-                            enable_transcription=True,
-                            exp=time.time() + 1800,
-                         
-                        )
-                    )
+                    DailyRoomParams(properties=room_properties)
                 )
 
                 token = await helper.get_token(room.url, 3600)

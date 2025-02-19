@@ -4,4 +4,4 @@ __pycache__/
 /venv/
 logs/*.log
 /.venv/
-
+/myenv
