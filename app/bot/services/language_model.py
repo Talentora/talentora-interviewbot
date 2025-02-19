@@ -19,18 +19,16 @@ from langchain_community.cache import InMemoryCache
 # Type the message store
 from typing import TypedDict
 from pydantic import SecretStr
-from langsmith import Client
 import uuid
+from datetime import datetime
 
 # Use window memory to limit chat history size
 from langchain.memory import ConversationBufferWindowMemory
 
-# Initialize the cache and LangSmith client
+# Initialize the cache
 set_llm_cache(InMemoryCache())
-langsmith_client = Client()
 
 message_store: Dict[str, ChatMessageHistory] = {}
-conversation_ids: Dict[str, str] = {}  # Map session_ids to LangSmith run_ids
 
 class InterviewConfig(TypedDict):
     bot_name: str
@@ -41,11 +39,9 @@ class InterviewConfig(TypedDict):
     interview_questions: List[str]
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    """Get or create chat history for a session."""
     if session_id not in message_store:
-        # Only keep last 4 message pairs in memory
         message_store[session_id] = ChatMessageHistory()
-        # Create a new conversation run in LangSmith
-        conversation_ids[session_id] = str(uuid.uuid4())
     return message_store[session_id]
 
 def init_groq_processor() -> BaseChatModel:
@@ -58,7 +54,7 @@ def init_groq_processor() -> BaseChatModel:
         groq_api_key=settings.GROQ_API_KEY,
         timeout=25,
         cache=True,  # Enable caching
-        tags=["groq"]  # Add model-specific tag
+        tags=["groq", "model:gemma2-9b-it"]  # Add model-specific tags
     )
     logger.debug("Groq processor initialized")
     return model
@@ -73,7 +69,7 @@ def init_anthropic_processor() -> BaseChatModel:
         anthropic_api_key=settings.ANTHROPIC_API_KEY,
         timeout=25,
         cache=True,  # Enable caching
-        tags=["anthropic"]  # Add model-specific tag
+        tags=["anthropic", "model:claude-3-5-sonnet"]  # Add model-specific tags
     )
     logger.debug("Anthropic processor initialized")
     return model
@@ -88,22 +84,25 @@ def init_openai_processor() -> BaseChatModel:
         openai_api_key=settings.OPENAI_API_KEY,
         timeout=25,
         cache=True,  # Enable caching
-        tags=["openai"]  # Add model-specific tag
+        tags=["openai", "model:gpt-4o-mini"]  # Add model-specific tags
     )
     logger.debug("OpenAI processor initialized")
     return model
 
-def init_langchain_processor(interview_config: InterviewConfig) -> LangchainProcessor:
-    """Initialize LangChain processor with simplified prompt."""
+def init_langchain_processor(interview_config: InterviewConfig, session_id: str) -> LangchainProcessor:
+    """Initialize LangChain processor with run tracking."""
     llm: BaseChatModel = init_openai_processor()
 
-    # Enhanced system prompt with guardrails
+    # Set metadata for run tracking
+    session_metadata = f"{interview_config['company_name']} - {interview_config['job_title']} - {datetime.utcnow().isoformat()} - {session_id}"
+    llm.metadata = {"session": session_metadata}
+
     system_prompt: str = f"""You are {interview_config['bot_name']}, interviewing for {interview_config['job_title']} at {interview_config['company_name']}.
     Context: {interview_config['company_context'][:200]}
     Role: {interview_config['job_description'][:300]}
     Questions: {', '.join(interview_config['interview_questions'])}
 
-    Be friendly, conversational, and ask one question at a time like a human woudl.
+    Be friendly, conversational, and ask one question at a time like a human would.
     
     IMPORTANT GUIDELINES:
     1. Stay focused on the interview topics and job requirements
@@ -133,15 +132,26 @@ def init_langchain_processor(interview_config: InterviewConfig) -> LangchainProc
     return processor
 
 def init_language_model(
-    interview_config: Optional[InterviewConfig] = None
+    interview_config: Optional[InterviewConfig] = None,
+    session_id: Optional[str] = None
 ) -> Tuple[LangchainProcessor, LLMUserResponseAggregator, LLMAssistantResponseAggregator]:
-    """Initialize language model components with minimal configuration."""
+    """Initialize language model components with run tracking."""
     logger.debug("Initializing language model components")
     
+    # Generate session ID if not provided
+    if session_id is None:
+        session_id = str(uuid.uuid4())
+        logger.debug(f"Generated new session ID: {session_id}")
+    
     if interview_config:
-        processor = init_langchain_processor(interview_config)
+        processor = init_langchain_processor(interview_config, session_id)
     else:
         llm = init_groq_processor()
+        
+        # Set metadata for run tracking in basic mode
+        session_metadata = f"Basic Mode - {datetime.utcnow().isoformat()} - {session_id}"
+        llm.metadata = {"session": session_metadata}
+        
         basic_prompt = ChatPromptTemplate.from_messages([
             ("system", "Be helpful and concise while maintaining professional boundaries."),
             MessagesPlaceholder(variable_name="chat_history"),

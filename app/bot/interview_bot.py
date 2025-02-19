@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from loguru import logger
+import uuid
 
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
@@ -52,9 +53,12 @@ class InterviewBot:
     def _setup_pipeline(self, transport) -> Pipeline:
         """Set up the complete interview processing pipeline."""
         try:
+            # Generate a unique session ID for this interview
+            session_id = str(uuid.uuid4())
+            
             # Initialize processors
             stt = init_speech_to_text()
-            llm = init_langchain_processor(self.interview_config)
+            llm = init_langchain_processor(self.interview_config, session_id)
             tts = init_tts_service(self.voice_id)
             idle = init_idle_processor()
             
