@@ -38,14 +38,14 @@ async def process_message(processor, user_input: str, session_id: str):
 async def main():
     # Define a dummy configuration for the language model
     interview_config = {
-        "bot_name": "TestBot",
-        "company_name": "Test Company",
-        "job_title": "Test Position",
-        "company_context": "This is a test context.",
-        "job_description": "This is a test job description.",
+        "bot_name": "Sarah Chen",
+        "company_name": "Acme Technologies",
+        "job_title": "Senior Software Engineer",
+        "company_context": "Acme Technologies is a leading software company specializing in cloud infrastructure and distributed systems. Founded in 2015, we've grown to over 500 employees globally and are known for our innovative solutions in containerization and microservices architecture.",
+        "job_description": "We are seeking a Senior Software Engineer to join our Cloud Platform team. The ideal candidate will have strong experience with distributed systems, containerization technologies like Kubernetes, and cloud platforms (AWS/GCP). You'll be responsible for designing and implementing scalable microservices, improving system reliability, and mentoring junior engineers.",
         "interview_questions": [
-            "What is your favorite programming language?",
-            "How do you approach problem-solving?"
+            # "What is your favorite programming language?",
+            # "How do you approach problem-solving?"
         ]
     }
 
