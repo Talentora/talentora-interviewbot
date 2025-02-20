@@ -112,6 +112,7 @@ def init_langchain_processor(interview_config: InterviewConfig, session_id: str)
     5. Be professional but friendly, asking one question at a time with natural follow-ups
     
     Remember: You are conducting a professional job interview. Keep responses focused on evaluating the candidate's fit for the role.
+    Session ID: {id}
     """
 
     interview_prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
@@ -126,8 +127,17 @@ def init_langchain_processor(interview_config: InterviewConfig, session_id: str)
         get_session_history,
         history_messages_key="chat_history",
         input_messages_key="input",
+        config_keys=["id"]  # Add id to config keys
     )
-    processor = LangchainProcessor(history_chain)
+    
+    # Create a function that adds the id to the input
+    def add_id_to_input(input_dict: dict) -> dict:
+        return {**input_dict, "id": session_id}
+    
+    # Wrap the chain with the input processor
+    wrapped_chain = history_chain.with_config({"input_mapper": add_id_to_input})
+    
+    processor = LangchainProcessor(wrapped_chain)
     processor.set_participant_id("assistant")
     return processor
 
@@ -153,7 +163,7 @@ def init_language_model(
         llm.metadata = {"session": session_metadata}
         
         basic_prompt = ChatPromptTemplate.from_messages([
-            ("system", "Be helpful and concise while maintaining professional boundaries."),
+            ("system", "Be helpful and concise while maintaining professional boundaries. Session ID: {id}"),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
         ])
@@ -164,8 +174,17 @@ def init_language_model(
             get_session_history,
             history_messages_key="chat_history",
             input_messages_key="input",
+            config_keys=["id"]  # Add id to config keys
         )
-        processor = LangchainProcessor(history_chain)
+        
+        # Create a function that adds the id to the input
+        def add_id_to_input(input_dict: dict) -> dict:
+            return {**input_dict, "id": session_id}
+        
+        # Wrap the chain with the input processor
+        wrapped_chain = history_chain.with_config({"input_mapper": add_id_to_input})
+        
+        processor = LangchainProcessor(wrapped_chain)
         processor.set_participant_id("assistant")
     
     user_aggregator = LLMUserResponseAggregator()
