@@ -97,10 +97,10 @@ def init_langchain_processor(interview_config: InterviewConfig, session_id: str)
     session_metadata = f"{interview_config['company_name']} - {interview_config['job_title']} - {datetime.utcnow().isoformat()} - {session_id}"
     llm.metadata = {"session": session_metadata}
 
-    system_prompt: str = f"""You are {interview_config['bot_name']}, interviewing for {interview_config['job_title']} at {interview_config['company_name']}.
-    Context: {interview_config['company_context'][:200]}
-    Role: {interview_config['job_description'][:300]}
-    Questions: {', '.join(interview_config['interview_questions'])}
+    system_prompt: str = """You are {bot_name}, interviewing for {job_title} at {company_name}.
+    Context: {context}
+    Role: {role}
+    Questions: {questions}
 
     Be friendly, conversational, and ask one question at a time like a human would.
     
@@ -112,32 +112,35 @@ def init_langchain_processor(interview_config: InterviewConfig, session_id: str)
     5. Be professional but friendly, asking one question at a time with natural follow-ups
     
     Remember: You are conducting a professional job interview. Keep responses focused on evaluating the candidate's fit for the role.
-    Session ID: {id}
+    Session ID: {session_id}
     """
 
-    interview_prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
+    interview_prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human", "{input}")
     ])
+
+    # Create partial with interview config variables
+    interview_prompt = interview_prompt.partial(
+        bot_name=interview_config['bot_name'],
+        job_title=interview_config['job_title'],
+        company_name=interview_config['company_name'],
+        context=interview_config['company_context'][:200],
+        role=interview_config['job_description'][:300],
+        questions=', '.join(interview_config['interview_questions']),
+        session_id=session_id
+    )
 
     chain = interview_prompt | llm
     history_chain = RunnableWithMessageHistory(
         chain,
         get_session_history,
         history_messages_key="chat_history",
-        input_messages_key="input",
-        config_keys=["id"]  # Add id to config keys
+        input_messages_key="input"
     )
     
-    # Create a function that adds the id to the input
-    def add_id_to_input(input_dict: dict) -> dict:
-        return {**input_dict, "id": session_id}
-    
-    # Wrap the chain with the input processor
-    wrapped_chain = history_chain.with_config({"input_mapper": add_id_to_input})
-    
-    processor = LangchainProcessor(wrapped_chain)
+    processor = LangchainProcessor(history_chain)
     processor.set_participant_id("assistant")
     return processor
 
@@ -163,28 +166,23 @@ def init_language_model(
         llm.metadata = {"session": session_metadata}
         
         basic_prompt = ChatPromptTemplate.from_messages([
-            ("system", "Be helpful and concise while maintaining professional boundaries. Session ID: {id}"),
+            ("system", "Be helpful and concise while maintaining professional boundaries. Session ID: {session_id}"),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
         ])
+        
+        # Add session_id to the prompt
+        basic_prompt = basic_prompt.partial(session_id=session_id)
         
         chain = basic_prompt | llm
         history_chain = RunnableWithMessageHistory(
             chain,
             get_session_history,
             history_messages_key="chat_history",
-            input_messages_key="input",
-            config_keys=["id"]  # Add id to config keys
+            input_messages_key="input"
         )
         
-        # Create a function that adds the id to the input
-        def add_id_to_input(input_dict: dict) -> dict:
-            return {**input_dict, "id": session_id}
-        
-        # Wrap the chain with the input processor
-        wrapped_chain = history_chain.with_config({"input_mapper": add_id_to_input})
-        
-        processor = LangchainProcessor(wrapped_chain)
+        processor = LangchainProcessor(history_chain)
         processor.set_participant_id("assistant")
     
     user_aggregator = LLMUserResponseAggregator()
