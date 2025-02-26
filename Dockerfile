@@ -14,7 +14,6 @@ COPY requirements.txt .
 
 # Install the dependencies
 RUN pip install --no-cache-dir --quiet -r requirements.txt
-
 # Install ffmpeg along with your other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
