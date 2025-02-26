@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from loguru import logger
 import uuid
+import sounddevice as sd
 
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
@@ -49,7 +50,38 @@ class InterviewBot:
         self.voice_id = config["voice_id"]
         self.interview_config = config["interview_config"]
         self.transport = None
+        self.audio_device = None
+        self._init_audio_device()
  
+    def _init_audio_device(self):
+        """Initialize and validate virtual audio device."""
+        try:
+            devices = sd.query_devices()
+            logger.debug(f"Available audio devices: {devices}")
+            
+            # Try to find virtual speaker device
+            virtual_devices = [
+                d for d in devices 
+                if any(name in str(d['name']).lower() 
+                      for name in ['virtual', 'vb-audio', 'soundflower', 'blackhole'])
+            ]
+            
+            if virtual_devices:
+                self.audio_device = virtual_devices[0]['name']
+                logger.info(f"Selected virtual audio device: {self.audio_device}")
+            else:
+                # Fallback to default output device
+                default_device = sd.query_devices(kind='output')
+                self.audio_device = default_device['name']
+                logger.warning(f"No virtual audio device found, using default: {self.audio_device}")
+            
+            # Test device
+            sd.check_output_settings(device=self.audio_device)
+            
+        except Exception as e:
+            logger.error(f"Audio device initialization error: {str(e)}")
+            raise RuntimeError(f"Failed to initialize audio device: {str(e)}")
+
     def _setup_pipeline(self, transport) -> Pipeline:
         """Set up the complete interview processing pipeline."""
         try:
@@ -126,6 +158,10 @@ class InterviewBot:
         """Start an interview session."""
         pipeline = None
         try:
+            if not self.audio_device:
+                raise RuntimeError("No audio device available")
+            
+            logger.info(f"Starting interview with audio device: {self.audio_device}")
             logger.info(f"Starting interview session in room: {room_url}")
             
             # Initialize transport

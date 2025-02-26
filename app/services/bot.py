@@ -13,12 +13,15 @@ class BotService:
                 "interview_config": config.interview_config.model_dump()
             }
             
+            logger.info("Creating interview bot...")
             bot = InterviewBot(bot_config)
-            logger.info(f"Created bot: {bot}")
-
-            logger.info(f"Starting bot with room_url: {room_url} and token: {token}")
+            
+            logger.info(f"Starting bot with room_url: {room_url}")
             await bot.start(room_url, token)
             
+        except RuntimeError as e:
+            logger.error(f"Failed to start bot due to configuration error: {str(e)}")
+            raise RuntimeError(f"Bot configuration error: {str(e)}")
         except Exception as e:
             logger.error(f"Failed to start bot: {str(e)}")
-            raise 
+            raise
