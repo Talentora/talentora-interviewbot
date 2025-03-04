@@ -10,10 +10,10 @@ def create_vad_analyzer() -> SileroVADAnalyzer:
     return SileroVADAnalyzer(
         sample_rate=16000,
         params=VADParams(
-            confidence=0.7,
-            start_secs=0.25,
-            stop_secs=0.1,
-            min_volume=0.0
+            # confidence=0.7,
+            # start_secs=0.25,
+            # stop_secs=0.1,
+            # min_volume=0.0
         )
     )
 
