@@ -49,7 +49,7 @@ def init_groq_processor() -> BaseChatModel:
     logger.debug("Initializing Groq processor")
     model = ChatGroq(
         model_name="gemma2-9b-it",
-        temperature=0.7,
+        temperature=0.4,
         max_tokens=500, # Reduced max tokens
         groq_api_key=settings.GROQ_API_KEY,
         timeout=25,
@@ -64,7 +64,7 @@ def init_anthropic_processor() -> BaseChatModel:
     logger.debug("Initializing Anthropic processor")
     model = ChatAnthropic(
         model_name="claude-3-5-sonnet-latest",
-        temperature=0.7,
+        temperature=0.4,
         max_tokens=500,
         anthropic_api_key=settings.ANTHROPIC_API_KEY,
         timeout=25,
@@ -79,7 +79,7 @@ def init_openai_processor() -> BaseChatModel:
     logger.debug("Initializing OpenAI processor")
     model = ChatOpenAI(
         model_name="gpt-4o-mini-2024-07-18",
-        temperature=0.7,
+        temperature=0.4,
         max_tokens=500,
         openai_api_key=settings.OPENAI_API_KEY,
         timeout=25,
