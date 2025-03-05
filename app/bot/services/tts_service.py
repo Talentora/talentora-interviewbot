@@ -67,9 +67,9 @@ def init_tts_service(
     """
     logger.debug(f"Initializing TTS service with provider: {provider}")
     
-    if provider == "cartesia":
-        return init_cartesia_tts(voice_id)
-    elif provider == "aws_polly":
-        return init_polly_tts(voice_id)
-    elif provider == "openai_tts":  # openai_tts is the default
-        return init_openai_tts(voice_id)
+    # if provider == "cartesia":
+    return init_cartesia_tts(voice_id)
+    # elif provider == "aws_polly":
+    #     return init_polly_tts(voice_id)
+    # elif provider == "openai_tts":  # openai_tts is the default
+    #     return init_openai_tts(voice_id)
