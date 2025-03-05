@@ -1,9 +1,10 @@
 from typing import Dict
 import aiohttp
-from pipecat.transports.services.helpers.daily_rest import DailyRESTHelper, DailyRoomParams, DailyRoomProperties
+from pipecat.transports.services.helpers.daily_rest import DailyRESTHelper, DailyRoomParams, DailyRoomProperties, DailyMeetingTokenParams, DailyMeetingTokenProperties
 from app.core.config import settings
 from app.core.logger import logger
 import time
+
 class DailyService:
     def __init__(self):
         self.api_key = settings.DAILY_API_KEY
@@ -52,8 +53,19 @@ class DailyService:
                     DailyRoomParams(properties=room_properties)
                 )
 
-                token = await helper.get_token(room.url, 3600)
-                logger.info(f"Created room: {room.url}")
+                token = await helper.get_token(
+                        room.url, 
+                        3600,
+                        params=DailyMeetingTokenParams(
+                            properties=DailyMeetingTokenProperties(
+                                enable_recording="cloud" if enableRecording else None,
+                                start_cloud_recording=enableRecording
+                            )
+                        )
+                    )
+
+                logger.info(f"Created room: {room}")
+
                 
                 return {
                     "room_url": room.url,
