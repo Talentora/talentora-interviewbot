@@ -43,6 +43,7 @@ class DailyService:
                     exp=time.time() + 1800,
                 )
                 
+                
                 if enableRecording:
                     room_properties.enable_recording = 'cloud'
                 
