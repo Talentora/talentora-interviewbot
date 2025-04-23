@@ -17,7 +17,7 @@ from config import create_voice_agent
 from logger_config import setup_logging
 
 load_dotenv(dotenv_path=".env.local")
-
+                                                                                                                                    
 # Set up enhanced logging
 logger = setup_logging()
 logger.info("Voice agent application starting")
