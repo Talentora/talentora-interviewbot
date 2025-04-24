@@ -15,6 +15,7 @@ from livekit.agents import (
 from context import extract_context_data, build_system_prompt, create_greeting
 from config import create_voice_agent
 from logger_config import setup_logging
+from recording import setup_recording
 
 load_dotenv(dotenv_path=".env")
                                                                                                                                     
@@ -39,6 +40,7 @@ async def entrypoint(ctx: JobContext):
     logger.info(f"Connecting to room: {room_name}")
     
     try:
+        # Connect to the room 
         await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
         logger.info(f"Successfully connected to room: {room_name}")
         
@@ -47,6 +49,14 @@ async def entrypoint(ctx: JobContext):
         participant = await ctx.wait_for_participant()
         logger.info(f"Participant joined - identity: {participant.identity}, sid: {participant.sid}")
         
+        # Set up recording with participant metadata
+        logger.info("Setting up reccording for this session")
+        egress_id = await setup_recording(room_name, participant)
+        if egress_id:
+            logger.info(f"Recording set up with egress ID: {egress_id}")
+        else:
+            logger.warning("Failed to set up recording, continuing without recording")
+
         # Extract context data and build prompt
         logger.info("Extracting context data from participant metadata")
         context_data = extract_context_data(participant)
