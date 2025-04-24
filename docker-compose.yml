@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  voice-agent:
+    build: .
+    env_file:
+      - .env.local
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    restart: unless-stopped 

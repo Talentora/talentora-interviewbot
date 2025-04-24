@@ -16,7 +16,7 @@ from context import extract_context_data, build_system_prompt, create_greeting
 from config import create_voice_agent
 from logger_config import setup_logging
 
-load_dotenv(dotenv_path=".env.local")
+load_dotenv(dotenv_path=".env")
                                                                                                                                     
 # Set up enhanced logging
 logger = setup_logging()
