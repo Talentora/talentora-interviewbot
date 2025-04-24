@@ -1,7 +1,4 @@
-.env
-.vscode
-__pycache__/
-/venv/
-logs/*.log
-/.venv/
-/myenv
+.env.local
+.venv/
+venv/
+.DS_Store
