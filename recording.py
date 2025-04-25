@@ -21,6 +21,17 @@ async def setup_recording(room_name, participant=None):
     
     try:
 
+         # check if is demo and skip if true 
+        if participant and participant.metadata:
+            try:
+                metadata = json.loads(participant.metadata)
+                is_demo = metadata.get("is_demo", False)
+                if is_demo:
+                    logger.info(f"Demo interview detected for room {room_name} - skipping recording")
+                    return None
+            except json.JSONDecodeError:
+                logger.warning(f"Failed to parse participant metadata as JSON")
+
         # Default file path (in case we can't extract user_id/job_id)
         filepath = f"recordings/interview_{room_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.ogg"
         
