@@ -54,7 +54,7 @@ async def setup_recording(room_name, participant=None):
                     logger.info(f"Using organized directory structure: {user_id}/{job_id}/")
                     # Create the organized filepath
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    filename = f"interview_recording_{timestamp}.ogg"
+                    filename = f"interview_recording_{timestamp}.mp4"
                     filepath = f"{user_id}/{job_id}/{filename}"
                 else:
                     logger.warning("applicant_id or job_id not found in participant metadata, using default path")
@@ -66,6 +66,10 @@ async def setup_recording(room_name, participant=None):
 
         supabase_url = os.environ.get("SUPABASE_URL")
         bucket_name = os.environ.get("SUPABASE_BUCKET_NAME")
+        end_point = os.environ.get("SUPABASE_ENDPOINT")
+        supase_access_key = os.environ.get("SUPABASE_ANON_KEY")
+        supase_secret_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+
 
         # Verify that required environment variables exist
         if not supabase_url or not bucket_name:
@@ -73,27 +77,27 @@ async def setup_recording(room_name, participant=None):
             return None
 
         # Format the base_url correctly
-        base_url = f"{supabase_url}/storage/v1/object/{bucket_name}"
+        
 
 
-        print(f"SUPA URL: {supabase_url}")
-        print(f"BASE: {base_url}")
-        print(f"bucket name: {bucket_name}")
+        logger.info(f"SUPA URL: {supabase_url}")
+        logger.info(f"BASE: {base_url}")
+        logger.info(f"bucket name: {bucket_name}")
 
         # Create the recording request
         req = api.RoomCompositeEgressRequest(
             room_name=room_name,
             audio_only=False,
             file_outputs=[api.EncodedFileOutput(
-                file_type=api.EncodedFileType.OGG,
+                file_type=api.EncodedFileType.MP4,
                 filepath=filepath,
                 # Supabase storage integration
                 s3=api.S3Upload(
                     bucket=bucket_name,
                     region="auto",  # us-east-1
-                    access_key=os.environ.get("SUPABASE_SERVICE_ROLE_KEY", ""),  
-                    secret=os.environ.get("SUPABASE_SERVICE_ROLE_KEY", ""), 
-                    base_url=base_url,
+                    access_key=supabase_access_key,  
+                    secret=supabase_secret_key, 
+                    endpoint=end_point,
                     force_path_style=True,
                 ),
             )],
