@@ -67,8 +67,8 @@ async def setup_recording(room_name, participant=None):
         supabase_url = os.environ.get("SUPABASE_URL")
         bucket_name = os.environ.get("SUPABASE_BUCKET_NAME")
         end_point = os.environ.get("SUPABASE_ENDPOINT")
-        supase_access_key = os.environ.get("SUPABASE_ANON_KEY")
-        supase_secret_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        supabase_access_key = os.environ.get("SUPABASE_ANON_KEY")
+        supabase_secret_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
 
         # Verify that required environment variables exist
@@ -81,7 +81,7 @@ async def setup_recording(room_name, participant=None):
 
 
         logger.info(f"SUPA URL: {supabase_url}")
-        logger.info(f"BASE: {base_url}")
+        logger.info(f"Endpoint: {end_point}")
         logger.info(f"bucket name: {bucket_name}")
 
         # Create the recording request
