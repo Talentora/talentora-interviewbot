@@ -3,8 +3,13 @@ import os
 import json
 from datetime import datetime
 from livekit import api
+from dotenv import load_dotenv
 
 logger = logging.getLogger("voice-agent")
+
+
+load_dotenv(dotenv_path=".env")
+
 
 async def setup_recording(room_name, participant=None):
     """
@@ -70,6 +75,11 @@ async def setup_recording(room_name, participant=None):
         # Format the base_url correctly
         base_url = f"{supabase_url}/storage/v1/object/{bucket_name}"
 
+
+        print(f"SUPA URL: {supabase_url}")
+        print(f"BASE: {base_url}")
+        print(f"bucket name: {bucket_name}")
+
         # Create the recording request
         req = api.RoomCompositeEgressRequest(
             room_name=room_name,
@@ -81,7 +91,7 @@ async def setup_recording(room_name, participant=None):
                 s3=api.S3Upload(
                     bucket=bucket_name,
                     region="auto",  # us-east-1
-                    access_key=os.environ.get("SUPABASE_ANON_KEY", ""),  
+                    access_key=os.environ.get("SUPABASE_SERVICE_ROLE_KEY", ""),  
                     secret=os.environ.get("SUPABASE_SERVICE_ROLE_KEY", ""), 
                     base_url=base_url,
                     force_path_style=True,
