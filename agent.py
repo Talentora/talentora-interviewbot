@@ -15,6 +15,7 @@ from livekit.agents import (
 from context import extract_context_data, build_system_prompt, create_greeting
 from config import create_voice_agent
 from logger_config import setup_logging
+from recording import setup_recording
 
 load_dotenv(dotenv_path=".env")
                                                                                                                                     
@@ -39,6 +40,7 @@ async def entrypoint(ctx: JobContext):
     logger.info(f"Connecting to room: {room_name}")
     
     try:
+        # Connect to the room 
         await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
         logger.info(f"Successfully connected to room: {room_name}")
         
@@ -47,6 +49,14 @@ async def entrypoint(ctx: JobContext):
         participant = await ctx.wait_for_participant()
         logger.info(f"Participant joined - identity: {participant.identity}, sid: {participant.sid}")
         
+        # Set up recording with participant metadata
+        logger.info("Setting up reccording for this session")
+        egress_id = await setup_recording(room_name, participant)
+        if egress_id:
+            logger.info(f"Recording set up with egress ID: {egress_id}")
+        else:
+            logger.warning("Failed to set up recording, continuing without recording")
+
         # Extract context data and build prompt
         logger.info("Extracting context data from participant metadata")
         context_data = extract_context_data(participant)
@@ -76,6 +86,75 @@ async def entrypoint(ctx: JobContext):
         @agent.on("metrics_collected")
         def on_metrics_logged(metrics_data):
             logger.debug(f"Metrics collected: {type(metrics_data).__name__}")
+
+        # async def notify_analysis_bot():
+        #     logger.info("Interview finished - notifying analysis bot")
+            
+        #     try:
+        #         # Skip notification if recording wasn't successful
+        #         if not egress_id:
+        #             logger.warning("No recording egress ID available - skipping analysis notification")
+        #             return
+                    
+        #         # Skip notification for demo interviews
+        #         is_demo = False
+        #         user_id = None
+        #         job_id = None
+                
+        #         if participant and participant.metadata:
+        #             try:
+        #                 metadata = json.loads(participant.metadata)
+        #                 user_id = metadata.get("applicant_id")
+        #                 job_id = metadata.get("job_id")
+        #                 is_demo = metadata.get("is_demo", False)
+        #             except json.JSONDecodeError:
+        #                 logger.warning("Failed to parse participant metadata as JSON")
+                
+        #         if is_demo:
+        #             logger.info("Demo interview - skipping analysis notification")
+        #             return
+                    
+        #         if not user_id or not job_id:
+        #             logger.warning("Missing user_id or job_id - skipping analysis notification")
+        #             return
+                    
+        #         # Prepare minimal payload
+        #         payload = {
+        #             "recording_id": egress_id,
+        #             "user_id": user_id,
+        #             "job_id": job_id,
+        #         }
+                
+        #         # Get the analysis bot endpoint from environment variables
+        #         analysis_endpoint = os.environ.get("ANALYSIS_BOT_ENDPOINT")
+        #         if not analysis_endpoint:
+        #             logger.error("Missing ANALYSIS_BOT_ENDPOINT environment variable")
+        #             return
+                    
+        #         # Send notification to analysis bot
+        #         headers = {
+        #             "Content-Type": "application/json",
+        #             "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
+        #         }
+                
+        #         response = requests.post(
+        #             analysis_endpoint,
+        #             json=payload,
+        #             headers=headers,
+        #             timeout=10  # 10 second timeout
+        #         )
+                
+        #         if response.status_code == 200:
+        #             logger.info(f"Analysis bot notification successful")
+        #         else:
+        #             logger.error(f"Analysis bot notification failed: {response.status_code} - {response.text}")
+                        
+        #     except Exception as e:
+        #         logger.error(f"Error notifying analysis bot: {str(e)}", exc_info=True)
+        
+        # # Register the shutdown callback
+        # ctx.add_shutdown_callback(notify_analysis_bot)
+        
         
         logger.info(f"Starting voice agent for participant {participant.identity}")
         agent.start(ctx.room, participant)
