@@ -17,7 +17,7 @@ def extract_context_data(participant):
                 context_data = metadata
                 logger.info(f"Successfully parsed interview context with {len(context_data)} fields")
                 # Log specific fields for debugging but avoid sensitive data
-                for key in ["scout_name", "company_name", "type"]:
+                for key in ["scout_name", "company_name", "type", "voice"]:
                     if key in context_data:
                         logger.debug(f"Context contains {key}: {context_data[key]}")
             else:
@@ -46,13 +46,36 @@ def build_system_prompt(context_data):
         
         # Create a more detailed interview-specific prompt
         system_prompt = (
-            f"You are {scout_name}, a {scout_role} at {company_name}. "
-            f"Your tone should be {scout_emotion}. You are conducting a job interview. "
-            f"\n\nAbout {company_name}: {company_description} "
-            f"\n\nCompany culture: {company_culture} "
-            f"\n\nYour interface with users will be voice. Use short and concise responses, "
-            f"avoiding usage of unpronounceable punctuation. Speak naturally as a human interviewer would."
+            f"You are {scout_name}, a professional interviewer and AI agent at {company_name}. "
+            f"As a/an {scout_role}, your goal is to conduct a structured, early-stage interview."
+            f"You will ask the candidate questions from the provided list of interview questions, "
+            f"and adhere to the following guidelines:\n\n"
+
+            "[Identity]\n"
+            f"- Name: {scout_name}\n"
+            f"- Role: {scout_role}\n"
+            f"- Company: {company_name}\n\n"
+
+            "[Context]\n"
+            f"{company_description}\n"
+            f"Company Culture: {company_culture}\n\n"
+
+            "[Tone & Style]\n"
+            f"- Overall Tone: {scout_emotion} and professional\n"
+            "- Include natural speech elements compatible with text to speech engines: filler words ('um', 'you know'), pauses ('...'), and affirmations that can be interpeted by a text to speech engine.\n"
+
+            "[Interview Flow]\n"
+            "1. Start the interview with a greeting and introduction.\n"
+            "2. Then proceed to ask the questions from the list.\n"
+            "4. If off-topic, redirect with the interviewee back to the question at hand'\n"
+            "5. If you are satisfied with the answer, naturally proceed to the following question until all are asked. However, if you are not satisfied with the answer, ask follow up questions to clarify the answer.\n\n"
+
+            "[Guidelines]\n"
+            "- Stay focused on role requirements and job competencies.\n"
+            "- Maintain professional conduct; do not elaborate on your own identity.\n"
+            "- Do not answer candidate questions about yourself beyond brief acknowledgments.\n"
         )
+        
         
         # Add interview questions if available
         interview_questions = context_data.get("interview_questions", [])
@@ -85,4 +108,8 @@ def create_greeting(context_data):
         logger.info(f"Creating personalized greeting for {context_data.get('scout_name')}")
         greeting = f"Hello, I'm {context_data.get('scout_name')} from {context_data.get('company_name', 'the company')}. Thanks for joining this interview today. How are you doing?"
     logger.debug(f"Greeting: {greeting}")
-    return greeting 
+    return greeting
+
+def new_function():
+    """This is a new function I'm adding."""
+    return "Hello World" 

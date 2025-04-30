@@ -13,7 +13,7 @@ from livekit.plugins import (
 # Use the centralized logger configuration
 logger = logging.getLogger("voice-agent")
 
-def create_voice_agent(ctx, system_prompt):
+def create_voice_agent(ctx, system_prompt, voice_id = None):
     """Create and configure the VoicePipelineAgent."""
     
     logger.info("Creating voice agent pipeline")
@@ -35,7 +35,10 @@ def create_voice_agent(ctx, system_prompt):
         llm_engine = openai.LLM(model="gpt-4o-mini")
         
         logger.debug("Setting up Cartesia TTS")
-        tts = cartesia.TTS()
+        if voice_id:
+            tts = cartesia.TTS(voice=voice_id)
+        else:
+            tts = cartesia.TTS()
         
         logger.debug("Setting up turn detector and noise cancellation")
         # For compatibility with _TurnDetector, use directly from turn_detector without our own variable

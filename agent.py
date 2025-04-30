@@ -67,8 +67,8 @@ async def entrypoint(ctx: JobContext):
         logger.debug(f"System prompt built: {system_prompt[:100]}...")
         
         # Create and start the agent
-        logger.info("Creating voice agent")
-        agent, usage_collector = create_voice_agent(ctx, system_prompt)
+        logger.info(f"Creating voice agent, setting voice to: {context_data.get('voice')}")
+        agent, usage_collector = create_voice_agent(ctx, system_prompt, context_data.get("voice").get("id"))
         
         # Register event listeners for logging
         @agent.on("user_speech_committed")
