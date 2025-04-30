@@ -108,4 +108,8 @@ def create_greeting(context_data):
         logger.info(f"Creating personalized greeting for {context_data.get('scout_name')}")
         greeting = f"Hello, I'm {context_data.get('scout_name')} from {context_data.get('company_name', 'the company')}. Thanks for joining this interview today. How are you doing?"
     logger.debug(f"Greeting: {greeting}")
-    return greeting 
+    return greeting
+
+def new_function():
+    """This is a new function I'm adding."""
+    return "Hello World" 
