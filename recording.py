@@ -38,7 +38,7 @@ async def setup_recording(room_name, participant=None):
                 logger.warning(f"Failed to parse participant metadata as JSON")
 
         # Default file path (in case we can't extract user_id/job_id)
-        filepath = f"recordings/interview_{room_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.ogg"
+        filepath = f"recordings/interview_{room_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp4"
         
         # Extract user_id (applicant_id) and job_id from participant metadata if available
         user_id = None
@@ -54,7 +54,7 @@ async def setup_recording(room_name, participant=None):
                     logger.info(f"Using organized directory structure: {user_id}/{job_id}/")
                     # Create the organized filepath
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    filename = f"interview_recording_{timestamp}.mp4"
+                    filename = f"interview_recording.mp4"
                     filepath = f"{user_id}/{job_id}/{filename}"
                 else:
                     logger.warning("applicant_id or job_id not found in participant metadata, using default path")
@@ -64,26 +64,14 @@ async def setup_recording(room_name, participant=None):
             logger.info("No participant metadata available, using default path")
         
 
-        supabase_url = os.environ.get("SUPABASE_URL")
-        bucket_name = os.environ.get("SUPABASE_BUCKET_NAME")
-        end_point = os.environ.get("SUPABASE_ENDPOINT")
-        supabase_access_key = os.environ.get("SUPABASE_ANON_KEY")
-        supabase_secret_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        # supabase_url = os.environ.get("SUPABASE_URL")
+        bucket_name = os.environ.get("AWS_BUCKET_NAME")
+        access_key = os.environ.get("AWS_ACCESS_KEY")
+        secret_key = os.environ.get("AWS_SECRET_KEY")
 
-
-        # Verify that required environment variables exist
-        if not supabase_url or not bucket_name:
-            logger.error("Missing required environment variables: SUPABASE_URL or SUPABASE_BUCKET_NAME")
-            return None
-
-        # Format the base_url correctly
-        
-
-
-        logger.info(f"SUPA URL: {supabase_url}")
-        logger.info(f"Endpoint: {end_point}")
-        logger.info(f"bucket name: {bucket_name}")
-
+        logger.info(f"BucketName: {bucket_name}")
+        logger.info(f"AccessKey: {access_key}")
+        logger.info(f"SecretKey: {secret_key}")
         # Create the recording request
         req = api.RoomCompositeEgressRequest(
             room_name=room_name,
@@ -94,11 +82,11 @@ async def setup_recording(room_name, participant=None):
                 # Supabase storage integration
                 s3=api.S3Upload(
                     bucket=bucket_name,
-                    region="auto",  # us-east-1
-                    access_key=supabase_access_key,  
-                    secret=supabase_secret_key, 
-                    endpoint=end_point,
+                    region="us-east-2",  
+                    access_key=access_key,  
+                    secret=secret_key, 
                     force_path_style=True,
+                   
                 ),
             )],
         )
