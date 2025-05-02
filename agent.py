@@ -2,6 +2,8 @@ import logging
 import sys
 import os
 from datetime import datetime
+import json
+import requests
 from dotenv import load_dotenv
 from livekit.agents import (
     AutoSubscribe,
@@ -15,7 +17,7 @@ from livekit.agents import (
 from context import extract_context_data, build_system_prompt, create_greeting
 from config import create_voice_agent
 from logger_config import setup_logging
-from recording import setup_recording
+from recording import setup_recording, save_transcript
 
 load_dotenv(dotenv_path=".env")
                                                                                                                                     
@@ -51,7 +53,12 @@ async def entrypoint(ctx: JobContext):
         
         # Set up recording with participant metadata
         logger.info("Setting up reccording for this session")
-        egress_id = await setup_recording(room_name, participant)
+        egress_id, user_id, job_id = await setup_recording(room_name, participant)
+
+        metadata = json.loads(participant.metadata)
+        applicant_name = metadata.get("applicant_name")
+        scout_name = metadata.get("scout_name")
+
         if egress_id:
             logger.info(f"Recording set up with egress ID: {egress_id}")
         else:
@@ -68,12 +75,65 @@ async def entrypoint(ctx: JobContext):
         
         # Create and start the agent
         logger.info(f"Creating voice agent, setting voice to: {context_data.get('voice')}")
-        agent, usage_collector = create_voice_agent(ctx, system_prompt, context_data.get("voice").get("id"))
+        agent, usage_collector = create_voice_agent(ctx, system_prompt, context_data.get("voice", {}).get("id"))
+        
+        # Create a list to store all transcripts
+        conversation_transcripts = []
         
         # Register event listeners for logging
         @agent.on("user_speech_committed")
         def on_user_speech_committed(transcript):
             logger.info(f"User transcript: {transcript}")
+            # Extract only the content from the transcript object
+            if hasattr(transcript, 'content'):
+                transcript_text = transcript.content
+            else:
+                # Extract content from the string representation if it's a string
+                if isinstance(transcript, str) and "content=" in transcript:
+                    # Try to extract content from the string representation
+                    try:
+                        content_start = transcript.find('content="') + 9
+                        content_end = transcript.rfind('", tool_calls')
+                        if content_end == -1:
+                            content_end = transcript.rfind('")')
+                        transcript_text = transcript[content_start:content_end]
+                    except:
+                        transcript_text = transcript
+                else:
+                    transcript_text = transcript
+            
+            # Store transcript with timestamp
+            conversation_transcripts.append({
+                "speaker": applicant_name, 
+                "text": transcript_text
+            })
+            
+        @agent.on("agent_speech_committed")  # This event might need to be added/verified
+        def on_agent_speech_committed(transcript):
+            logger.info(f"Agent transcript: {transcript}")
+            # Extract only the content from the transcript object
+            if hasattr(transcript, 'content'):
+                transcript_text = transcript.content
+            else:
+                # Extract content from the string representation if it's a string
+                if isinstance(transcript, str) and "content=" in transcript:
+                    # Try to extract content from the string representation
+                    try:
+                        content_start = transcript.find('content="') + 9
+                        content_end = transcript.rfind('", tool_calls')
+                        if content_end == -1:
+                            content_end = transcript.rfind('")')
+                        transcript_text = transcript[content_start:content_end]
+                    except:
+                        transcript_text = transcript
+                else:
+                    transcript_text = transcript
+            
+            # Store transcript with timestamp
+            conversation_transcripts.append({
+                "speaker": scout_name, 
+                "text": transcript_text
+            })
             
         @agent.on("agent_started_speaking")
         def on_agent_started_speaking():
@@ -87,73 +147,81 @@ async def entrypoint(ctx: JobContext):
         def on_metrics_logged(metrics_data):
             logger.debug(f"Metrics collected: {type(metrics_data).__name__}")
 
-        # async def notify_analysis_bot():
-        #     logger.info("Interview finished - notifying analysis bot")
+        async def notify_analysis_bot():
+            logger.info("Interview finished - notifying analysis bot")
             
-        #     try:
-        #         # Skip notification if recording wasn't successful
-        #         if not egress_id:
-        #             logger.warning("No recording egress ID available - skipping analysis notification")
-        #             return
+            try:
+                # Skip notification if recording wasn't successful
+                if not egress_id:
+                    logger.warning("No recording egress ID available - skipping analysis notification")
+                    return
+                
+                # Save transcript if we have any
+                if conversation_transcripts:
+                    logger.info(f"Saving {len(conversation_transcripts)} transcript segments")
+                    save_result = save_transcript(conversation_transcripts, room_name, user_id, job_id)
+                    if save_result:
+                        logger.info("Transcript saved successfully")
+                    else:
+                        logger.warning("Failed to save transcript")
                     
-        #         # Skip notification for demo interviews
-        #         is_demo = False
-        #         user_id = None
-        #         job_id = None
+                # Skip notification for demo interviews
+                is_demo = False
+                application_id = None
                 
-        #         if participant and participant.metadata:
-        #             try:
-        #                 metadata = json.loads(participant.metadata)
-        #                 user_id = metadata.get("applicant_id")
-        #                 job_id = metadata.get("job_id")
-        #                 is_demo = metadata.get("is_demo", False)
-        #             except json.JSONDecodeError:
-        #                 logger.warning("Failed to parse participant metadata as JSON")
+                if participant and participant.metadata:
+                    try:
+                        metadata = json.loads(participant.metadata)
+                        is_demo = metadata.get("is_demo", False)
+                        application_id = metadata.get("application_id")
+                    except json.JSONDecodeError:
+                        logger.warning("Failed to parse participant metadata as JSON")
                 
-        #         if is_demo:
-        #             logger.info("Demo interview - skipping analysis notification")
-        #             return
+                if is_demo:
+                    logger.info("Demo interview - skipping analysis notification")
+                    return
                     
-        #         if not user_id or not job_id:
-        #             logger.warning("Missing user_id or job_id - skipping analysis notification")
-        #             return
+                if not user_id or not job_id:
+                    logger.warning("Missing user_id or job_id - skipping analysis notification")
+                    return
                     
-        #         # Prepare minimal payload
-        #         payload = {
-        #             "recording_id": egress_id,
-        #             "user_id": user_id,
-        #             "job_id": job_id,
-        #         }
+                # Prepare minimal payload
+                payload = {
+                    "recording_id": egress_id,
+                    "user_id": user_id,
+                    "job_id": job_id,
+                    "application_id": application_id
+                }
                 
-        #         # Get the analysis bot endpoint from environment variables
-        #         analysis_endpoint = os.environ.get("ANALYSIS_BOT_ENDPOINT")
-        #         if not analysis_endpoint:
-        #             logger.error("Missing ANALYSIS_BOT_ENDPOINT environment variable")
-        #             return
+                # Get the analysis bot endpoint from environment variables
+                analysis_endpoint = os.environ.get("ANALYSIS_BOT_ENDPOINT")
+                if not analysis_endpoint:
+                    logger.error("Missing ANALYSIS_BOT_ENDPOINT environment variable")
+                    return
                     
-        #         # Send notification to analysis bot
-        #         headers = {
-        #             "Content-Type": "application/json",
-        #             "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
-        #         }
+                # Send notification to analysis bot
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
+                }
                 
-        #         response = requests.post(
-        #             analysis_endpoint,
-        #             json=payload,
-        #             headers=headers,
-        #             timeout=10  # 10 second timeout
-        #         )
+                response = requests.post(
+                    analysis_endpoint,
+                    json=payload,
+                    headers=headers,
+                    timeout=10  # 10 second timeout
+                )
                 
-        #         if response.status_code == 200:
-        #             logger.info(f"Analysis bot notification successful")
-        #         else:
-        #             logger.error(f"Analysis bot notification failed: {response.status_code} - {response.text}")
+                if response.status_code == 200:
+                    logger.info(f"Analysis bot notification successful")
+                else:
+                    logger.error(f"Analysis bot notification failed: {response.status_code} - {response.text}")
                         
-        #     except Exception as e:
-        #         logger.error(f"Error notifying analysis bot: {str(e)}", exc_info=True)
+            except Exception as e:
+                logger.error(f"Error notifying analysis bot: {str(e)}", exc_info=True)
         
-        # # Register the shutdown callback
-        # ctx.add_shutdown_callback(notify_analysis_bot)
+        # Register the shutdown callback
+        ctx.add_shutdown_callback(notify_analysis_bot)
         
         
         logger.info(f"Starting voice agent for participant {participant.identity}")

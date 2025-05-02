@@ -44,6 +44,11 @@ def create_voice_agent(ctx, system_prompt, voice_id = None):
         # For compatibility with _TurnDetector, use directly from turn_detector without our own variable
         noise_canceler = noise_cancellation.BVC()
         
+        class FloatTurnDetector(turn_detector.EOUModel):
+            def unlikely_threshold(self, language: str | None = None) -> float:
+                result = super().unlikely_threshold(language)
+                return result if result is not None else 0.0
+        
         logger.info("Creating VoicePipelineAgent with all components")
         agent = VoicePipelineAgent(
             vad=ctx.proc.userdata["vad"],
@@ -51,7 +56,7 @@ def create_voice_agent(ctx, system_prompt, voice_id = None):
             llm=llm_engine,
             tts=tts,
             # use LiveKit's transformer-based turn detector
-            turn_detector=turn_detector.EOUModel(),  # Create directly inline
+            turn_detector=FloatTurnDetector(),
             # minimum delay for endpointing, used when turn detector believes the user is done with their turn
             min_endpointing_delay=0.5,
             # maximum delay for endpointing, used when turn detector does not believe the user is done with their turn
