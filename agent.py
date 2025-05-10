@@ -192,17 +192,17 @@ async def entrypoint(ctx: JobContext):
                     "job_id": job_id,
                     "application_id": application_id
                 }
-                
+                print("reaches here")
                 # Get the analysis bot endpoint from environment variables
                 analysis_endpoint = os.environ.get("ANALYSIS_BOT_ENDPOINT")
                 if not analysis_endpoint:
                     logger.error("Missing ANALYSIS_BOT_ENDPOINT environment variable")
                     return
-                    
+
                 # Send notification to analysis bot
                 headers = {
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
+                    # "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
                 }
                 
                 response = requests.post(
