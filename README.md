@@ -26,7 +26,7 @@ cd voice-pipeline-agent-python
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 agent.py download-files
+python3 session.py download-files
 ```
 
 <details>
@@ -60,7 +60,7 @@ lk app env
 Run the agent:
 
 ```console
-python3 agent.py dev
+python3 session.py dev
 ```
 
 This agent requires a frontend application to communicate with. You can use one of our example frontends in [livekit-examples](https://github.com/livekit-examples/), create your own following one of our [client quickstarts](https://docs.livekit.io/realtime/quickstarts/), or test instantly against one of our hosted [Sandbox](https://cloud.livekit.io/projects/p_/sandbox) frontends.

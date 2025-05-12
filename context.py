@@ -47,6 +47,7 @@ def extract_context_data(participant):
         logger.info("No metadata available for participant")
     return context_data
 
+
 def build_system_prompt(context_data):
     """Build system prompt based on the context data."""
     system_prompt = "You are a voice assistant created by LiveKit. Your interface with users will be voice. "
