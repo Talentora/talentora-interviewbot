@@ -1,8 +1,9 @@
+import asyncio
 from typing import Annotated, AsyncIterable
 from livekit.agents import Agent, function_tool, RunContext, ModelSettings
 from context import UserData, build_system_prompt
 import logging
-from flow import Node
+from flow import Node, NodeType
 from logger_config import setup_logging
 import json
 
@@ -13,6 +14,13 @@ rubric = """[Evaluation Rubric]
                         Score 1 - Weak: vague, generic, off-topic, or contradicts itself
                         Score 0 - No answer / "I don't know"
                         If Score ≤ 1, call follow_up(...)"""
+
+
+
+@function_tool(description=f"Evaluate the candidate's answer using this rubric: {rubric}, if the answer scores less than a 2, call this function. This function also provides a rationale parameter for you to state why the answer was too weak.")
+async def follow_up(rationale: Annotated[str, "Why the answer was weak?"], context: RunContext[UserData]):
+    logger.info(f"FlowQuestionAgent asking follow-up question...")
+    await context.session.generate_reply(instructions=f"ask a follow-up question since the user's answer is not good enough, dive deeper into their response or the question, the rationale for the follow-up question is: {rationale}", tool_choice="none") 
 
 class BaseAgent(Agent):
     async def on_enter(self) -> None:
@@ -97,20 +105,14 @@ class FlowQuestionAgent(BaseAgent):
     def __init__(self, node: Node):
         logger.info(f"FlowQuestionAgent initialized...")
         self.node = node
-        super().__init__(instructions=f"")
+        super().__init__(instructions=f"Keeping the following criteria for the question in mind: {self.node.criteria}, Please ask the applicant this question: {self.node.content}. Ensure the question is asked in a friendly and natural manner, and keep the flow of the conversation smooth and natural.", tools=[follow_up] if node.follow_up_toggle else [])
         
         
     async def on_enter(self): 
         await super().on_enter()
         logger.info(f"FlowQuestionAgent will ask predefined question: {self.node.content}")
-        await self.session.generate_reply(instructions=f"Ask the applicant the following question: {self.node.content}, with the following criteria: {self.node.criteria}, remember to stay friendly, and answer questions if you know the answer")
+        await self.session.generate_reply(instructions=f"Ask the applicant the following question: {self.node.content}")
     
- 
-    @function_tool(description=f"Evaluate the candidate's answer using this rubric: {rubric}, if the answer scores less than a 2, call this function. This function also provides a rationale parameter for you to state why the answer was too weak.")
-    async def follow_up(self, rationale: Annotated[str, "Why the answer was weak?"], context: RunContext[UserData]):
-        logger.info(f"FlowQuestionAgent asking follow-up question...")
-        await self.session.generate_reply(instructions=f"ask a follow-up question since the user's answer is not good enough, dive deeper into their response or the question, the rationale for the follow-up question is: {rationale}", tool_choice="none") 
-
     
     @function_tool(description="Call this function if the user's answer is satisfactory, transition to the next node, only use this function if the user did answer the question, but their answer was satisfactory")
     async def transition(self, context: RunContext[UserData]):
@@ -138,76 +140,98 @@ class FlowBranchingAgent(BaseAgent):
         await super().on_enter()
         logger.info(f"FlowBranchingAgent initialized...")
         await self.session.generate_reply(instructions="Call the transition function to determine which agent & question to transition to next.", tool_choice={"type": "function", "function": {"name": "transition"}})
-        
+
         
     
     @function_tool(description="Immediately call this function after your initialization to determine which agent to transition to next.", name="transition")
     async def transition(self, context: RunContext[UserData]):
         current_node = self.node
-        next_node_ids = self.session.userdata.flow.get_next_node_ids(current_node.id)
+        flow = self.session.userdata.flow
         
-        # If no next nodes, end the interview
-        if not next_node_ids:
-            logger.info("No next nodes found. Ending interview.")
+        if current_node.type == NodeType.END:
+            logger.info("FlowBranchingAgent is at the end of the interview. handing off to EndInterviewAgent...")
             context.userdata.prev_agent = self
             return EndInterviewAgent()
-            
-        # If only one next node, no need for LLM decision
-        if len(next_node_ids) == 1:
-            next_node = self.session.userdata.flow.get_node(next_node_ids[0])
-            if next_node is None:
-                logger.warning("Next node is None. Ending interview.")
-                context.userdata.prev_agent = self
-                return  EndInterviewAgent()  # Handle case where node doesn't exist
-            logger.info(f"Only one next node available. handing off to FlowQuestionAgent...")
+        elif current_node.type == NodeType.START:
+            logger.info("FlowBranchingAgent is at the start of the interview. handing off to FlowQuestionAgent...")
+            #again, we know a question node will follow the start node
             context.userdata.prev_agent = self
-            return  FlowQuestionAgent(next_node)
-        
-        # Get information about each possible next node
-        node_options = []
-        for node_id in next_node_ids:
-            node = self.session.userdata.flow.get_node(node_id)
-            if node is None:
-                logger.warning(f"Node with id {node_id} is None. Skipping.")
-                continue  # Skip invalid nodes
-            node_options.append({
-                "id": node_id,
-                "content": node.content,
-                "criteria": node.criteria
-            })
-            
-        if not node_options:
-            logger.warning("No valid node options for branching. Ending interview.")
-            context.userdata.prev_agent = self
-            return EndInterviewAgent()
-        
-        result = await self.session.generate_reply(instructions=f"Based on the following node options: {node_options}, which question should be asked next? output ONLY the ID of the node that should be asked next", tool_choice="none")
-        msg = result.chat_message
-        fall_back_node = self.session.userdata.flow.get_node(node_options[0]["id"]) # use this node if the LLM doesn't return a valid node id
-        
-        if not msg: #no message at all - handle this case 
-            logger.warning("No message returned from LLM. Using fallback node.")
-            logger.info(f"Fallback question selected...")
-            context.userdata.prev_agent = self
-            return FlowQuestionAgent(fall_back_node)
-        elif not msg.text_content: #no text content - handle this case 
-            logger.warning("No text content in LLM message. Using fallback node.")
-            logger.info(f"Fallback question selected...")
-            context.userdata.prev_agent = self
-            return FlowQuestionAgent(fall_back_node)
-        else:
-            chosen_id = msg.text_content.strip()
-            next_node = self.session.userdata.flow.get_node(chosen_id)
-            if next_node:
-                logger.info(f"LLM selected next question: {next_node.content}, handing off to FlowQuestionAgent...")
+            next_node = flow.get_node(flow.get_next_node_ids(current_node.id))
+            return FlowQuestionAgent(next_node)
+        elif current_node.type == NodeType.QUESTION:
+            logger.info("FlowBranchingAgent is at a question node.")
+            next_id = flow.get_next_node_ids(current_node.id)
+            next_node = flow.get_node(next_id)
+            if next_node.type == NodeType.QUESTION:
+                logger.info("Next node is a question node. handing off to FlowQuestionAgent...")
                 context.userdata.prev_agent = self
                 return FlowQuestionAgent(next_node)
+            else:
+                logger.info("Next node is not a question node. handing off to FlowBranchingAgent...")
+                context.userdata.prev_agent = self
+                return FlowBranchingAgent(next_node)
+    
+        else: #node must be a branching node, handle choosing next node
+            logger.info("FlowBranchingAgent is at a branching node.")
+            next_node_ids = self.session.userdata.flow.get_next_node_ids(current_node.id)
+            node_options = []
+            for node_id in next_node_ids:
+                node = self.session.userdata.flow.get_node(node_id)
+                if node is None:
+                    logger.warning(f"Node with id {node_id} is None. Skipping.")
+                    continue  # Skip invalid nodes
+                node_options.append({
+                    "id": node_id,
+                    "content": node.content,
+                    "criteria": node.criteria,
+                    "type": node.type
+                })
+            
+            result = await self.session.generate_reply(instructions=f"Based on the following node options: {node_options}, the users last response, and this branching node's criteria: {current_node.criteria}, which node should be transitioned to next? output ONLY the ID of the node that should be transitioned to next", tool_choice="none")
+            msg = result.chat_message
+            fall_back_node = self.session.userdata.flow.get_node(node_options[0]["id"]) # use this node if the LLM doesn't return a valid node id
+            if not msg: #no message at all - handle this case 
+                logger.warning("No message returned from LLM. Using fallback node.")
+                logger.info(f"Fallback question selected...")
+                context.userdata.prev_agent = self
+                return FlowQuestionAgent(fall_back_node)
+            elif not msg.text_content: #no text content - handle this case 
+                logger.warning("No text content in LLM message. Using fallback node.")
+                logger.info(f"Fallback question selected...")
+                context.userdata.prev_agent = self
+                return FlowQuestionAgent(fall_back_node)
+            else:
+                chosen_id = msg.text_content.strip()
+                next_node = self.session.userdata.flow.get_node(chosen_id)
+                if next_node:
+                    logger.info(f"LLM selected next question: {next_node.content}, handing off to FlowQuestionAgent...")
+                    context.userdata.prev_agent = self
+                    return FlowQuestionAgent(next_node)
 
-        # fallback…
-        logger.warning("LLM chose invalid node id. Using fallback node.")
-        logger.info(f"Fallback question selected...")
-        context.userdata.prev_agent = self
-        return FlowQuestionAgent(fall_back_node)
+            # fallback…
+            logger.warning("LLM chose invalid node id. Using fallback node.")
+            logger.info(f"Fallback question selected...")
+            context.userdata.prev_agent = self
+            return FlowQuestionAgent(fall_back_node)
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+            
+        
+        # Get information about each possible next nod
+ 
+        
+
     
 #TODO: implement custom question agent
 # class CustomQuestionAgent(BaseAgent):
@@ -222,14 +246,17 @@ class FlowBranchingAgent(BaseAgent):
 
 class EndInterviewAgent(BaseAgent):
     def __init__(self):
-        super().__init__(instructions="Thank candidate, based on chat history the session could have ended due to reaching the end of the interview, or the user decided to end the interview. Thank them for their time, and disconnect.")
+        super().__init__(instructions="")
     
     async def on_enter(self):
         await super().on_enter()
         logger.info("EndInterviewAgent thanking candidate and disconnecting...")
-        await self.session.generate_reply(instructions="End the interview, thank the candidate for their time, and disconnect.")
-    @function_tool()
+        await self.session.generate_reply(instructions="", tool_choice={"type": "function", "function": {"name": "finish"}})
+        
+    @function_tool(description="Call this function to end the interview.")
     async def finish(self, context: RunContext[UserData]):
         logger.info("EndInterviewAgent ending interview...")
-        await self.session.say("Thank you for your time. We'll be in touch shortly.")
-        return None  # no further agent
+        await self.session.generate_reply(instructions="Continuing the flow of the conversation smoothly, thank candidate for their time, handle ending the interview in a natural and smooth manner.", allow_interruptions=False)
+        await asyncio.sleep(5)
+        await self.session.aclose()
+

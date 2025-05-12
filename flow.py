@@ -1,20 +1,33 @@
+from enum import Enum, auto
 import json
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union
 
+class NodeType(Enum):
+    """Enum representing different types of nodes in the interview flow."""
+    QUESTION = "question"
+    BRANCH = "branching"
+    START = "start"
+    END = "conclusion"
 
 class Node:
     """
     Represents a node in the interview flow.
     """
-    def __init__(self, node_id: str, label: str, content: str, criteria: Optional[str] = None, node_type: str = ""):
+    def __init__(self, node_id: str, content: str, node_type: str, criteria: Optional[str] = None, follow_up_toggle: Optional[bool] = False):
         self.id = node_id
-        self.label = label
         self.content = content
         self.criteria = criteria
-        self.type = node_type
+        self.follow_up_toggle = follow_up_toggle
+        # Convert string node_type to enum
+        try:
+            self.type = next((t for t in NodeType if t.value == node_type), NodeType.END)
+        except Exception:
+            # Fallback to END in case of any error
+            self.type = NodeType.END
+
 
     def __repr__(self):
-        return f"Node(id={self.id!r}, label={self.label!r})"
+        return f"Node(id={self.id!r}, content={self.content!r})"
 
 
 class Edge:
@@ -44,10 +57,10 @@ class FlowGraph:
             data = n.get("data", {})
             node = Node(
                 node_id=n.get("id", ""),
-                label=data.get("label", ""),
                 content=data.get("content", ""),
                 criteria=data.get("criteria"),
-                node_type=n.get("type", "")
+                node_type=n.get("type", ""),
+                follow_up_toggle=data.get("follow_up_toggle", False)
             )
             self.nodes[node.id] = node
 
@@ -90,11 +103,29 @@ class FlowGraph:
         """
         return self.nodes.get(node_id)
 
-    def get_next_node_ids(self, node_id: str) -> List[str]:
+    def get_next_node_ids(self, node_id: str) -> Optional[Union[List[str], str]]:
         """
-        Return a list of target node IDs directly reachable from the given node.
+        Return the next node(s) after the current node.
+        - For branch nodes: returns a list of node IDs
+        - For question/section nodes: returns a single node ID
+        - For end nodes: raises an error
         """
-        return [edge.target for edge in self._by_source.get(node_id, [])]
+        node = self.get_node(node_id)
+        if node is None:
+            return None
+        
+        if node.type == NodeType.END:
+            raise ValueError(f"Cannot get next node for end node {node_id}")
+        
+        outgoing_edges = self._by_source.get(node_id, [])
+        if not outgoing_edges:
+            raise ValueError(f"Node {node_id} has no outgoing edges")
+            
+        if node.type == NodeType.BRANCH:
+            return [edge.target for edge in outgoing_edges]
+        else:
+            # For question/section nodes, return just the first target as a string
+            return outgoing_edges[0].target
 
     def get_previous_node_ids(self, node_id: str) -> List[str]:
         """
@@ -102,27 +133,30 @@ class FlowGraph:
         """
         return [edge.source for edge in self._by_target.get(node_id, [])]
 
-    def get_initial_node_ids(self) -> List[str]:
-        """
-        Return a list of node IDs with no incoming edges (starting points of the flow).
-        """
-        return [nid for nid in self.nodes if not self.get_previous_node_ids(nid)]
 
     def get_initial_node(self) -> Optional[Node]:
         """
-        Return the first initial Node (no incoming edges), or None if none exist.
+        Return the START node in the flow, or None if none exists.
         """
-        initial_ids = self.get_initial_node_ids()
-        if not initial_ids:
-            return None
-        return self.get_node(initial_ids[0])
+        for node_id, node in self.nodes.items():
+            if node.type == NodeType.START:
+                return node
+        return None
 
     def is_question_node(self, node_id: str) -> bool:
         """
         Check whether the node is of type 'question'.
         """
         node = self.get_node(node_id)
-        return node is not None and node.type == 'question'
+        return node is not None and node.type == NodeType.QUESTION
+    
+    
+    def is_branching_node(self, node_id: str) -> bool:
+        """
+        Check whether the node is of type 'branching'.
+        """
+        node = self.get_node(node_id)
+        return node is not None and node.type == NodeType.BRANCH
 
     def get_node_content(self, node_id: str) -> str:
         """
@@ -142,7 +176,7 @@ class FlowGraph:
         """
         Return IDs of all nodes of type 'question'.
         """
-        return [nid for nid, n in self.nodes.items() if n.type == 'question']
+        return [nid for nid, n in self.nodes.items() if n.type == NodeType.QUESTION]
 
     def __repr__(self):
         return f"FlowGraph(nodes={len(self.nodes)}, edges={len(self.edges)})"
