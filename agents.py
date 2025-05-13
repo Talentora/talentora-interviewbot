@@ -46,7 +46,6 @@ class BaseAgent(Agent):
     def _truncate_chat_ctx(
         self,
         items: list,
-        keep_last_n_messages: int = 6,
         keep_system_message: bool = False,
         keep_function_call: bool = False,
     ) -> list:
@@ -62,8 +61,6 @@ class BaseAgent(Agent):
         for item in reversed(items):
             if _valid_item(item):
                 new_items.append(item)
-            if len(new_items) >= keep_last_n_messages:
-                break
         new_items = new_items[::-1]
 
         while new_items and new_items[0].type in ["function_call", "function_call_output"]:
@@ -175,6 +172,7 @@ class FlowBranchingAgent(BaseAgent):
             logger.info("FlowBranchingAgent is at a branching node.")
             next_node_ids = self.session.userdata.flow.get_next_node_ids(current_node.id)
             node_options = []
+            valid_ids = []
             for node_id in next_node_ids:
                 node = self.session.userdata.flow.get_node(node_id)
                 if node is None:
@@ -183,33 +181,74 @@ class FlowBranchingAgent(BaseAgent):
                 node_options.append({
                     "id": node_id,
                     "content": node.content,
-                    "criteria": node.criteria,
                     "type": node.type
                 })
+                valid_ids.append(node_id)
+            logger.info(f"Node options: {node_options}")
             
-            result = await self.session.generate_reply(instructions=f"Based on the following node options: {node_options}, the users last response, and this branching node's criteria: {current_node.criteria}, which node should be transitioned to next? output ONLY the ID of the node that should be transitioned to next", tool_choice="none")
+            # Format the options in a numbered list to make IDs more visually distinct
+            formatted_options = "\n".join([
+                f"OPTION {i+1}:\n  ID: {option['id']}\n  Content: {option['content']}\n  Type: {option['type']}"
+                for i, option in enumerate(node_options)
+            ])
+            
+            result = await self.session.generate_reply(instructions = (
+                "Based on the context of the conversation, select ONE node from the following options:\n\n"
+                f"{formatted_options}\n\n"
+                "YOUR TASK: Output ONLY the ID of the chosen node. Nothing else. No explanations.\n"
+                "Return ONLY a UUID string like: '7607d4b6-0f29-49a6-84be-b8042be1556e'\n"
+                "DO NOT return the content text or any other information.\n"
+                "VALID OUTPUT EXAMPLE: 7607d4b6-0f29-49a6-84be-b8042be1556e\n"
+                "INVALID OUTPUT EXAMPLE: I choose option 1 with content 'Why do you want to work at this company?'\n"
+                "Return ONLY the ID."
+            ), tool_choice="none")
+            
             msg = result.chat_message
-            fall_back_node = self.session.userdata.flow.get_node(node_options[0]["id"]) # use this node if the LLM doesn't return a valid node id
-            if not msg: #no message at all - handle this case 
-                logger.warning("No message returned from LLM. Using fallback node.")
+            fall_back_node = self.session.userdata.flow.get_node(node_options[0]["id"])
+            
+            if not msg or not msg.text_content:
+                logger.warning("No message or empty content returned from LLM. Using fallback node.")
                 logger.info(f"Fallback question selected...")
                 context.userdata.prev_agent = self
                 return FlowQuestionAgent(fall_back_node)
-            elif not msg.text_content: #no text content - handle this case 
-                logger.warning("No text content in LLM message. Using fallback node.")
-                logger.info(f"Fallback question selected...")
-                context.userdata.prev_agent = self
-                return FlowQuestionAgent(fall_back_node)
+            
+            # Get the raw response and try to extract a valid ID
+            raw_response = msg.text_content.strip()
+            logger.info(f"Raw LLM response: {raw_response}")
+            
+            # Try to extract just the ID by checking if any valid ID is present in the response
+            chosen_id = None
+            
+            # First check if the exact response matches a valid ID
+            if raw_response in valid_ids:
+                chosen_id = raw_response
             else:
-                chosen_id = msg.text_content.strip()
+                # Try to find any valid ID in the response
+                for node_id in valid_ids:
+                    if node_id in raw_response:
+                        chosen_id = node_id
+                        logger.info(f"Extracted ID '{node_id}' from response")
+                        break
+            
+            if not chosen_id:
+                # Check for UUID pattern as a last resort
+                import re
+                uuid_pattern = r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+                match = re.search(uuid_pattern, raw_response)
+                if match and match.group(0) in valid_ids:
+                    chosen_id = match.group(0)
+                    logger.info(f"Extracted UUID '{chosen_id}' from response")
+            
+            if chosen_id and chosen_id in valid_ids:
+                logger.info(f"LLM selected next node ID: {chosen_id}")
                 next_node = self.session.userdata.flow.get_node(chosen_id)
                 if next_node:
                     logger.info(f"LLM selected next question: {next_node.content}, handing off to FlowQuestionAgent...")
                     context.userdata.prev_agent = self
                     return FlowQuestionAgent(next_node)
-
-            # fallback…
-            logger.warning("LLM chose invalid node id. Using fallback node.")
+            
+            # If we get here, we couldn't extract a valid ID
+            logger.warning(f"Could not extract valid node ID from LLM response: {raw_response}")
             logger.info(f"Fallback question selected...")
             context.userdata.prev_agent = self
             return FlowQuestionAgent(fall_back_node)
