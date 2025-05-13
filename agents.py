@@ -107,7 +107,7 @@ class FlowQuestionAgent(BaseAgent):
         
     async def on_enter(self): 
         await super().on_enter()
-        logger.info(f"FlowQuestionAgent will ask predefined question: {self.node.content}")
+        logger.info(f"FlowQuestionAgent will ask predefined question: {self.node.content}, remember not to answer any questions from the user if the information was not explicitly provided to you, make no assumptions if you do not have the information.")
         await self.session.generate_reply(instructions=f"Ask the applicant the following question: {self.node.content}")
     
     
@@ -120,7 +120,7 @@ class FlowQuestionAgent(BaseAgent):
 class FlowBranchingAgent(BaseAgent):
     def __init__(self, node: Node):
         self.node = node
-        super().__init__(instructions=f"You are a transtioning agent. You have access to a function tool that will allow you to transition to the next agent based on the conversation flow and candidate's response. Please call the transition function to determine which agent & question to transition to next.")
+        super().__init__(instructions=f"You are a transitioning agent. Your job is to select the next question or step in the interview flow. When presented with multiple options, review each option carefully and select the most appropriate one by providing ONLY the option NUMBER (e.g., 1, 2, 3). Do not provide explanations or additional text with your selection.")
     
     async def tts_node(self, text: AsyncIterable[str], model_settings: ModelSettings):  
         """Override the default TTS node to skip audio generation."""  
@@ -136,11 +136,11 @@ class FlowBranchingAgent(BaseAgent):
     async def on_enter(self):
         await super().on_enter()
         logger.info(f"FlowBranchingAgent initialized...")
-        await self.session.generate_reply(instructions="Call the transition function to determine which agent & question to transition to next.", tool_choice={"type": "function", "function": {"name": "transition"}})
+        await self.session.generate_reply(instructions="Call the transition function to determine which node & question to transition to next. You will be presented with numbered options - select the most appropriate one by its number.", tool_choice={"type": "function", "function": {"name": "transition"}})
 
         
     
-    @function_tool(description="Immediately call this function after your initialization to determine which agent to transition to next.", name="transition")
+    @function_tool(description="Call this function to determine which question to ask next. You will be given a numbered list of options. Select the most appropriate option by providing ONLY its number (1, 2, 3, etc).", name="transition")
     async def transition(self, context: RunContext[UserData]):
         current_node = self.node
         flow = self.session.userdata.flow
@@ -186,21 +186,24 @@ class FlowBranchingAgent(BaseAgent):
                 valid_ids.append(node_id)
             logger.info(f"Node options: {node_options}")
             
-            # Format the options in a numbered list to make IDs more visually distinct
-            formatted_options = "\n".join([
-                f"OPTION {i+1}:\n  ID: {option['id']}\n  Content: {option['content']}\n  Type: {option['type']}"
-                for i, option in enumerate(node_options)
-            ])
+            # Instead of showing the full node IDs, use numbers for selection
+            node_display = ""
+            for i, option in enumerate(node_options):
+                node_display += f"OPTION {i+1}: {option['content']} (Type: {option['type']})\n"
+            
+            # Create a mapping from option number to node ID
+            option_to_id = {i+1: option["id"] for i, option in enumerate(node_options)}
             
             result = await self.session.generate_reply(instructions = (
-                "Based on the context of the conversation, select ONE node from the following options:\n\n"
-                f"{formatted_options}\n\n"
-                "YOUR TASK: Output ONLY the ID of the chosen node. Nothing else. No explanations.\n"
-                "Return ONLY a UUID string like: '7607d4b6-0f29-49a6-84be-b8042be1556e'\n"
-                "DO NOT return the content text or any other information.\n"
-                "VALID OUTPUT EXAMPLE: 7607d4b6-0f29-49a6-84be-b8042be1556e\n"
-                "INVALID OUTPUT EXAMPLE: I choose option 1 with content 'Why do you want to work at this company?'\n"
-                "Return ONLY the ID."
+                "INSTRUCTIONS:\n"
+                "Based on the conversation context, you must select exactly ONE option from the following list.\n\n"
+                f"{node_display}\n"
+                "1. RESPOND WITH ONLY A SINGLE NUMBER (e.g., 1, 2, 3, etc.)\n"
+                "2. DO NOT include any explanation, text, or quotes\n"
+                "3. DO NOT repeat the question content\n"
+                "4. Example of valid response: 1\n"
+                "5. Example of invalid response: 'Option 1 seems best'\n"
+                "YOUR RESPONSE:"
             ), tool_choice="none")
             
             msg = result.chat_message
@@ -212,43 +215,32 @@ class FlowBranchingAgent(BaseAgent):
                 context.userdata.prev_agent = self
                 return FlowQuestionAgent(fall_back_node)
             
-            # Get the raw response and try to extract a valid ID
+            # Try to extract an option number from the response
             raw_response = msg.text_content.strip()
             logger.info(f"Raw LLM response: {raw_response}")
             
-            # Try to extract just the ID by checking if any valid ID is present in the response
-            chosen_id = None
+            # Extract just the number - remove any non-digit characters
+            import re
+            number_pattern = re.compile(r'\d+')
+            matches = number_pattern.findall(raw_response)
             
-            # First check if the exact response matches a valid ID
-            if raw_response in valid_ids:
-                chosen_id = raw_response
+            if matches:
+                selected_number = int(matches[0])
+                # Check if the selected number is valid
+                if selected_number in option_to_id:
+                    chosen_id = option_to_id[selected_number]
+                    logger.info(f"LLM selected option {selected_number}, which corresponds to node ID: {chosen_id}")
+                    next_node = self.session.userdata.flow.get_node(chosen_id)
+                    if next_node:
+                        logger.info(f"LLM selected next question: {next_node.content}, handing off to FlowQuestionAgent...")
+                        context.userdata.prev_agent = self
+                        return FlowQuestionAgent(next_node)
+                else:
+                    logger.warning(f"Selected number {selected_number} is not a valid option. Using fallback node.")
             else:
-                # Try to find any valid ID in the response
-                for node_id in valid_ids:
-                    if node_id in raw_response:
-                        chosen_id = node_id
-                        logger.info(f"Extracted ID '{node_id}' from response")
-                        break
+                logger.warning(f"Could not extract a number from LLM response: {raw_response}")
             
-            if not chosen_id:
-                # Check for UUID pattern as a last resort
-                import re
-                uuid_pattern = r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
-                match = re.search(uuid_pattern, raw_response)
-                if match and match.group(0) in valid_ids:
-                    chosen_id = match.group(0)
-                    logger.info(f"Extracted UUID '{chosen_id}' from response")
-            
-            if chosen_id and chosen_id in valid_ids:
-                logger.info(f"LLM selected next node ID: {chosen_id}")
-                next_node = self.session.userdata.flow.get_node(chosen_id)
-                if next_node:
-                    logger.info(f"LLM selected next question: {next_node.content}, handing off to FlowQuestionAgent...")
-                    context.userdata.prev_agent = self
-                    return FlowQuestionAgent(next_node)
-            
-            # If we get here, we couldn't extract a valid ID
-            logger.warning(f"Could not extract valid node ID from LLM response: {raw_response}")
+            # If we get here, we couldn't extract a valid option
             logger.info(f"Fallback question selected...")
             context.userdata.prev_agent = self
             return FlowQuestionAgent(fall_back_node)
@@ -296,6 +288,5 @@ class EndInterviewAgent(BaseAgent):
     async def finish(self, context: RunContext[UserData]):
         logger.info("EndInterviewAgent ending interview...")
         await self.session.generate_reply(instructions="Continuing the flow of the conversation smoothly, thank candidate for their time, handle ending the interview in a natural and smooth manner.", allow_interruptions=False)
-        await asyncio.sleep(5)
         await self.session.aclose()
 
