@@ -28,4 +28,4 @@ ENV CARTESIA_API_KEY=""
 ENV DEEPGRAM_API_KEY=""
 
 # Run the application
-CMD ["python", "session.py", "dev"] 
+CMD ["python", "agent.py", "dev"] 
