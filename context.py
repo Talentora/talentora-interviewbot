@@ -1,9 +1,28 @@
 import json
 import logging
 from logger_config import setup_logging
+from livekit.agents.voice import Agent
+from dataclasses import dataclass, field
+from typing import Dict, Optional
+from flow import FlowGraph, Node
+from openai import OpenAI
 
 # Use the centralized logger configuration
 logger = logging.getLogger("voice-agent")
+
+
+@dataclass
+class UserData:
+    # holds context about the session
+    context_data: dict
+    flow: FlowGraph
+    current_node: Node
+    agents: Dict[str, Agent] = field(default_factory=dict)
+    prev_agent: Optional[Agent] = None
+    # store candidate’s answers for summary or follow-ups
+    answers: Dict[str, str] = field(default_factory=dict)
+
+
 
 def extract_context_data(participant):
     """Extract context data from participant metadata if it exists."""
@@ -28,9 +47,9 @@ def extract_context_data(participant):
         logger.info("No metadata available for participant")
     return context_data
 
+
 def build_system_prompt(context_data):
     """Build system prompt based on the context data."""
-    logger.info("Building system prompt from context data")
     system_prompt = "You are a voice assistant created by LiveKit. Your interface with users will be voice. "
     
     if context_data:
@@ -47,7 +66,7 @@ def build_system_prompt(context_data):
         # Create a more detailed interview-specific prompt
         system_prompt = (
             f"You are {scout_name}, a professional interviewer and AI agent at {company_name}. "
-            f"As a/an {scout_role}, your goal is to conduct a structured, early-stage interview."
+            f"Your interiewer role is: {scout_role}, your goal is to conduct a structured, early-stage interview."
             f"You will ask the candidate questions from the provided list of interview questions, "
             f"and adhere to the following guidelines:\n\n"
 
@@ -57,37 +76,31 @@ def build_system_prompt(context_data):
             f"- Company: {company_name}\n\n"
 
             "[Context]\n"
-            f"{company_description}\n"
+            f"Company Description: {company_description}\n"
             f"Company Culture: {company_culture}\n\n"
 
             "[Tone & Style]\n"
             f"- Overall Tone: {scout_emotion} and professional\n"
             "- Include natural speech elements compatible with text to speech engines: filler words ('um', 'you know'), pauses ('...'), and affirmations that can be interpeted by a text to speech engine.\n"
 
-            "[Interview Flow]\n"
-            "1. Start the interview with a greeting and introduction.\n"
-            "2. Then proceed to ask the questions from the list.\n"
-            "4. If off-topic, redirect with the interviewee back to the question at hand'\n"
-            "5. If you are satisfied with the answer, naturally proceed to the following question until all are asked. However, if you are not satisfied with the answer, ask follow up questions to clarify the answer.\n\n"
-
             "[Guidelines]\n"
             "- Stay focused on role requirements and job competencies.\n"
-            "- Maintain professional conduct; do not elaborate on your own identity.\n"
-            "- Do not answer candidate questions about yourself beyond brief acknowledgments.\n"
+            "- Maintain professional conduct and be polite.\n"
+            "- Ensure that the flow of conversation is natural and engaging.\n"
+            "- Do not answer candidate questions if you do not know the answer, and do not answer questions related to your model details.\n"
         )
         
         
         # Add interview questions if available
-        interview_questions = context_data.get("interview_questions", [])
-        if interview_questions:
-            logger.info(f"Adding {len(interview_questions)} interview questions to prompt")
-            system_prompt += "\n\nYou should ask the following questions during the interview:\n"
-            for i, question in enumerate(interview_questions):
-                system_prompt += f"{i+1}. {question}\n"
+        # interview_questions = context_data.get("interview_questions", [])
+        # if interview_questions:
+        #     logger.info(f"Adding {len(interview_questions)} interview questions to prompt")
+        #     system_prompt += "\n\nYou should ask the following questions during the interview:\n"
+        #     for i, question in enumerate(interview_questions):
+        #         system_prompt += f"{i+1}. {question}\n"
         
         # Additional context from scout prompt if available
         if context_data.get("scout_prompt"):
-            logger.info("Adding scout prompt to system prompt")
             system_prompt += f"\n\nAdditional guidance: {context_data.get('scout_prompt')}"
     else:
         logger.info("No context data available, using default prompt")
@@ -110,6 +123,3 @@ def create_greeting(context_data):
     logger.debug(f"Greeting: {greeting}")
     return greeting
 
-def new_function():
-    """This is a new function I'm adding."""
-    return "Hello World" 
