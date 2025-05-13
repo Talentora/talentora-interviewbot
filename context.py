@@ -87,7 +87,8 @@ def build_system_prompt(context_data):
             "- Stay focused on role requirements and job competencies.\n"
             "- Maintain professional conduct and be polite.\n"
             "- Ensure that the flow of conversation is natural and engaging.\n"
-            "- Do not answer candidate questions if you do not know the answer, and do not answer questions related to your model details.\n"
+            "- Do not answer candidate questions that are not related to the interview, or the interviewer's role.\n"
+            "- Do not discuss your model details with the candidate, or ask the candidate to discuss your model details.\n"
         )
         
         
