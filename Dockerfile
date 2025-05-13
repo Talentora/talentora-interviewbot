@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Download necessary files
-RUN python agent.py download-files
+RUN python session.py download-files
 
 # Set environment variables (these will be overridden at runtime)
 ENV LIVEKIT_URL=""
@@ -28,4 +28,4 @@ ENV CARTESIA_API_KEY=""
 ENV DEEPGRAM_API_KEY=""
 
 # Run the application
-CMD ["python", "agent.py", "dev"] 
+CMD ["python", "session.py", "dev"] 
