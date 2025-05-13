@@ -107,7 +107,7 @@ class FlowQuestionAgent(BaseAgent):
         
     async def on_enter(self): 
         await super().on_enter()
-        logger.info(f"FlowQuestionAgent will ask predefined question: {self.node.content}, remember not to answer any questions from the user if the information was not explicitly provided to you, make no assumptions if you do not have the information.")
+        logger.info(f"FlowQuestionAgent will ask predefined question: {self.node.content}, remember not to answer any questions from the user if the information was not explicitly provided to you, make no assumptions if you do not have the information, and do not answer questions that are outside the topic of the interview.")
         await self.session.generate_reply(instructions=f"Ask the applicant the following question: {self.node.content}")
     
     
@@ -277,7 +277,7 @@ class FlowBranchingAgent(BaseAgent):
 
 class EndInterviewAgent(BaseAgent):
     def __init__(self):
-        super().__init__(instructions="")
+        super().__init__(instructions="Continuing the flow of the conversation smoothly, thank candidate for their time, handle ending the interview in a natural and smooth manner.")
     
     async def on_enter(self):
         await super().on_enter()
@@ -287,6 +287,6 @@ class EndInterviewAgent(BaseAgent):
     @function_tool(description="Call this function to end the interview.")
     async def finish(self, context: RunContext[UserData]):
         logger.info("EndInterviewAgent ending interview...")
-        await self.session.generate_reply(instructions="Continuing the flow of the conversation smoothly, thank candidate for their time, handle ending the interview in a natural and smooth manner.", allow_interruptions=False)
+        await self.session.generate_reply(instructions="end the interview", allow_interruptions=False)
         await self.session.aclose()
 
