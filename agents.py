@@ -22,6 +22,9 @@ async def follow_up(rationale: Annotated[str, "Why the answer was weak?"], conte
     logger.info(f"FlowQuestionAgent asking follow-up question...")
     await context.session.generate_reply(instructions=f"ask a follow-up question since the user's answer is not good enough, dive deeper into their response or the question, the rationale for the follow-up question is: {rationale}", tool_choice="none") 
 
+
+
+
 class BaseAgent(Agent):
     async def on_enter(self) -> None:
         agent_name = self.__class__.__name__
@@ -67,6 +70,13 @@ class BaseAgent(Agent):
             new_items.pop(0)
 
         return new_items
+    
+    @function_tool(description="Call this function if the interviewee is not being cooperative, or if they are not behaving appropriately, the argument is the rationale for the termination of the interview")
+    async def end_interview_prematurely(self, rationale: Annotated[str, "What is the reason for the termination of the interview?"], context: RunContext[UserData]):
+        logger.info(f"Shutting down interview for the following reason: {rationale}")
+        await context.session.generate_reply(instructions=f"You have chosen to end the interview, inform the candidate of this irreversible decision.", allow_interruptions=False) 
+        await context.session.aclose()
+        return None
 
 
 
