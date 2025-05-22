@@ -1,7 +1,4 @@
-import logging
-import sys
 import os
-from datetime import datetime
 from dotenv import load_dotenv
 from livekit.agents import (
     AutoSubscribe,
@@ -9,22 +6,19 @@ from livekit.agents import (
     JobProcess,
     WorkerOptions,
     cli,
-    metrics,
 )
 from livekit.plugins import (
-    cartesia,
-    openai,
-    deepgram,
     noise_cancellation,
-    turn_detector,
 )
+import requests
+import json
 
 from agents import GreeterAgent
 from context import UserData, extract_context_data, build_system_prompt, create_greeting
 from config import create_voice_agent
 from flow import FlowGraph
 from logger_config import setup_logging
-from recording import setup_recording
+from recording import setup_recording, save_transcript
 from livekit.agents.voice.room_io import RoomInputOptions
 
 
@@ -63,6 +57,7 @@ async def entrypoint(ctx: JobContext):
         # Set up recording with participant metadata
         logger.info("Setting up reccording for this session")
         egress_id = await setup_recording(room_name, participant)
+
         if egress_id:
             logger.info(f"Recording set up with egress ID: {egress_id}")
         else:
@@ -71,318 +66,13 @@ async def entrypoint(ctx: JobContext):
         # Extract context data and build prompt
         logger.info("Extracting context data from participant metadata")
         context_data = extract_context_data(participant)
-        
-        # sample_flow_data = {
-        #     "edges": [
-        #         {
-        #         "id": "e-start-intro",
-        #         "type": "smoothstep",
-        #         "source": "start",
-        #         "target": "intro",
-        #         "sourceHandle": "right",
-        #         "targetHandle": "left"
-        #         },
-        #         {
-        #         "id": "e-intro-question1",
-        #         "type": "smoothstep",
-        #         "source": "intro",
-        #         "target": "question1",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question1-question2",
-        #         "type": "smoothstep",
-        #         "source": "question1",
-        #         "target": "question2",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question2-technical",
-        #         "type": "smoothstep",
-        #         "source": "question2",
-        #         "target": "technical",
-        #         "sourceHandle": "right",
-        #         "targetHandle": "left"
-        #         },
-        #         {
-        #         "id": "e-technical-question3",
-        #         "type": "smoothstep",
-        #         "source": "technical",
-        #         "target": "question3",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question3-question4",
-        #         "type": "smoothstep",
-        #         "source": "question3",
-        #         "target": "question4",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question4-question5",
-        #         "type": "smoothstep",
-        #         "source": "question4",
-        #         "target": "question5",
-        #         "sourceHandle": "right",
-        #         "targetHandle": "left"
-        #         },
-        #         {
-        #         "id": "e-question5-cultural",
-        #         "type": "smoothstep",
-        #         "source": "question5",
-        #         "target": "cultural",
-        #         "sourceHandle": "left",
-        #         "targetHandle": "right"
-        #         },
-        #         {
-        #         "id": "e-cultural-question6",
-        #         "type": "smoothstep",
-        #         "source": "cultural",
-        #         "target": "question6",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question6-question7",
-        #         "type": "smoothstep",
-        #         "source": "question6",
-        #         "target": "question7",
-        #         "sourceHandle": "bottom",
-        #         "targetHandle": "top"
-        #         },
-        #         {
-        #         "id": "e-question7-conclusion",
-        #         "type": "smoothstep",
-        #         "source": "question7",
-        #         "target": "conclusion",
-        #         "sourceHandle": "right",
-        #         "targetHandle": "left"
-        #         }
-        #     ],
-        #     "nodes": [
-        #         {
-        #         "id": "start",
-        #         "data": {
-        #             "label": "Interview Start",
-        #             "content": "Welcome the candidate and introduce yourself. Explain the interview process and set expectations."
-        #         },
-        #         "type": "input",
-        #         "width": 150,
-        #         "height": 164,
-        #         "position": {
-        #             "x": 100,
-        #             "y": 150
-        #         }
-        #         },
-        #         {
-        #         "id": "intro",
-        #         "data": {
-        #             "label": "Background Section",
-        #             "content": "This section covers the candidate's background and experience."
-        #         },
-        #         "type": "section",
-        #         "width": 256,
-        #         "height": 128,
-        #         "position": {
-        #             "x": 350,
-        #             "y": 150
-        #         }
-        #         },
-        #         {
-        #         "id": "question1",
-        #         "data": {
-        #             "label": "Experience Question",
-        #             "content": "Tell me about your most recent role and your key responsibilities.",
-        #             "criteria": "Look for relevant experience and clear communication."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 180,
-        #         "position": {
-        #             "x": 350,
-        #             "y": 300
-        #         }
-        #         },
-        #         {
-        #         "id": "question2",
-        #         "data": {
-        #             "label": "Challenge Question",
-        #             "content": "Describe a challenging situation you faced in your previous role and how you resolved it.",
-        #             "criteria": "Assess problem-solving skills and resilience."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 184,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 350,
-        #             "y": 500
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 795,
-        #             "y": 345
-        #         }
-        #         },
-        #         {
-        #         "id": "technical",
-        #         "data": {
-        #             "label": "Technical Skills",
-        #             "content": "This section evaluates the candidate's technical knowledge and skills."
-        #         },
-        #         "type": "section",
-        #         "width": 256,
-        #         "height": 128,
-        #         "position": {
-        #             "x": 750,
-        #             "y": 150
-        #         }
-        #         },
-        #         {
-        #         "id": "question3",
-        #         "data": {
-        #             "label": "Technical Question 1",
-        #             "content": "Explain how you would design a scalable system for handling high traffic loads.",
-        #             "criteria": "Evaluate system design knowledge and scalability concepts."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 200,
-        #         "position": {
-        #             "x": 750,
-        #             "y": 300
-        #         }
-        #         },
-        #         {
-        #         "id": "question4",
-        #         "data": {
-        #             "label": "Technical Question 2",
-        #             "content": "Describe your experience with CI/CD pipelines and how you've implemented them.",
-        #             "criteria": "Check for DevOps knowledge and automation experience."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 200,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 750,
-        #             "y": 500
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 780,
-        #             "y": 570
-        #         }
-        #         },
-        #         {
-        #         "id": "question5",
-        #         "data": {
-        #             "label": "Technical Question 3",
-        #             "content": "How do you ensure code quality in your projects?",
-        #             "criteria": "Look for testing strategies, code reviews, and quality assurance practices."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 180,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 1680,
-        #             "y": 375
-        #         },
-        #         "selected": True,
-        #         "positionAbsolute": {
-        #             "x": 1680,
-        #             "y": 375
-        #         }
-        #         },
-        #         {
-        #         "id": "cultural",
-        #         "data": {
-        #             "label": "Cultural Fit",
-        #             "content": "This section assesses how well the candidate aligns with company values and culture."
-        #         },
-        #         "type": "section",
-        #         "width": 256,
-        #         "height": 128,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 1150,
-        #             "y": 150
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 1095,
-        #             "y": 45
-        #         }
-        #         },
-        #         {
-        #         "id": "question6",
-        #         "data": {
-        #             "label": "Teamwork Question",
-        #             "content": "How do you approach collaborating with team members who have different working styles?",
-        #             "criteria": "Assess adaptability, empathy, and collaboration skills."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 204,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 1150,
-        #             "y": 300
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 1350,
-        #             "y": 405
-        #         }
-        #         },
-        #         {
-        #         "id": "question7",
-        #         "data": {
-        #             "label": "Growth Question",
-        #             "content": "Where do you see yourself professionally in 3-5 years?",
-        #             "criteria": "Evaluate ambition, career planning, and alignment with company growth."
-        #         },
-        #         "type": "question",
-        #         "width": 256,
-        #         "height": 180,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 1150,
-        #             "y": 500
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 1395,
-        #             "y": 600
-        #         }
-        #         },
-        #         {
-        #         "id": "conclusion",
-        #         "data": {
-        #             "label": "Interview Conclusion",
-        #             "content": "Thank the candidate for their time. Ask if they have any questions about the role or company. Explain next steps in the hiring process."
-        #         },
-        #         "type": "conclusion",
-        #         "width": 256,
-        #         "height": 168,
-        #         "dragging": False,
-        #         "position": {
-        #             "x": 1850,
-        #             "y": 150
-        #         },
-        #         "selected": False,
-        #         "positionAbsolute": {
-        #             "x": 1890,
-        #             "y": 240
-        #         }
-        #         }
-        #     ]
-        # }
+
+        # Extract metadata from participant
+        metadata = json.loads(participant.metadata)
+        user_id = metadata.get("user_id")
+        job_id = metadata.get("job_id")
+        applicant_name = metadata.get("applicant_name")
+        scout_name = metadata.get("scout_name")
         
         flow_data = context_data.get("flow", {})
         flow_graph = FlowGraph.from_dict(flow_data)
@@ -397,26 +87,145 @@ async def entrypoint(ctx: JobContext):
         
         # Create and start the agent
         voice_data = context_data.get('voice', {})
+
         # logger.info(f"Creating voice agent, setting voice to: {voice_data.get('id', '')}")
         agent_session, usage_collector = create_voice_agent(ctx, userdata, voice_data.get("id", ""))
         
-        # Register event listeners for logging #TODO: handle adding logging to room on startup
-        # @agent_session.on("user_input_transcribed")
-        # def on_user_speech_committed(transcript):
-        #     logger.info(f"User transcript: {transcript}")
-            
-        # @agent_session.on("agent_started_speaking")
-        # def on_agent_started_speaking():
-        #     logger.info("Agent started speaking")
-            
-        # @agent_session.on("agent_stopped_speaking")
-        # def on_agent_stopped_speaking():
-        #     logger.info("Agent stopped speaking")
-            
-        # @agent_session.on("metrics_collected")
-        # def on_metrics_logged(metrics_data):
-        #     logger.debug(f"Metrics collected: {type(metrics_data).__name__}")
+        # Create a list to store all transcripts
+        conversation_transcripts = []
 
+        @agent_session.on("user_input_transcribed")
+        def on_user_speech_committed(transcript):
+            logger.info(f"User transcript: {transcript}")
+            # Extract only the content from the transcript object
+            if hasattr(transcript, 'content'):
+                transcript_text = transcript.content
+            else:
+                # Extract content from the string representation if it's a string
+                if isinstance(transcript, str) and "content=" in transcript:
+                    # Try to extract content from the string representation
+                    try:
+                        content_start = transcript.find('content="') + 9
+                        content_end = transcript.rfind('", tool_calls')
+                        if content_end == -1:
+                            content_end = transcript.rfind('")')
+                        transcript_text = transcript[content_start:content_end]
+                    except:
+                        transcript_text = transcript
+                else:
+                    transcript_text = transcript
+            
+            # Store transcript with timestamp
+            conversation_transcripts.append({
+                "speaker": f"applicant({applicant_name})", 
+                "text": transcript_text
+            })
+            
+        @agent_session.on("speech_created")  # This event might need to be added/verified
+        def on_agent_speech_committed(transcript):
+            logger.info(f"Agent transcript: {transcript}")
+            # Extract only the content from the transcript object
+            if hasattr(transcript, 'content'):
+                transcript_text = transcript.content
+            else:
+                # Extract content from the string representation if it's a string
+                if isinstance(transcript, str) and "content=" in transcript:
+                    # Try to extract content from the string representation
+                    try:
+                        content_start = transcript.find('content="') + 9
+                        content_end = transcript.rfind('", tool_calls')
+                        if content_end == -1:
+                            content_end = transcript.rfind('")')
+                        transcript_text = transcript[content_start:content_end]
+                    except:
+                        transcript_text = transcript
+                else:
+                    transcript_text = transcript
+            
+            # Store transcript with timestamp
+            conversation_transcripts.append({
+                "speaker": f"scout({scout_name})", 
+                "text": transcript_text
+            })
+
+
+        async def notify_analysis_bot():
+            logger.info("Interview finished - notifying analysis bot")
+            
+            try:
+                # Skip notification if recording wasn't successful
+                if not egress_id:
+                    logger.warning("No recording egress ID available - skipping analysis notification")
+                    return
+                
+                # Save transcript if we have any
+                if conversation_transcripts:
+                    logger.info(f"Saving {len(conversation_transcripts)} transcript segments")
+                    save_result = save_transcript(conversation_transcripts, room_name, user_id, job_id)
+                    if save_result:
+                        logger.info("Transcript saved successfully")
+                    else:
+                        logger.warning("Failed to save transcript")
+                    
+                # Skip notification for demo interviews
+                is_demo = False
+                application_id = None
+                
+                if participant and participant.metadata:
+                    try:
+                        metadata = json.loads(participant.metadata)
+                        is_demo = metadata.get("is_demo", False)
+                        application_id = metadata.get("application_id")
+                    except json.JSONDecodeError:
+                        logger.warning("Failed to parse participant metadata as JSON")
+                
+                if is_demo:
+                    logger.info("Demo interview - skipping analysis notification")
+                    return
+                    
+                if not user_id or not job_id:
+                    logger.warning("Missing user_id or job_id - skipping analysis notification")
+                    return
+                    
+                # Prepare minimal payload
+                payload = {
+                    "recording_id": egress_id,
+                    "user_id": user_id,
+                    "job_id": job_id,
+                    "application_id": application_id
+                }
+                print("reaches here")
+                # Get the analysis bot endpoint from environment variables
+                analysis_endpoint = os.environ.get("ANALYSIS_BOT_ENDPOINT")
+                if not analysis_endpoint:
+                    logger.error("Missing ANALYSIS_BOT_ENDPOINT environment variable")
+                    return
+
+                # Send notification to analysis bot
+                headers = {
+                    "Content-Type": "application/json",
+                    # "Authorization": f"Bearer {os.environ.get('ANALYSIS_BOT_API_KEY', '')}"
+                }
+                
+                response = requests.post(
+                    analysis_endpoint,
+                    json=payload,
+                    headers=headers,
+                    timeout=10  # 10 second timeout
+                )
+                
+                if response.status_code == 200:
+                    logger.info(f"Analysis bot notification successful")
+                else:
+                    logger.error(f"Analysis bot notification failed: {response.status_code} - {response.text}")
+                        
+            except Exception as e:
+                logger.error(f"Error notifying analysis bot: {str(e)}", exc_info=True)
+        
+
+        # Register the shutdown callback
+        ctx.add_shutdown_callback(notify_analysis_bot)
+        
         logger.info(f"Starting voice agent for participant {participant.identity}")
         
         # Greet the user
