@@ -94,64 +94,22 @@ async def entrypoint(ctx: JobContext):
         # Create a list to store all transcripts
         conversation_transcripts = []
 
-        @agent_session.on("user_input_transcribed")
-        def on_user_speech_committed(transcript):
-            logger.info(f"User transcript: {transcript}")
-            # Extract only the content from the transcript object
-            if hasattr(transcript, 'content'):
-                transcript_text = transcript.content
-            else:
-                # Extract content from the string representation if it's a string
-                if isinstance(transcript, str) and "content=" in transcript:
-                    # Try to extract content from the string representation
-                    try:
-                        content_start = transcript.find('content="') + 9
-                        content_end = transcript.rfind('", tool_calls')
-                        if content_end == -1:
-                            content_end = transcript.rfind('")')
-                        transcript_text = transcript[content_start:content_end]
-                    except:
-                        transcript_text = transcript
-                else:
-                    transcript_text = transcript
-            
-            # Store transcript with timestamp
-            conversation_transcripts.append({
-                "speaker": f"applicant({applicant_name})", 
-                "text": transcript_text
-            })
-            
-        @agent_session.on("speech_created")  # This event might need to be added/verified
-        def on_agent_speech_committed(transcript):
-            logger.info(f"Agent transcript: {transcript}")
-            # Extract only the content from the transcript object
-            if hasattr(transcript, 'content'):
-                transcript_text = transcript.content
-            else:
-                # Extract content from the string representation if it's a string
-                if isinstance(transcript, str) and "content=" in transcript:
-                    # Try to extract content from the string representation
-                    try:
-                        content_start = transcript.find('content="') + 9
-                        content_end = transcript.rfind('", tool_calls')
-                        if content_end == -1:
-                            content_end = transcript.rfind('")')
-                        transcript_text = transcript[content_start:content_end]
-                    except:
-                        transcript_text = transcript
-                else:
-                    transcript_text = transcript
-            
-            # Store transcript with timestamp
-            conversation_transcripts.append({
-                "speaker": f"scout({scout_name})", 
-                "text": transcript_text
-            })
+        @agent_session.on("conversation_item_added")
+        def on_conversation_item_added(event):
+            if event.item.role == "user":
+                conversation_transcripts.append({
+                    "speaker": f"applicant({applicant_name})", 
+                    "text": event.item.text_content
+                })
+            elif event.item.role == "assistant":
+                conversation_transcripts.append({
+                    "speaker": f"scout({scout_name})", 
+                    "text": event.item.text_content
+                })
 
 
         async def notify_analysis_bot():
             logger.info("Interview finished - notifying analysis bot")
-            
             try:
                 # Skip notification if recording wasn't successful
                 if not egress_id:

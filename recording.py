@@ -142,7 +142,7 @@ def save_transcript(conversation_transcripts, room_name, user_id=None, job_id=No
             transcript_filepath = f"{user_id}/{job_id}/interview_transcript.json"
         else:
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            transcript_filepath = f"recordings/transcript_{room_name}_{timestamp}.json"
+            transcript_filepath = f"recordings/{user_id}/{job_id}/transcript_{timestamp}.json"
         
         # Format the transcript data
         transcript_data = {
